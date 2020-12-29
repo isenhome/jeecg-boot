@@ -7,10 +7,10 @@ CREATE TABLE `dsp_ad_format` (
   `update_time` datetime DEFAULT NULL COMMENT '更新日期', 
   `sys_org_code` varchar(64) DEFAULT NULL COMMENT '所属部门', 
   `status` tinyint(2) DEFAULT 1 COMMENT '状态 1:有效,-1:删除,',
-  `name` varchar(32) DEFAULT NULL COMMENT '广告形式'
+  `name` varchar(32) DEFAULT NULL COMMENT '广告形式',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-insert into dsp_ad_format(name) values('横幅'),('插屏'),('开屏'),('视频'),('信息流');
+-- insert into dsp_ad_format(name) values('横幅'),('插屏'),('开屏'),('视频'),('信息流');
 
 DROP TABLE IF EXISTS `dsp_ad_radio`;
 CREATE TABLE `dsp_ad_radio` (
@@ -21,11 +21,12 @@ CREATE TABLE `dsp_ad_radio` (
   `update_time` datetime DEFAULT NULL COMMENT '更新日期', 
   `sys_org_code` varchar(64) DEFAULT NULL COMMENT '所属部门', 
   `status` tinyint(2) DEFAULT 1 COMMENT '状态 1:有效,-1:删除,',
-  `name` varchar(32) DEFAULT NULL COMMENT '广告形式',
-  `radio` float(10,4) DEFAULT 0.0000 NOT NULL COMMENT '广告形式',
+  `name` varchar(32) DEFAULT NULL COMMENT '名称',
+  `width` int(11) DEFAULT 0 NOT NULL COMMENT '宽度',
+  `height` int(11) DEFAULT 0 NOT NULL COMMENT '高度',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-insert into dsp_ad_format(name) values('横幅'),('插屏'),('开屏'),('视频'),('信息流');
+
 
 DROP TABLE IF EXISTS `dsp_platform`;
 CREATE TABLE `dsp_platform` (
@@ -36,7 +37,7 @@ CREATE TABLE `dsp_platform` (
   `update_time` datetime DEFAULT NULL COMMENT '更新日期', 
   `sys_org_code` varchar(64) DEFAULT NULL COMMENT '所属部门', 
   `status` tinyint(2) DEFAULT 1 COMMENT '状态 1:有效,-1:删除,',
-  `name` varchar(32) DEFAULT NULL COMMENT '广告主', 
+  `name` varchar(32) DEFAULT NULL COMMENT '平台',
   `icon_url` varchar(32) DEFAULT NULL COMMENT 'icon', 
   `intro` text DEFAULT NULL COMMENT '简介', 
   PRIMARY KEY (`id`)
@@ -70,7 +71,7 @@ CREATE TABLE `dsp_adspace` (
   `platform_id` varchar(32) DEFAULT NULL COMMENT '平台编号', 
   `media_id` varchar(32) DEFAULT NULL COMMENT '媒体编号', 
   `ad_format_id` varchar(32) DEFAULT NULL COMMENT '广告形式', 
-  `width`
+  `ad_radio_id` varchar(32) DEFAULT NULL COMMENT '广告尺寸',
   `comment` text DEFAULT NULL COMMENT '备注', 
   `sell_type` ENUM('CPM','CPC') DEFAULT 'CPM' NOT NULL COMMENT '售卖方式',
   `interaction` text DEFAULT 'link,download' NOT NULL COMMENT '交互方式',
@@ -92,9 +93,9 @@ CREATE TABLE `dsp_advertiser` (
   `intro` text DEFAULT NULL COMMENT '简介', 
   `license` varchar(32) NOT NULL COMMENT '营业执照',
   `ICP` varchar(32) NOT NULL COMMENT 'ICP',
-  `contact_name` varchar(32) DEFAULT NOT NULL COMMENT '联系人',
+  `contact_name` varchar(32) DEFAULT NULL COMMENT '联系人',
   `contact_phone` varchar(32) DEFAULT NULL COMMENT '手机',
-  `contact_name` varchar(32) DEFAULT NULL COMMENT '邮箱',
+  `contact_mail` varchar(32) DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -113,7 +114,7 @@ CREATE TABLE `dsp_campaign` (
   `start` datetime NOT NULL COMMENT '开始时间',
   `end` datetime NULL COMMENT '结束时间',
   `comment` text DEFAULT NULL COMMENT '备注',
-  `limit_cost` Decimal(10,2) DEFAULT 100000000.00 NOT NULL COMMENT '预算',
+  `limit_cost` Decimal(11,2) default 100000000.00 NOT NULL COMMENT '预算',
   PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
