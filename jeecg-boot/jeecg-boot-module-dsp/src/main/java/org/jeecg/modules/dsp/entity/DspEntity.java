@@ -14,7 +14,7 @@ public abstract class DspEntity {
     @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "id")
     private java.lang.String id;
-    /**创建人*/q
+    /**创建人*/
     @ApiModelProperty(value = "创建人")
     private java.lang.String createBy;
     /**创建日期*/
