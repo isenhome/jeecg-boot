@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.io.Serializable;
+
 /**
  * @Description: dsp_advertiser
  * @Author: jeecg-boot
@@ -15,5 +17,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  */
 @Service
 public class DspAdvertiserServiceImpl extends ServiceImpl<DspAdvertiserMapper, DspAdvertiser> implements IDspAdvertiserService {
+
+    public boolean removeById(String id){
+        DspAdvertiser entity = new DspAdvertiser();
+        entity.setId(id);
+        entity.setStatus(-1);
+        return updateById(entity);
+    }
 
 }

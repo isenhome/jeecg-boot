@@ -3,74 +3,74 @@
     <j-form-container :disabled="formDisabled">
       <a-form :form="form" slot="detail">
         <a-row>
-          <a-col :span="24">
-            <a-form-item label="创建人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['createBy']" placeholder="请输入创建人"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="创建日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择创建日期" v-decorator="['createTime']" :trigger-change="true" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="更新人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['updateBy']" placeholder="请输入更新人"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="更新日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择更新日期" v-decorator="['updateTime']" :trigger-change="true" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="所属部门" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['sysOrgCode']" placeholder="请输入所属部门"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="状态 1:有效,-1:删除," :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['status']" placeholder="请输入状态 1:有效,-1:删除," style="width: 100%" />
-            </a-form-item>
-          </a-col>
+          <!--          <a-col :span="24">-->
+          <!--            <a-form-item label="创建人" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--              <a-input v-decorator="['createBy']" placeholder="请输入创建人"  ></a-input>-->
+          <!--            </a-form-item>-->
+          <!--          </a-col>-->
+          <!--          <a-col :span="24">-->
+          <!--            <a-form-item label="创建日期" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--              <j-date placeholder="请选择创建日期" v-decorator="['createTime']" :trigger-change="true" style="width: 100%" />-->
+          <!--            </a-form-item>-->
+          <!--          </a-col>-->
+          <!--          <a-col :span="24">-->
+          <!--            <a-form-item label="更新人" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--              <a-input v-decorator="['updateBy']" placeholder="请输入更新人"  ></a-input>-->
+          <!--            </a-form-item>-->
+          <!--          </a-col>-->
+          <!--          <a-col :span="24">-->
+          <!--            <a-form-item label="更新日期" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--              <j-date placeholder="请选择更新日期" v-decorator="['updateTime']" :trigger-change="true" style="width: 100%" />-->
+          <!--            </a-form-item>-->
+          <!--          </a-col>-->
+          <!--          <a-col :span="24">-->
+          <!--            <a-form-item label="所属部门" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--              <a-input v-decorator="['sysOrgCode']" placeholder="请输入所属部门"  ></a-input>-->
+          <!--            </a-form-item>-->
+          <!--          </a-col>-->
+          <!--          <a-col :span="24">-->
+          <!--            <a-form-item label="状态 1:有效,-1:删除," :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--              <a-input-number v-decorator="['status']" placeholder="请输入状态 1:有效,-1:删除," style="width: 100%" />-->
+          <!--            </a-form-item>-->
+          <!--          </a-col>-->
           <a-col :span="24">
             <a-form-item label="广告主" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['name']" placeholder="请输入广告主"  ></a-input>
+              <a-input v-decorator="['name', validatorRules.name]" placeholder="请输入广告主"></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="公司名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['company']" placeholder="请输入公司名称"  ></a-input>
+              <a-input v-decorator="['company', validatorRules.company]" placeholder="请输入公司名称"></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="简介" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-textarea v-decorator="['intro']" rows="4" placeholder="请输入简介" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="营业执照" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['license', validatorRules.license]" placeholder="请输入营业执照"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="ICP" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['icp', validatorRules.icp]" placeholder="请输入ICP"  ></a-input>
+              <a-textarea v-decorator="['intro']" rows="4" placeholder="请输入简介"/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="联系人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['contactName']" placeholder="请输入联系人"  ></a-input>
+              <a-input v-decorator="['contactName']" placeholder="请输入联系人"></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="手机" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['contactPhone']" placeholder="请输入手机"  ></a-input>
+              <a-input v-decorator="['contactPhone']" placeholder="请输入手机"></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="邮箱" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['contactMail']" placeholder="请输入邮箱"  ></a-input>
+              <a-input v-decorator="['contactMail']" placeholder="请输入邮箱"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="营业执照" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-image-upload v-decorator="['license', validatorRules.license]"></j-image-upload>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="ICP" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <j-image-upload v-decorator="['icp', validatorRules.icp]"></j-image-upload>
             </a-form-item>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
@@ -84,150 +84,163 @@
 
 <script>
 
-  import { httpAction, getAction } from '@/api/manage'
-  import pick from 'lodash.pick'
-  import { validateDuplicateValue } from '@/utils/util'
-  import JFormContainer from '@/components/jeecg/JFormContainer'
-  import JDate from '@/components/jeecg/JDate'  
+    import {httpAction, getAction} from '@/api/manage'
+    import pick from 'lodash.pick'
+    import {validateDuplicateValue} from '@/utils/util'
+    import JFormContainer from '@/components/jeecg/JFormContainer'
+    import JDate from '@/components/jeecg/JDate'
 
-  export default {
-    name: 'DspAdvertiserForm',
-    components: {
-      JFormContainer,
-      JDate,
-    },
-    props: {
-      //流程表单data
-      formData: {
-        type: Object,
-        default: ()=>{},
-        required: false
-      },
-      //表单模式：true流程表单 false普通表单
-      formBpm: {
-        type: Boolean,
-        default: false,
-        required: false
-      },
-      //表单禁用
-      disabled: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
-    },
-    data () {
-      return {
-        form: this.$form.createForm(this),
-        model: {},
-        labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+    export default {
+        name: 'DspAdvertiserForm',
+        components: {
+            JFormContainer,
+            JDate,
         },
-        wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
-        },
-        confirmLoading: false,
-        validatorRules: {
-          license: {
-            rules: [
-              { required: true, message: '请输入营业执照!'},
-            ]
-          },
-          icp: {
-            rules: [
-              { required: true, message: '请输入ICP!'},
-            ]
-          },
-        },
-        url: {
-          add: "/dsp/dspAdvertiser/add",
-          edit: "/dsp/dspAdvertiser/edit",
-          queryById: "/dsp/dspAdvertiser/queryById"
-        }
-      }
-    },
-    computed: {
-      formDisabled(){
-        if(this.formBpm===true){
-          if(this.formData.disabled===false){
-            return false
-          }
-          return true
-        }
-        return this.disabled
-      },
-      showFlowSubmitButton(){
-        if(this.formBpm===true){
-          if(this.formData.disabled===false){
-            return true
-          }
-        }
-        return false
-      }
-    },
-    created () {
-      //如果是流程中表单，则需要加载流程表单data
-      this.showFlowData();
-    },
-    methods: {
-      add () {
-        this.edit({});
-      },
-      edit (record) {
-        this.form.resetFields();
-        this.model = Object.assign({}, record);
-        this.visible = true;
-        this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'createBy','createTime','updateBy','updateTime','sysOrgCode','status','name','company','intro','license','icp','contactName','contactPhone','contactMail'))
-        })
-      },
-      //渲染流程表单数据
-      showFlowData(){
-        if(this.formBpm === true){
-          let params = {id:this.formData.dataId};
-          getAction(this.url.queryById,params).then((res)=>{
-            if(res.success){
-              this.edit (res.result);
+        props: {
+            //流程表单data
+            formData: {
+                type: Object,
+                default: () => {
+                },
+                required: false
+            },
+            //表单模式：true流程表单 false普通表单
+            formBpm: {
+                type: Boolean,
+                default: false,
+                required: false
+            },
+            //表单禁用
+            disabled: {
+                type: Boolean,
+                default: false,
+                required: false
             }
-          });
-        }
-      },
-      submitForm () {
-        const that = this;
-        // 触发表单验证
-        this.form.validateFields((err, values) => {
-          if (!err) {
-            that.confirmLoading = true;
-            let httpurl = '';
-            let method = '';
-            if(!this.model.id){
-              httpurl+=this.url.add;
-              method = 'post';
-            }else{
-              httpurl+=this.url.edit;
-               method = 'put';
+        },
+        data() {
+            return {
+                form: this.$form.createForm(this),
+                model: {},
+                labelCol: {
+                    xs: {span: 24},
+                    sm: {span: 5},
+                },
+                wrapperCol: {
+                    xs: {span: 24},
+                    sm: {span: 16},
+                },
+                confirmLoading: false,
+                validatorRules: {
+                    name: {
+                        rules: [
+                            {required: true, message: '请输入广告主名称!'},
+                        ]
+                    },
+                    company: {
+                        rules: [
+                            {required: true, message: '请输入公司名称!'},
+                        ]
+                    },
+                    license: {
+                        rules: [
+                            {required: true, message: '请输入营业执照!'},
+                        ]
+                    },
+                    icp: {
+                        rules: [
+                            {required: true, message: '请输入ICP!'},
+                        ]
+                    },
+                },
+                url: {
+                    add: "/dsp/dspAdvertiser/add",
+                    edit: "/dsp/dspAdvertiser/edit",
+                    queryById: "/dsp/dspAdvertiser/queryById"
+                }
             }
-            let formData = Object.assign(this.model, values);
-            console.log("表单提交数据",formData)
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
-                that.$message.success(res.message);
-                that.$emit('ok');
-              }else{
-                that.$message.warning(res.message);
-              }
-            }).finally(() => {
-              that.confirmLoading = false;
-            })
-          }
-         
-        })
-      },
-      popupCallback(row){
-        this.form.setFieldsValue(pick(row,'createBy','createTime','updateBy','updateTime','sysOrgCode','status','name','company','intro','license','icp','contactName','contactPhone','contactMail'))
-      },
+        },
+        computed: {
+            formDisabled() {
+                if (this.formBpm === true) {
+                    if (this.formData.disabled === false) {
+                        return false
+                    }
+                    return true
+                }
+                return this.disabled
+            },
+            showFlowSubmitButton() {
+                if (this.formBpm === true) {
+                    if (this.formData.disabled === false) {
+                        return true
+                    }
+                }
+                return false
+            }
+        },
+        created() {
+            //如果是流程中表单，则需要加载流程表单data
+            this.showFlowData();
+        },
+        methods: {
+            add() {
+                this.edit({});
+            },
+            edit(record) {
+                this.form.resetFields();
+                this.model = Object.assign({}, record);
+                this.visible = true;
+                this.$nextTick(() => {
+                    // this.form.setFieldsValue(pick(this.model,'createBy','createTime','updateBy','updateTime','sysOrgCode','status','name','company','intro','license','icp','contactName','contactPhone','contactMail'))
+                    this.form.setFieldsValue(pick(this.model, 'name', 'company', 'intro', 'license', 'icp', 'contactName', 'contactPhone', 'contactMail'))
+                })
+            },
+            //渲染流程表单数据
+            showFlowData() {
+                if (this.formBpm === true) {
+                    let params = {id: this.formData.dataId};
+                    getAction(this.url.queryById, params).then((res) => {
+                        if (res.success) {
+                            this.edit(res.result);
+                        }
+                    });
+                }
+            },
+            submitForm() {
+                const that = this;
+                // 触发表单验证
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                        that.confirmLoading = true;
+                        let httpurl = '';
+                        let method = '';
+                        if (!this.model.id) {
+                            httpurl += this.url.add;
+                            method = 'post';
+                        } else {
+                            httpurl += this.url.edit;
+                            method = 'put';
+                        }
+                        let formData = Object.assign(this.model, values);
+                        console.log("表单提交数据", formData)
+                        httpAction(httpurl, formData, method).then((res) => {
+                            if (res.success) {
+                                that.$message.success(res.message);
+                                that.$emit('ok');
+                            } else {
+                                that.$message.warning(res.message);
+                            }
+                        }).finally(() => {
+                            that.confirmLoading = false;
+                        })
+                    }
+
+                })
+            },
+            popupCallback(row) {
+                // this.form.setFieldsValue(pick(row,'createBy','createTime','updateBy','updateTime','sysOrgCode','status','name','company','intro','license','icp','contactName','contactPhone','contactMail'))
+                this.form.setFieldsValue(pick(row, 'name', 'company', 'intro', 'license', 'icp', 'contactName', 'contactPhone', 'contactMail'))
+            },
+        }
     }
-  }
 </script>

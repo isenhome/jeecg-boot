@@ -12,10 +12,10 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('dsp_advertiser')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
+<!--      <a-button type="primary" icon="download" @click="handleExportXls('dsp_advertiser')">导出</a-button>-->
+<!--      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">-->
+<!--        <a-button type="primary" icon="import">导入</a-button>-->
+<!--      </a-upload>-->
       <!-- 高级查询区域 -->
       <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -123,42 +123,42 @@
               return parseInt(index)+1;
             }
           },
-          {
-            title:'创建人',
-            align:"center",
-            dataIndex: 'createBy'
-          },
-          {
-            title:'创建日期',
-            align:"center",
-            dataIndex: 'createTime',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'更新人',
-            align:"center",
-            dataIndex: 'updateBy'
-          },
-          {
-            title:'更新日期',
-            align:"center",
-            dataIndex: 'updateTime',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'所属部门',
-            align:"center",
-            dataIndex: 'sysOrgCode'
-          },
-          {
-            title:'状态 1:有效,-1:删除,',
-            align:"center",
-            dataIndex: 'status'
-          },
+          // {
+          //   title:'创建人',
+          //   align:"center",
+          //   dataIndex: 'createBy'
+          // },
+          // {
+          //   title:'创建日期',
+          //   align:"center",
+          //   dataIndex: 'createTime',
+          //   customRender:function (text) {
+          //     return !text?"":(text.length>10?text.substr(0,10):text)
+          //   }
+          // },
+          // {
+          //   title:'更新人',
+          //   align:"center",
+          //   dataIndex: 'updateBy'
+          // },
+          // {
+          //   title:'更新日期',
+          //   align:"center",
+          //   dataIndex: 'updateTime',
+          //   customRender:function (text) {
+          //     return !text?"":(text.length>10?text.substr(0,10):text)
+          //   }
+          // },
+          // {
+          //   title:'所属部门',
+          //   align:"center",
+          //   dataIndex: 'sysOrgCode'
+          // },
+          // {
+          //   title:'状态 1:有效,-1:删除,',
+          //   align:"center",
+          //   dataIndex: 'status'
+          // },
           {
             title:'广告主',
             align:"center",
@@ -214,7 +214,7 @@
           deleteBatch: "/dsp/dspAdvertiser/deleteBatch",
           exportXlsUrl: "/dsp/dspAdvertiser/exportXls",
           importExcelUrl: "dsp/dspAdvertiser/importExcel",
-          
+
         },
         dictOptions:{},
         superFieldList:[],
@@ -233,12 +233,12 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'createBy',text:'创建人'})
-        fieldList.push({type:'date',value:'createTime',text:'创建日期'})
-        fieldList.push({type:'string',value:'updateBy',text:'更新人'})
-        fieldList.push({type:'date',value:'updateTime',text:'更新日期'})
-        fieldList.push({type:'string',value:'sysOrgCode',text:'所属部门'})
-        fieldList.push({type:'int',value:'status',text:'状态 1:有效,-1:删除,'})
+        // fieldList.push({type:'string',value:'createBy',text:'创建人'})
+        // fieldList.push({type:'date',value:'createTime',text:'创建日期'})
+        // fieldList.push({type:'string',value:'updateBy',text:'更新人'})
+        // fieldList.push({type:'date',value:'updateTime',text:'更新日期'})
+        // fieldList.push({type:'string',value:'sysOrgCode',text:'所属部门'})
+        // fieldList.push({type:'int',value:'status',text:'状态 1:有效,-1:删除,'})
         fieldList.push({type:'string',value:'name',text:'广告主'})
         fieldList.push({type:'string',value:'company',text:'公司名称'})
         fieldList.push({type:'string',value:'intro',text:'简介'})
