@@ -4,38 +4,8 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-item label="创建人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['createBy']" placeholder="请输入创建人"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="创建日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择创建日期" v-decorator="['createTime']" :trigger-change="true" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="更新人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['updateBy']" placeholder="请输入更新人"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="更新日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择更新日期" v-decorator="['updateTime']" :trigger-change="true" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="所属部门" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['sysOrgCode']" placeholder="请输入所属部门"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="状态 1:有效,-1:删除," :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['status']" placeholder="请输入状态 1:有效,-1:删除," style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
             <a-form-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['name']" placeholder="请输入名称"  ></a-input>
+              <a-input v-decorator="['name', validatorRules.name]" placeholder="请输入名称"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -105,6 +75,11 @@
         },
         confirmLoading: false,
         validatorRules: {
+          name: {
+            rules: [
+              { required: true, message: '请输入名称!'},
+            ]
+          },
           width: {
             rules: [
               { required: true, message: '请输入宽度!'},
@@ -155,7 +130,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'createBy','createTime','updateBy','updateTime','sysOrgCode','status','name','width','height'))
+          this.form.setFieldsValue(pick(this.model,'name','width','height'))
         })
       },
       //渲染流程表单数据
@@ -201,7 +176,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'createBy','createTime','updateBy','updateTime','sysOrgCode','status','name','width','height'))
+        this.form.setFieldsValue(pick(row,'name','width','height'))
       },
     }
   }

@@ -9,8 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspAdvertiser;
 import org.jeecg.modules.dsp.service.IDspAdvertiserService;
@@ -82,6 +85,9 @@ public class DspAdvertiserController extends JeecgController<DspAdvertiser, IDsp
 	@ApiOperation(value="dsp_advertiser-添加", notes="dsp_advertiser-添加")
 	@PostMapping(value = "/add")
 	public Result<?> add(@RequestBody DspAdvertiser dspAdvertiser) {
+		LoginUser user = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		dspAdvertiser.setCreateBy(user.getId());
+		dspAdvertiser.setUpdateBy(user.getId());
 		dspAdvertiserService.save(dspAdvertiser);
 		return Result.OK("添加成功！");
 	}
@@ -96,6 +102,8 @@ public class DspAdvertiserController extends JeecgController<DspAdvertiser, IDsp
 	@ApiOperation(value="dsp_advertiser-编辑", notes="dsp_advertiser-编辑")
 	@PutMapping(value = "/edit")
 	public Result<?> edit(@RequestBody DspAdvertiser dspAdvertiser) {
+		LoginUser user = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		dspAdvertiser.setUpdateBy(user.getId());
 		dspAdvertiserService.updateById(dspAdvertiser);
 		return Result.OK("编辑成功!");
 	}
@@ -144,28 +152,5 @@ public class DspAdvertiserController extends JeecgController<DspAdvertiser, IDsp
 		}
 		return Result.OK(dspAdvertiser);
 	}
-
-    /**
-    * 导出excel
-    *
-    * @param request
-    * @param dspAdvertiser
-    */
-    @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, DspAdvertiser dspAdvertiser) {
-        return super.exportXls(request, dspAdvertiser, DspAdvertiser.class, "dsp_advertiser");
-    }
-
-    /**
-      * 通过excel导入数据
-    *
-    * @param request
-    * @param response
-    * @return
-    */
-    @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
-    public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, DspAdvertiser.class);
-    }
 
 }

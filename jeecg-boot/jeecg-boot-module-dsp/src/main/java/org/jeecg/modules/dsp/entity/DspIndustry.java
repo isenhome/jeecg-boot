@@ -18,29 +18,26 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * @Description: dsp_ad_radio
+ * @Description: dsp_industry
  * @Author: jeecg-boot
- * @Date:   2020-12-30
+ * @Date:   2021-01-01
  * @Version: V1.0
  */
 @Data
-@TableName("dsp_ad_radio")
+@TableName("dsp_industry")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="dsp_ad_radio对象", description="dsp_ad_radio")
-public class DspAdRadio extends DspEntity implements Serializable {
+@ApiModel(value="dsp_industry对象", description="dsp_industry")
+public class DspIndustry extends DspEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**名称*/
 	@Excel(name = "名称", width = 15)
     @ApiModelProperty(value = "名称")
     private java.lang.String name;
-	/**宽度*/
-	@Excel(name = "宽度", width = 15)
-    @ApiModelProperty(value = "宽度")
-    private java.lang.Integer width;
-	/**高度*/
-	@Excel(name = "高度", width = 15)
-    @ApiModelProperty(value = "高度")
-    private java.lang.Integer height;
+	/**父级*/
+	@Excel(name = "父级", width = 15)
+    @ApiModelProperty(value = "父级")
+    private java.lang.String parentId;
+
 }

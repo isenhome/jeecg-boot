@@ -8,6 +8,8 @@ CREATE TABLE `dsp_ad_format` (
   `sys_org_code` varchar(64) DEFAULT NULL COMMENT '所属部门', 
   `status` tinyint(2) DEFAULT 1 COMMENT '状态 1:有效,-1:删除,',
   `name` varchar(32) DEFAULT NULL COMMENT '广告形式',
+  code int not null comment '唯一代码',
+  constraint dsp_ad_format_code_uindex unique (code),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 -- insert into dsp_ad_format(name) values('横幅'),('插屏'),('开屏'),('视频'),('信息流');
@@ -24,6 +26,21 @@ CREATE TABLE `dsp_ad_radio` (
   `name` varchar(32) DEFAULT NULL COMMENT '名称',
   `width` int(11) DEFAULT 0 NOT NULL COMMENT '宽度',
   `height` int(11) DEFAULT 0 NOT NULL COMMENT '高度',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `dsp_industry`;
+CREATE TABLE `dsp_industry` (
+  `id` varchar(36) NOT NULL,
+  `create_by` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
+  `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新日期',
+  `sys_org_code` varchar(64) DEFAULT NULL COMMENT '所属部门',
+  `status` tinyint(2) DEFAULT 1 COMMENT '状态 1:有效,-1:删除,',
+  `name` varchar(32) DEFAULT NULL COMMENT '名称',
+  `parent_id` varchar(32) DEFAULT NULL COMMENT '父级',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
