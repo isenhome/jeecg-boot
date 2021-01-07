@@ -189,9 +189,9 @@ CREATE TABLE `dsp_material` (
   `update_time` datetime DEFAULT NULL COMMENT '更新日期', 
   `sys_org_code` varchar(64) DEFAULT NULL COMMENT '所属部门', 
   `status` tinyint(2) DEFAULT 1 COMMENT '状态 1:有效,-1:删除,',
-  `name` varchar(32) DEFAULT NULL COMMENT '媒体名称', 
-  `advertiser_id` varchar(36) NOT NULL COMMENT '创意形式',
-  `comment` text DEFAULT NULL COMMENT '备注',
+  `name` varchar(32) DEFAULT NULL COMMENT '素材名称',
+  `advertiser_id` varchar(32) DEFAULT NULL COMMENT '广告主编号',
+  `img_url` varchar(255) DEFAULT NULL COMMENT '素材图片地址',
   `comment` text DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,10 +1,23 @@
 <template>
   <a-card :bordered="false">
+    <!-- 查询区域 -->
+    <div class="table-page-search-wrapper">
+      <a-form layout="inline" @keyup.enter.native="searchQuery">
+        <a-row :gutter="24">
+        </a-row>
+      </a-form>
+    </div>
+    <!-- 查询区域-END -->
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-
+      <a-button type="primary" icon="download" @click="handleExportXls('dsp_material')">导出</a-button>
+      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+        <a-button type="primary" icon="import">导入</a-button>
+      </a-upload>
+      <!-- 高级查询区域 -->
+      <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
           <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
@@ -76,7 +89,7 @@
       </a-table>
     </div>
 
-    <dsp-strategy-modal ref="modalForm" @ok="modalFormOk"></dsp-strategy-modal>
+    <dsp-material-modal ref="modalForm" @ok="modalFormOk"></dsp-material-modal>
   </a-card>
 </template>
 
@@ -85,19 +98,19 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import DspStrategyModal from './modules/DspStrategyModal'
+  import DspMaterialModal from './modules/DspMaterialModal'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
-    name: 'DspStrategyList',
+    name: 'DspMaterialList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      DspStrategyModal,
+      DspMaterialModal,
       JSuperQuery,
     },
     data () {
       return {
-        description: 'dsp_strategy管理页面',
+        description: 'dsp_material管理页面',
         // 表头
         columns: [
           {
@@ -111,70 +124,24 @@
             }
           },
           {
-            title:'策略名称',
+            title:'素材名称',
             align:"center",
             dataIndex: 'name'
           },
           {
-            title:'广告主编号',
+            title:'广告主',
             align:"center",
-            dataIndex: 'advertiserId'
+            dataIndex: 'advertiserName'
           },
           {
-            title:'开始时间',
+            title:'素材图片地址',
             align:"center",
-            dataIndex: 'start',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'结束时间',
-            align:"center",
-            dataIndex: 'end',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
+            dataIndex: 'imgUrl'
           },
           {
             title:'备注',
             align:"center",
             dataIndex: 'comment'
-          },
-          {
-            title:'出价方式',
-            align:"center",
-            dataIndex: 'buyType'
-          },
-          {
-            title:'最高价格',
-            align:"center",
-            dataIndex: 'buyMaxBidprice'
-          },
-          {
-            title:'最低价格',
-            align:"center",
-            dataIndex: 'buyMinBidprice'
-          },
-          {
-            title:'消耗日限',
-            align:"center",
-            dataIndex: 'buyDailyLimit'
-          },
-          {
-            title:'展示日限',
-            align:"center",
-            dataIndex: 'pvLimitDaily'
-          },
-          {
-            title:'点击日限',
-            align:"center",
-            dataIndex: 'clickLimitDaily'
-          },
-          {
-            title:'投放速度',
-            align:"center",
-            dataIndex: 'excuteType'
           },
           {
             title: '操作',
@@ -186,12 +153,9 @@
           }
         ],
         url: {
-          list: "/dsp/dspStrategy/list",
-          delete: "/dsp/dspStrategy/delete",
-          deleteBatch: "/dsp/dspStrategy/deleteBatch",
-          exportXlsUrl: "/dsp/dspStrategy/exportXls",
-          importExcelUrl: "dsp/dspStrategy/importExcel",
-          
+          list: "/dsp/dspMaterial/list",
+          delete: "/dsp/dspMaterial/delete",
+          deleteBatch: "/dsp/dspMaterial/deleteBatch"
         },
         dictOptions:{},
         superFieldList:[],
@@ -210,18 +174,10 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'name',text:'策略名称'})
+        fieldList.push({type:'string',value:'name',text:'素材名称'})
         fieldList.push({type:'string',value:'advertiserId',text:'广告主编号'})
-        fieldList.push({type:'date',value:'start',text:'开始时间'})
-        fieldList.push({type:'date',value:'end',text:'结束时间'})
+        fieldList.push({type:'string',value:'imgUrl',text:'素材图片地址'})
         fieldList.push({type:'string',value:'comment',text:'备注'})
-        fieldList.push({type:'string',value:'buyType',text:'出价方式'})
-        fieldList.push({type:'number',value:'buyMaxBidprice',text:'最高价格'})
-        fieldList.push({type:'number',value:'buyMinBidprice',text:'最低价格'})
-        fieldList.push({type:'number',value:'buyDailyLimit',text:'消耗日限'})
-        fieldList.push({type:'int',value:'pvLimitDaily',text:'展示日限'})
-        fieldList.push({type:'int',value:'clickLimitDaily',text:'点击日限'})
-        fieldList.push({type:'string',value:'excuteType',text:'投放速度'})
         this.superFieldList = fieldList
       }
     }
