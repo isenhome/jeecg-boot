@@ -148,7 +148,7 @@
     },
     methods: {
       loadTree(){
-        var that = this;
+        let that = this;
         getAction(this.url.queryTreeList,null).then((res)=>{
           if(res.success){
             console.log(res)

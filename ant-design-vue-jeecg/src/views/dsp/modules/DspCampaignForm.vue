@@ -11,13 +11,22 @@
           <!--  通过部门选择用户控件 -->
           <a-col :span="24">
             <a-form-item label="广告主" :labelCol="labelCol" :wrapperCol="wrapperCol" :required="true">
-              <dsp-advertiser-selector :multi="false" v-decorator="['advertiserId',validatorRules.advertiserId]" :ids="model.advertiserId" :names="model.advertiserName" @change="advertiserChange"></dsp-advertiser-selector>
+              <dsp-advertiser-selector :multi="false" v-decorator="['advertiserId',validatorRules.advertiserId]"
+                                       :ids="model.advertiserId" :names="model.advertiserName"
+                                       @change="advertiserChange"></dsp-advertiser-selector>
             </a-form-item>
           </a-col>
 
           <a-col :span="24">
             <a-form-item label="行业编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['industryId', validatorRules.industryId]" placeholder="请输入行业编号"></a-input>
+              <a-tree-select
+                v-decorator="['industryId', validatorRules.industryId]"
+                placeholder="请选择行业编号"
+                :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
+                :treeData="industryTreeData"
+                v-model="model.industryId"
+                :disabled="false"
+              ></a-tree-select>
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -94,6 +103,7 @@
             return {
                 form: this.$form.createForm(this),
                 model: {},
+                industryTreeData: [],
                 labelCol: {
                     xs: {span: 24},
                     sm: {span: 5},
@@ -128,9 +138,22 @@
                 url: {
                     add: "/dsp/dspCampaign/add",
                     edit: "/dsp/dspCampaign/edit",
-                    queryById: "/dsp/dspCampaign/queryById"
+                    queryById: "/dsp/dspCampaign/queryById",
+                    industryTree: "/dsp/dspIndustry/queryTreeList"
                 }
             }
+        },
+        created() {
+            let that = this
+            getAction(this.url.industryTree, null).then((res) => {
+                that.industryTreeData = [];
+                let treeList = res.result.treeList
+                for (let a = 0; a < treeList.length; a++) {
+                    let temp = treeList[a];
+                    temp.isLeaf = temp.leaf;
+                    that.industryTreeData.push(temp);
+                }
+            })
         },
         computed: {
             formDisabled() {
@@ -160,7 +183,7 @@
                 this.model = Object.assign({}, record);
                 this.visible = true;
                 this.$nextTick(() => {
-                    this.form.setFieldsValue(pick(this.model, 'name', 'industryId', 'industryName', 'start', 'end', 'comment', 'limitCost'))
+                    this.form.setFieldsValue(pick(this.model, 'name', 'advertiserId', 'industryId', 'industryName', 'start', 'end', 'comment', 'limitCost'))
                 })
             },
             submitForm() {
@@ -195,9 +218,9 @@
                 })
             },
             popupCallback(row) {
-                this.form.setFieldsValue(pick(row, 'name', 'industryId', 'industryName', 'start', 'end', 'comment', 'limitCost'))
+                this.form.setFieldsValue(pick(row, 'name', 'advertiserId', 'industryId', 'industryName', 'start', 'end', 'comment', 'limitCost'))
             },
-            advertiserChange(ids,names) {
+            advertiserChange(ids, names) {
                 this.model.advertiserId = ids;
                 this.model.advertiserName = names;
             }
