@@ -37,4 +37,8 @@ public abstract class DspEntity {
     @Excel(name = "状态 1:有效,-1:删除,", width = 15)
     @ApiModelProperty(value = "状态 1:有效,-1:删除,")
     private java.lang.Integer status;
+    /**名称*/
+    @Excel(name = "名称", width = 15)
+    @ApiModelProperty(value = "名称")
+    private java.lang.String name;
 }

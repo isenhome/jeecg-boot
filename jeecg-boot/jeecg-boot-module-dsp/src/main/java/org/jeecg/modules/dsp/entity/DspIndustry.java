@@ -31,10 +31,6 @@ import lombok.experimental.Accessors;
 public class DspIndustry extends DspEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**名称*/
-	@Excel(name = "名称", width = 15)
-    @ApiModelProperty(value = "名称")
-    private java.lang.String name;
 	/**父级*/
 	@Excel(name = "父级", width = 15)
     @ApiModelProperty(value = "父级")

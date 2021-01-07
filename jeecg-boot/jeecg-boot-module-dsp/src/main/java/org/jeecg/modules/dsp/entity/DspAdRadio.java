@@ -31,10 +31,6 @@ import lombok.experimental.Accessors;
 public class DspAdRadio extends DspEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**名称*/
-	@Excel(name = "名称", width = 15)
-    @ApiModelProperty(value = "名称")
-    private java.lang.String name;
 	/**宽度*/
 	@Excel(name = "宽度", width = 15)
     @ApiModelProperty(value = "宽度")

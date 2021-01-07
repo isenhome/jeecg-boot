@@ -31,11 +31,6 @@ import lombok.experimental.Accessors;
 public class DspAdFormat extends DspEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**广告形式*/
-	@Excel(name = "广告形式", width = 15)
-    @ApiModelProperty(value = "广告形式")
-    private java.lang.String name;
-
     /**Code*/
     @Excel(name = "广告形式", width = 11)
     @ApiModelProperty(value = "广告形式")

@@ -25,7 +25,7 @@
               :validate-status="validateStatus"
               :hasFeedback="true"
               :required="true">
-              <span slot="help">{{ validateStatus=='error'?'请选择上级菜单':'&nbsp;&nbsp;' }}</span>
+              <span slot="help">{{ validateStatus=='error'?'请选择父级菜单':'&nbsp;&nbsp;' }}</span>
               <a-tree-select
                 style="width:100%"
                 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"

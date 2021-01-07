@@ -31,10 +31,6 @@ import lombok.experimental.Accessors;
 public class DspAdvertiser extends DspEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**广告主*/
-	@Excel(name = "广告主", width = 15)
-    @ApiModelProperty(value = "广告主")
-    private java.lang.String name;
 	/**公司名称*/
 	@Excel(name = "公司名称", width = 15)
     @ApiModelProperty(value = "公司名称")

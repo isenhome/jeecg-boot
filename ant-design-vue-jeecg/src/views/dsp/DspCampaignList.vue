@@ -12,24 +12,27 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('dsp_campaign')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
       <!-- 高级查询区域 -->
-      <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
+      <j-super-query :fieldList="superFieldList" ref="superQueryModal"
+                     @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
+          <a-menu-item key="1" @click="batchDel">
+            <a-icon type="delete"/>
+            删除
+          </a-menu-item>
         </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
+        <a-button style="margin-left: 8px"> 批量操作
+          <a-icon type="down"/>
+        </a-button>
       </a-dropdown>
     </div>
 
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
+        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -52,7 +55,8 @@
         </template>
         <template slot="imgSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="" style="max-width:80px;font-size: 12px;font-style: italic;"/>
+          <img v-else :src="getImgView(text)" height="25px" alt=""
+               style="max-width:80px;font-size: 12px;font-style: italic;"/>
         </template>
         <template slot="fileSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
@@ -70,9 +74,9 @@
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 
-          <a-divider type="vertical" />
+          <a-divider type="vertical"/>
           <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
+            <a class="ant-dropdown-link">更多 <a-icon type="down"/></a>
             <a-menu slot="overlay">
               <a-menu-item>
                 <a @click="handleDetail(record)">详情</a>
@@ -95,162 +99,122 @@
 
 <script>
 
-  import '@/assets/less/TableExpand.less'
-  import { mixinDevice } from '@/utils/mixin'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import DspCampaignModal from './modules/DspCampaignModal'
-  import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
+    import '@/assets/less/TableExpand.less'
+    import {mixinDevice} from '@/utils/mixin'
+    import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+    import DspCampaignModal from './modules/DspCampaignModal'
+    import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
-  export default {
-    name: 'DspCampaignList',
-    mixins:[JeecgListMixin, mixinDevice],
-    components: {
-      DspCampaignModal,
-      JSuperQuery,
-    },
-    data () {
-      return {
-        description: 'dsp_campaign管理页面',
-        // 表头
-        columns: [
-          {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-          },
-          {
-            title:'创建人',
-            align:"center",
-            dataIndex: 'createBy'
-          },
-          {
-            title:'创建日期',
-            align:"center",
-            dataIndex: 'createTime',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'更新人',
-            align:"center",
-            dataIndex: 'updateBy'
-          },
-          {
-            title:'更新日期',
-            align:"center",
-            dataIndex: 'updateTime',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'所属部门',
-            align:"center",
-            dataIndex: 'sysOrgCode'
-          },
-          {
-            title:'状态 1:有效,-1:删除,',
-            align:"center",
-            dataIndex: 'status'
-          },
-          {
-            title:'媒体名称',
-            align:"center",
-            dataIndex: 'name'
-          },
-          {
-            title:'广告主编号',
-            align:"center",
-            dataIndex: 'advertiserId'
-          },
-          {
-            title:'行业编号',
-            align:"center",
-            dataIndex: 'industryId'
-          },
-          {
-            title:'开始时间',
-            align:"center",
-            dataIndex: 'start',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'结束时间',
-            align:"center",
-            dataIndex: 'end',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'备注',
-            align:"center",
-            dataIndex: 'comment'
-          },
-          {
-            title:'预算',
-            align:"center",
-            dataIndex: 'limitCost'
-          },
-          {
-            title: '操作',
-            dataIndex: 'action',
-            align:"center",
-            fixed:"right",
-            width:147,
-            scopedSlots: { customRender: 'action' }
-          }
-        ],
-        url: {
-          list: "/dsp/dspCampaign/list",
-          delete: "/dsp/dspCampaign/delete",
-          deleteBatch: "/dsp/dspCampaign/deleteBatch",
-          exportXlsUrl: "/dsp/dspCampaign/exportXls",
-          importExcelUrl: "dsp/dspCampaign/importExcel",
-          
+    export default {
+        name: 'DspCampaignList',
+        mixins: [JeecgListMixin, mixinDevice],
+        components: {
+            DspCampaignModal,
+            JSuperQuery,
         },
-        dictOptions:{},
-        superFieldList:[],
-      }
-    },
-    created() {
-    this.getSuperFieldList();
-    },
-    computed: {
-      importExcelUrl: function(){
-        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-      },
-    },
-    methods: {
-      initDictConfig(){
-      },
-      getSuperFieldList(){
-        let fieldList=[];
-        fieldList.push({type:'string',value:'createBy',text:'创建人'})
-        fieldList.push({type:'date',value:'createTime',text:'创建日期'})
-        fieldList.push({type:'string',value:'updateBy',text:'更新人'})
-        fieldList.push({type:'date',value:'updateTime',text:'更新日期'})
-        fieldList.push({type:'string',value:'sysOrgCode',text:'所属部门'})
-        fieldList.push({type:'int',value:'status',text:'状态 1:有效,-1:删除,'})
-        fieldList.push({type:'string',value:'name',text:'媒体名称'})
-        fieldList.push({type:'string',value:'advertiserId',text:'广告主编号'})
-        fieldList.push({type:'string',value:'industryId',text:'行业编号'})
-        fieldList.push({type:'date',value:'start',text:'开始时间'})
-        fieldList.push({type:'date',value:'end',text:'结束时间'})
-        fieldList.push({type:'string',value:'comment',text:'备注'})
-        fieldList.push({type:'number',value:'limitCost',text:'预算'})
-        this.superFieldList = fieldList
-      }
+        data() {
+            return {
+                description: 'dsp_campaign管理页面',
+                // 表头
+                columns: [
+                    {
+                        title: '#',
+                        dataIndex: '',
+                        key: 'rowIndex',
+                        width: 60,
+                        align: "center",
+                        customRender: function (t, r, index) {
+                            return parseInt(index) + 1;
+                        }
+                    },
+                    {
+                        title: '媒体名称',
+                        align: "center",
+                        dataIndex: 'name'
+                    },
+                    {
+                        title: '广告主',
+                        align: "center",
+                        dataIndex: 'advertiserName'
+                    },
+                    {
+                        title: '行业',
+                        align: "center",
+                        dataIndex: 'industryName'
+                    },
+                    {
+                        title: '开始时间',
+                        align: "center",
+                        dataIndex: 'start',
+                        customRender: function (text) {
+                            return !text ? "" : (text.length > 10 ? text.substr(0, 10) : text)
+                        }
+                    },
+                    {
+                        title: '结束时间',
+                        align: "center",
+                        dataIndex: 'end',
+                        customRender: function (text) {
+                            return !text ? "" : (text.length > 10 ? text.substr(0, 10) : text)
+                        }
+                    },
+                    {
+                        title: '备注',
+                        align: "center",
+                        dataIndex: 'comment'
+                    },
+                    {
+                        title: '预算',
+                        align: "center",
+                        dataIndex: 'limitCost'
+                    },
+                    {
+                        title: '操作',
+                        dataIndex: 'action',
+                        align: "center",
+                        fixed: "right",
+                        width: 147,
+                        scopedSlots: {customRender: 'action'}
+                    }
+                ],
+                url: {
+                    list: "/dsp/dspCampaign/list",
+                    delete: "/dsp/dspCampaign/delete",
+                    deleteBatch: "/dsp/dspCampaign/deleteBatch",
+                    exportXlsUrl: "/dsp/dspCampaign/exportXls",
+                    importExcelUrl: "dsp/dspCampaign/importExcel",
+
+                },
+                dictOptions: {},
+                superFieldList: [],
+            }
+        },
+        created() {
+            this.getSuperFieldList();
+        },
+        computed: {
+            importExcelUrl: function () {
+                return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
+            },
+        },
+        methods: {
+            initDictConfig() {
+            },
+            getSuperFieldList() {
+                let fieldList = [];
+                fieldList.push({type: 'string', value: 'name', text: '媒体名称'});
+                fieldList.push({type: 'string', value: 'advertiserId', text: '广告主编号'});
+                fieldList.push({type: 'string', value: 'advertiserName', text: '广告主'});
+                fieldList.push({type: 'string', value: 'industryId', text: '行业编号'});
+                fieldList.push({type: 'string', value: 'industryName', text: '行业'});
+                fieldList.push({type: 'date', value: 'start', text: '开始时间'});
+                fieldList.push({type: 'date', value: 'end', text: '结束时间'});
+                fieldList.push({type: 'string', value: 'comment', text: '备注'});
+                fieldList.push({type: 'number', value: 'limitCost', text: '预算'});
+                this.superFieldList = fieldList
+            }
+        }
     }
-  }
 </script>
 <style scoped>
   @import '~@assets/less/common.less';

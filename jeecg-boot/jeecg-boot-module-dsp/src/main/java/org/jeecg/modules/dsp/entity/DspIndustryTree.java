@@ -11,6 +11,8 @@ public class DspIndustryTree implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String id;
+    private String name;
     private String key;
     private String parentId;
     private boolean isLeaf;
@@ -21,11 +23,12 @@ public class DspIndustryTree implements Serializable {
 
     public DspIndustryTree(DspIndustry dspIndustry){
         this.key = dspIndustry.getId();
+        this.id =  dspIndustry.getId();
         this.parentId = dspIndustry.getParentId();
         this.title = dspIndustry.getName();
+        this.name =  dspIndustry.getName();
         this.slotTitle = dspIndustry.getName();
-        this.children = new ArrayList<>();
-        this.isLeaf = false;
+        this.isLeaf = true;
         this.value = dspIndustry.getId();
     }
 

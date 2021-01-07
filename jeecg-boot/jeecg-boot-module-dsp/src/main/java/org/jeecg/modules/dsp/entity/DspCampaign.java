@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
  * @Version: V1.0
  */
 @Data
-@TableName("dsp_campaign")
+@TableName(value="dsp_campaign",excludeProperty = {"advertiserName","industryName"})
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="dsp_campaign对象", description="dsp_campaign")
@@ -66,10 +66,16 @@ public class DspCampaign implements Serializable {
 	@Excel(name = "广告主编号", width = 15)
     @ApiModelProperty(value = "广告主编号")
     private java.lang.String advertiserId;
+
+	private java.lang.String advertiserName;
+
 	/**行业编号*/
 	@Excel(name = "行业编号", width = 15)
     @ApiModelProperty(value = "行业编号")
     private java.lang.String industryId;
+
+    private java.lang.String industryName;
+
 	/**开始时间*/
 	@Excel(name = "开始时间", width = 15, format = "yyyy-MM-dd")
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")

@@ -57,22 +57,18 @@ public class DspIndustryController extends JeecgController<DspIndustry, IDspIndu
      * 分页列表查询
      *
      * @param dspIndustry
-     * @param pageNo
-     * @param pageSize
      * @param req
      * @return
      */
     @AutoLog(value = "dsp_industry-分页列表查询")
     @ApiOperation(value = "dsp_industry-分页列表查询", notes = "dsp_industry-分页列表查询")
     @GetMapping(value = "/list")
-    public Result<?> queryPageList(DspIndustry dspIndustry,
-                                   @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
-                                   HttpServletRequest req) {
-        QueryWrapper<DspIndustry> queryWrapper = QueryGenerator.initQueryWrapper(dspIndustry, req.getParameterMap());
-        Page<DspIndustry> page = new Page<DspIndustry>(pageNo, pageSize);
-        IPage<DspIndustry> pageList = dspIndustryService.page(page, queryWrapper);
-        return Result.OK(pageList);
+    public Result<?> queryPageList(DspIndustry dspIndustry, HttpServletRequest req) {
+        LambdaQueryWrapper<DspIndustry> query = new LambdaQueryWrapper<DspIndustry>();
+        query.eq(DspIndustry::getStatus, CommonConstant.ACT_SYNC_1);
+        List<DspIndustry> list = dspIndustryService.list(query);
+        Map<String, DspIndustryTree> map = getTreeModelList(list);
+        return Result.OK(map.values());
     }
 
     /**
@@ -189,13 +185,16 @@ public class DspIndustryController extends JeecgController<DspIndustry, IDspIndu
             String id = industry.getId();
             String pid = industry.getParentId();
             if (map.containsKey(pid)) {
+                if(map.get(pid).getChildren() == null){
+                    map.get(pid).setChildren(new ArrayList<>());
+                }
                 map.get(pid).getChildren().add(map.get(id));
                 map.get(pid).setLeaf(false);
             }
         }
 
         for (DspIndustry industry : metaList) {
-            if(map.containsKey(map.get(industry.getParentId()))){
+            if(map.containsKey(industry.getParentId())){
                 map.remove(industry.getId());
             }
         }
