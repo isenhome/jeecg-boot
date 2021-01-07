@@ -11,9 +11,15 @@
           <!--  通过部门选择用户控件 -->
           <a-col :span="24">
             <a-form-item label="广告主" :labelCol="labelCol" :wrapperCol="wrapperCol" :required="true">
-              <dsp-advertiser-selector :multi="false" v-decorator="['advertiserId',validatorRules.advertiserId]"
-                                       :ids="model.advertiserId" :names="model.advertiserName"
-                                       @change="advertiserChange"></dsp-advertiser-selector>
+              <dsp-selector
+                :multi="false"
+                :ids="model.advertiserId"
+                :names="model.advertiserName"
+                :title="'选择广告主'"
+                :query-url="'/dsp/dspAdvertiser/list'"
+                v-decorator="['advertiserId',validatorRules.advertiserId]"
+                @change="advertiserChange"
+              ></dsp-selector>
             </a-form-item>
           </a-col>
 
@@ -67,7 +73,7 @@
     import {validateDuplicateValue} from '@/utils/util'
     import JFormContainer from '@/components/jeecg/JFormContainer'
     import JDate from '@/components/jeecg/JDate'
-    import DspAdvertiserSelector from "../components/DspAdvertiserSelector";
+    import DspSelector from "../components/DspSelector";
     import JSelectUserByDep from '@/components/jeecgbiz/JSelectUserByDep'
 
     export default {
@@ -76,7 +82,7 @@
             JFormContainer,
             JDate,
             JSelectUserByDep,
-            DspAdvertiserSelector
+            DspSelector
         },
         props: {
             //流程表单data

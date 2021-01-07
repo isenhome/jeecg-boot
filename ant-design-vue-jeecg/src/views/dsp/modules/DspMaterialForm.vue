@@ -10,9 +10,14 @@
           </a-col>
           <a-col :span="24">
             <a-form-item label="广告主编号" :labelCol="labelCol" :wrapperCol="wrapperCol" :required="true">
-              <dsp-advertiser-selector :multi="false" v-decorator="['advertiserId',validatorRules.advertiserId]"
-                                       :ids="model.advertiserId" :names="model.advertiserName"
-                                       @change="advertiserChange"></dsp-advertiser-selector>
+              <dsp-selector
+                :multi="true"
+                v-decorator="['advertiserId',validatorRules.advertiserId]"
+                :ids="model.advertiserId"
+                :names="model.advertiserName"
+                :title="'选择广告主'"
+                :query-url="'/dsp/dspAdvertiser/list'"
+                @change="advertiserChange"></dsp-selector>
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -41,14 +46,14 @@
   import { validateDuplicateValue } from '@/utils/util'
   import JFormContainer from '@/components/jeecg/JFormContainer'
   import JDate from '@/components/jeecg/JDate'
-  import DspAdvertiserSelector from '../components/DspAdvertiserSelector'
+  import DspSelector from '../components/DspSelector'
 
   export default {
     name: 'DspMaterialForm',
     components: {
       JFormContainer,
       JDate,
-      DspAdvertiserSelector
+      DspSelector
     },
     props: {
       //流程表单data
