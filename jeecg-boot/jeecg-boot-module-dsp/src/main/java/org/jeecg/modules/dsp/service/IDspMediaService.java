@@ -9,6 +9,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @Date:   2020-12-30
  * @Version: V1.0
  */
-public interface IDspMediaService extends IService<DspMedia> {
+public interface IDspMediaService extends IDspService<DspMedia> {
 
 }

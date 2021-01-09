@@ -13,6 +13,8 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspAdspace;
+import org.jeecg.modules.dsp.entity.DspMedia;
+import org.jeecg.modules.dsp.entity.DspPlatform;
 import org.jeecg.modules.dsp.service.IDspAdspaceService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,6 +22,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.dsp.service.IDspMediaService;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -49,6 +52,9 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class DspAdspaceController extends JeecgController<DspAdspace, IDspAdspaceService> {
 	@Autowired
 	private IDspAdspaceService dspAdspaceService;
+
+	@Autowired
+	private IDspMediaService dspMediaService;
 	
 	/**
 	 * 分页列表查询
@@ -69,6 +75,12 @@ public class DspAdspaceController extends JeecgController<DspAdspace, IDspAdspac
 		QueryWrapper<DspAdspace> queryWrapper = QueryGenerator.initQueryWrapper(dspAdspace, req.getParameterMap());
 		Page<DspAdspace> page = new Page<DspAdspace>(pageNo, pageSize);
 		IPage<DspAdspace> pageList = dspAdspaceService.page(page, queryWrapper);
+		Map<String, String> mediaMap = dspMediaService.getNameMap(QueryGenerator.initQueryWrapper(new DspMedia(){{setStatus(1);}},null));
+		for (DspAdspace item : pageList.getRecords()) {
+			if(mediaMap.containsKey(item.getMediaId())){
+				item.setMediaName(mediaMap.get(item.getMediaId()));
+			}
+		}
 		return Result.OK(pageList);
 	}
 	
