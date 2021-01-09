@@ -24,48 +24,18 @@ import lombok.experimental.Accessors;
  * @Version: V1.0
  */
 @Data
-@TableName("dsp_media")
+@TableName(value="dsp_media",excludeProperty = {"platformName"})
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="dsp_media对象", description="dsp_media")
-public class DspMedia implements Serializable {
+public class DspMedia extends DspEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**id*/
-	@TableId(type = IdType.ASSIGN_ID)
-    @ApiModelProperty(value = "id")
-    private java.lang.String id;
-	/**创建人*/
-    @ApiModelProperty(value = "创建人")
-    private java.lang.String createBy;
-	/**创建日期*/
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty(value = "创建日期")
-    private java.util.Date createTime;
-	/**更新人*/
-    @ApiModelProperty(value = "更新人")
-    private java.lang.String updateBy;
-	/**更新日期*/
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty(value = "更新日期")
-    private java.util.Date updateTime;
-	/**所属部门*/
-    @ApiModelProperty(value = "所属部门")
-    private java.lang.String sysOrgCode;
-	/**状态 1:有效,-1:删除,*/
-	@Excel(name = "状态 1:有效,-1:删除,", width = 15)
-    @ApiModelProperty(value = "状态 1:有效,-1:删除,")
-    private java.lang.Integer status;
-	/**媒体名称*/
-	@Excel(name = "媒体名称", width = 15)
-    @ApiModelProperty(value = "媒体名称")
-    private java.lang.String name;
 	/**平台编号*/
 	@Excel(name = "平台编号", width = 15)
     @ApiModelProperty(value = "平台编号")
     private java.lang.String platformId;
+    private java.lang.String platformName;
 	/**简介*/
 	@Excel(name = "简介", width = 15)
     @ApiModelProperty(value = "简介")

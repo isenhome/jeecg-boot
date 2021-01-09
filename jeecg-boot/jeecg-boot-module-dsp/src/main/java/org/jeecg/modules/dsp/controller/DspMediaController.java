@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.dsp.entity.DspAdvertiser;
+import org.jeecg.modules.dsp.entity.DspCampaign;
 import org.jeecg.modules.dsp.entity.DspMedia;
+import org.jeecg.modules.dsp.entity.DspPlatform;
 import org.jeecg.modules.dsp.service.IDspMediaService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,6 +23,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.dsp.service.IDspPlatformService;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -49,6 +53,9 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class DspMediaController extends JeecgController<DspMedia, IDspMediaService> {
 	@Autowired
 	private IDspMediaService dspMediaService;
+
+	 @Autowired
+	 private IDspPlatformService dspPlatformService;
 	
 	/**
 	 * 分页列表查询
@@ -69,6 +76,13 @@ public class DspMediaController extends JeecgController<DspMedia, IDspMediaServi
 		QueryWrapper<DspMedia> queryWrapper = QueryGenerator.initQueryWrapper(dspMedia, req.getParameterMap());
 		Page<DspMedia> page = new Page<DspMedia>(pageNo, pageSize);
 		IPage<DspMedia> pageList = dspMediaService.page(page, queryWrapper);
+		Map<String, String> platforms = dspPlatformService.getNameMap(QueryGenerator.initQueryWrapper(new DspPlatform(){{setStatus(1);}},null));
+
+		for (DspMedia item : pageList.getRecords()) {
+			if(platforms.containsKey(item.getPlatformId())){
+				item.setPlatformName(platforms.get(item.getPlatformId()));
+			}
+		}
 		return Result.OK(pageList);
 	}
 	

@@ -6,7 +6,7 @@
       readOnly
       unselectable="on"
       @search="onSearch">
-      <a-button slot="enterButton" :disabled="disabled">选择广告主</a-button>
+      <a-button slot="enterButton" :disabled="disabled">选择</a-button>
     </a-input-search>
     <dsp-selector-model ref="selectModal" :title="title" :query-url="queryUrl" :modal-width="modalWidth" :multi="multi"
                                    @ok="selectOK"
