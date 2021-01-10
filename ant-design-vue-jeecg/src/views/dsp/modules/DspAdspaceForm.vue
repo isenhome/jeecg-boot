@@ -15,9 +15,11 @@
           </a-col>
           <a-col :span="24">
             <a-form-item label="广告形式" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <dsp-adformat
+              <dsp-ad-format
                 @change="changeAdformat"
-              ></dsp-adformat>
+                :datasource="adFormatDatasource"
+                :placeholder="'请选择广告形式'"
+              ></dsp-ad-format>
               <a-input v-decorator="['adFormatId']" placeholder="请输入广告形式"></a-input>
             </a-form-item>
           </a-col>
@@ -62,14 +64,14 @@
     import {validateDuplicateValue} from '@/utils/util'
     import JFormContainer from '@/components/jeecg/JFormContainer'
     import JDate from '@/components/jeecg/JDate'
-    import DspAdformat from "../components/DspAdformat";
+    import DspAdFormat from "../components/DspAdFormat";
 
     export default {
         name: 'DspAdspaceForm',
         components: {
             JFormContainer,
             JDate,
-            DspAdformat
+            DspAdFormat
         },
         props: {
             //流程表单data
@@ -105,6 +107,7 @@
                     sm: {span: 16},
                 },
                 confirmLoading: false,
+              adFormatDatasource:[],
                 validatorRules: {
                     sellType: {
                         rules: [
@@ -121,7 +124,7 @@
                     add: "/dsp/dspAdspace/add",
                     edit: "/dsp/dspAdspace/edit",
                     queryById: "/dsp/dspAdspace/queryById",
-                    listAdFormat:"/dsp/dspAdformat/list"
+                    listAdFormat:"/dsp/dspAdFormat/list"
                 }
             }
         },
@@ -147,7 +150,16 @@
         created() {
             //如果是流程中表单，则需要加载流程表单data
             this.showFlowData();
-            getAction()
+            let that = this;
+            getAction(this.url.listAdFormat,null).then((res)=>{
+              that.adformatDatasource = [];
+              let treeList = res.result.treeList
+              for (let a = 0; a < treeList.length; a++) {
+                let temp = treeList[a];
+                temp.isLeaf = temp.leaf;
+                that.adformatDatasource.push(temp);
+              }
+          })
         },
         methods: {
             add() {

@@ -15,7 +15,7 @@
 <script>
 
     export default {
-        name: "DspAdformat",
+        name: "DspAdFormat",
         props: {
             placeholder: {
                 type: String,
@@ -32,7 +32,9 @@
             }
         },
         data() {
-            return {};
+            return {
+
+            };
         },
         computed: {
             getNames() {
