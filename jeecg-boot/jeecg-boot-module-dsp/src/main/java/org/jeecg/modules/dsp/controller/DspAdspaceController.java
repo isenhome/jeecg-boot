@@ -98,10 +98,10 @@ public class DspAdspaceController extends JeecgController<DspAdspace, IDspAdspac
                 item.setMediaName(mediaMap.get(item.getMediaId()));
             }
             if (adFormatMap.containsKey(item.getAdFormatId())) {
-                item.setAdFormatName(mediaMap.get(item.getMediaId()));
+                item.setAdFormatName(adFormatMap.get(item.getAdFormatId()));
             }
             if (adRadioMap.containsKey(item.getAdRadioId())) {
-                item.setAdRadioName(mediaMap.get(item.getMediaId()));
+                item.setAdRadioName(adRadioMap.get(item.getAdRadioId()));
             }
         }
         return Result.OK(pageList);
