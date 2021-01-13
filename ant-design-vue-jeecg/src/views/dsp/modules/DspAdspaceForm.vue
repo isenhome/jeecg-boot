@@ -4,28 +4,43 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-item label="媒体名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['name']" placeholder="请输入媒体名称"></a-input>
+            <a-form-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['name',validatorRules.name]" placeholder="请输入媒体名称"></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="媒体编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['mediaId']" placeholder="请输入媒体编号"></a-input>
+            <a-form-item label="媒体" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <dsp-selector
+                :multi="false"
+                :ids="model.mediaId"
+                :names="model.mediaName"
+                :title="'请选择媒体'"
+                :query-url="url.mediaList"
+                v-decorator="['mediaId',validatorRules.mediaId]"
+                @change="mediaChange"
+              ></dsp-selector>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="广告形式" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <dsp-ad-format
-                @change="changeAdformat"
+              <dsp-tags
+                @change="changeAdFormat"
                 :datasource="adFormatDatasource"
+                :selected-ids="adFormatSelectIds"
                 :placeholder="'请选择广告形式'"
-              ></dsp-ad-format>
-              <a-input v-decorator="['adFormatId']" placeholder="请输入广告形式"></a-input>
+                v-decorator="['adFormatId',validatorRules.adFormatId]"
+              ></dsp-tags>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="广告尺寸" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['adRadioId']" placeholder="请输入广告尺寸"></a-input>
+              <dsp-tags
+                @change="changeAdRadio"
+                :datasource="adRadioDatasource"
+                :selected-ids="adRadioSelectIds"
+                :placeholder="'请选择广告尺寸'"
+                v-decorator="['adRadioId',validatorRules.adRadioId]"
+              ></dsp-tags>
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -34,19 +49,36 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="售卖方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['sellType', validatorRules.sellType]" placeholder="请输入售卖方式"></a-input>
-            </a-form-item>
+            <a-card title="设置成本">
+              <a-form-item label="计费方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-radio-group
+                  v-model="sellTypeBox.values"
+                  :options="sellTypeBox.options"
+                  v-decorator="['sellType',validatorRules.sellTypeBox]"
+                />
+              </a-form-item>
+              <a-form-item label="底价" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input v-decorator="['basePrice',validatorRules.basePrice]" placeholder="请输入底价"></a-input>
+              </a-form-item>
+            </a-card>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="交互方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-textarea v-decorator="['interaction', validatorRules.interaction]" rows="4" placeholder="请输入交互方式"/>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="图片格式" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-textarea v-decorator="['imageType']" rows="4" placeholder="请输入图片格式"/>
-            </a-form-item>
+            <a-card title="高级设置">
+              <a-form-item label="交互方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <j-checkbox
+                  v-model="interactionBox.values"
+                  :options="interactionBox.options"
+                  v-decorator="['interaction', validatorRules.interaction]"
+                />
+              </a-form-item>
+              <a-form-item label="图片格式" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <j-checkbox
+                  v-model="imageTypeBox.values"
+                  :options="imageTypeBox.options"
+                  v-decorator="['imageType',validatorRules.imageType]"
+                />
+              </a-form-item>
+            </a-card>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
             <a-button @click="submitForm">提 交</a-button>
@@ -64,14 +96,19 @@
     import {validateDuplicateValue} from '@/utils/util'
     import JFormContainer from '@/components/jeecg/JFormContainer'
     import JDate from '@/components/jeecg/JDate'
-    import DspAdFormat from "../components/DspAdFormat";
+    import DspTags from "../components/DspTags";
+    import {load} from "../utils/api";
+    import DspSelector from "../components/DspSelector";
+    import JCheckbox from '@/components/jeecg/JCheckbox'
 
     export default {
         name: 'DspAdspaceForm',
         components: {
             JFormContainer,
             JDate,
-            DspAdFormat
+            DspTags,
+            DspSelector,
+            JCheckbox
         },
         props: {
             //流程表单data
@@ -107,8 +144,38 @@
                     sm: {span: 16},
                 },
                 confirmLoading: false,
-              adFormatDatasource:[],
+                adFormatDatasource: [],
+                adFormatSelectIds: [],
+                adRadioDatasource: [],
+                adRadioSelectIds: [],
+                sellTypeBox: {
+                    values: "",
+                    options: [
+                        {label: 'CPM', value: 'CPM'},
+                        {label: 'CPC', value: 'CPC'}
+                    ]
+                },
+                imageTypeBox: {
+                    values: "JPG,PNG,GIF",
+                    options: [
+                        {label: 'JPG', value: 'JPG'},
+                        {label: 'PNG', value: 'PNG'},
+                        {label: 'GIF', value: 'GIF'}
+                    ]
+                },
+                interactionBox: {
+                    values: '链接,下载',
+                    options: [
+                        {label: '链接', value: '链接'},
+                        {label: '下载', value: '下载'}
+                    ]
+                },
                 validatorRules: {
+                    name: {
+                        rules: [
+                            {required: true, message: '请输入名称!'},
+                        ]
+                    },
                     sellType: {
                         rules: [
                             {required: true, message: '请输入售卖方式!'},
@@ -119,12 +186,42 @@
                             {required: true, message: '请输入交互方式!'},
                         ]
                     },
+                    adFormatId: {
+                        rules: [
+                            {required: true, message: '请选择广告形式!'},
+                        ]
+                    },
+                    mediaId: {
+                        rules: [
+                            {required: true, message: '请选择媒体!'},
+                        ]
+                    },
+                    adRadioId: {
+                        rules: [
+                            {required: true, message: '请选广告位支持尺寸!'},
+                        ]
+                    },
+                    imageType: {
+                        rules: [
+                            {required: true, message: '请选广告位支持图片格式!'},
+                        ]
+                    },
+                    sellTypeBox: {
+                        rules: [
+                            {required: true, message: '请选择计费方式!'},
+                        ]
+                    },
+                    basePrice: {
+                        rules: [
+                            {required: true, message: '请输入底价!'},
+                        ]
+                    }
                 },
                 url: {
                     add: "/dsp/dspAdspace/add",
                     edit: "/dsp/dspAdspace/edit",
                     queryById: "/dsp/dspAdspace/queryById",
-                    listAdFormat:"/dsp/dspAdFormat/list"
+                    mediaList: "/dsp/dspMedia/list"
                 }
             }
         },
@@ -150,16 +247,9 @@
         created() {
             //如果是流程中表单，则需要加载流程表单data
             this.showFlowData();
-            let that = this;
-            getAction(this.url.listAdFormat,null).then((res)=>{
-              that.adformatDatasource = [];
-              let treeList = res.result.treeList
-              for (let a = 0; a < treeList.length; a++) {
-                let temp = treeList[a];
-                temp.isLeaf = temp.leaf;
-                that.adformatDatasource.push(temp);
-              }
-          })
+            this.adFormatDatasource = load("/dsp/dspAdFormat/list")
+            this.adRadioDatasource = load("/dsp/dspAdRadio/list")
+            console.log(this.adFormatDatasource)
         },
         methods: {
             add() {
@@ -170,7 +260,9 @@
                 this.model = Object.assign({}, record);
                 this.visible = true;
                 this.$nextTick(() => {
-                    this.form.setFieldsValue(pick(this.model,  'name', 'platformId', 'mediaId', 'adFormatId', 'adRadioId', 'comment', 'sellType', 'interaction', 'imageType'))
+                    this.form.setFieldsValue(pick(this.model, 'name', 'platformId', 'mediaId', 'mediaName', 'adFormatId', 'adRadioId', 'comment', 'sellType', 'basePrice', 'interaction', 'imageType'))
+                    this.adFormatSelectIds = this.model.adFormatId.split(",")
+                    this.adRadioSelectIds = this.model.adRadioId.split(",")
                 })
             },
             //渲染流程表单数据
@@ -216,10 +308,19 @@
                 })
             },
             popupCallback(row) {
-                this.form.setFieldsValue(pick(row, 'name', 'platformId', 'mediaId', 'adFormatId', 'adRadioId', 'comment', 'sellType', 'interaction', 'imageType'))
+                this.form.setFieldsValue(pick(row, 'name', 'platformId', 'mediaId', 'mediaName', 'adFormatId', 'adRadioId', 'comment', 'sellType','basePrice', 'interaction', 'imageType'))
             },
-            changeAdformat(ids,names){
-
+            mediaChange(ids, names) {
+                this.model.mediaId = ids;
+                this.model.mediaName = names;
+            },
+            changeAdFormat(ids) {
+                this.adFormatSelectIds = ids.split(",");
+                this.model.adFormatId = ids;
+            },
+            changeAdRadio(ids) {
+                this.adRadioSelectIds = ids.split(",");
+                this.model.adRadioId = ids;
             }
         }
     }

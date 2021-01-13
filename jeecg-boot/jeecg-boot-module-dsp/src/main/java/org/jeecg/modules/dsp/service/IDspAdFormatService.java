@@ -9,6 +9,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @Date:   2020-12-30
  * @Version: V1.0
  */
-public interface IDspAdFormatService extends IService<DspAdFormat> {
+public interface IDspAdFormatService extends IDspService<DspAdFormat> {
 
 }

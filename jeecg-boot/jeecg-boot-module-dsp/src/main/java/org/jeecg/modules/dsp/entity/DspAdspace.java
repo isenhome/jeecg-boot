@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
  * @Version: V1.0
  */
 @Data
-@TableName(value = "dsp_adspace",excludeProperty = {"mediaName"})
+@TableName(value = "dsp_adspace",excludeProperty = {"mediaName","adFormatName","adRadioName"})
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="dsp_adspace对象", description="dsp_adspace")
@@ -40,10 +40,12 @@ public class DspAdspace extends DspEntity implements Serializable {
 	@Excel(name = "广告形式", width = 15)
     @ApiModelProperty(value = "广告形式")
     private java.lang.String adFormatId;
+    private java.lang.String adFormatName;
 	/**广告尺寸*/
 	@Excel(name = "广告尺寸", width = 15)
     @ApiModelProperty(value = "广告尺寸")
     private java.lang.String adRadioId;
+    private java.lang.String adRadioName;
 	/**备注*/
 	@Excel(name = "备注", width = 15)
     @ApiModelProperty(value = "备注")
@@ -52,6 +54,10 @@ public class DspAdspace extends DspEntity implements Serializable {
 	@Excel(name = "售卖方式", width = 15)
     @ApiModelProperty(value = "售卖方式")
     private java.lang.String sellType;
+    /**售卖方式*/
+    @Excel(name = "底价", width = 15)
+    @ApiModelProperty(value = "底价")
+    private BigDecimal basePrice;
 	/**交互方式*/
 	@Excel(name = "交互方式", width = 15)
     @ApiModelProperty(value = "交互方式")
@@ -61,3 +67,4 @@ public class DspAdspace extends DspEntity implements Serializable {
     @ApiModelProperty(value = "图片格式")
     private java.lang.String imageType;
 }
+

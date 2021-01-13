@@ -1,12 +1,12 @@
 <template>
 
-  <a-checkbox-group :options="options" :value="checkboxArray" v-bind="$attrs"
+  <a-radio-group :options="options" :value="checkboxArray" v-bind="$attrs"
                     @change="onChange"/>
 </template>
 
 <script>
     export default {
-        name: 'JCheckbox',
+        name: 'JRadiobox',
         props: {
             value: {
                 type: String,
@@ -20,7 +20,7 @@
         },
         data() {
             return {
-                checkboxArray: !this.value ? [] : this.value.split(",")
+                radio: !this.value ? [] : this.value.split(",")
             }
         },
         watch: {

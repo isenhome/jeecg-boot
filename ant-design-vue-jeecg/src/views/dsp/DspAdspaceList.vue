@@ -13,19 +13,26 @@
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
       <!-- 高级查询区域 -->
-      <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
+      <j-super-query :fieldList="superFieldList" ref="superQueryModal"
+                     @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
+          <a-menu-item key="1" @click="batchDel">
+            <a-icon type="delete"/>
+            删除
+          </a-menu-item>
         </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
+        <a-button style="margin-left: 8px"> 批量操作
+          <a-icon type="down"/>
+        </a-button>
       </a-dropdown>
     </div>
 
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
+        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -48,7 +55,8 @@
         </template>
         <template slot="imgSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="" style="max-width:80px;font-size: 12px;font-style: italic;"/>
+          <img v-else :src="getImgView(text)" height="25px" alt=""
+               style="max-width:80px;font-size: 12px;font-style: italic;"/>
         </template>
         <template slot="fileSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
@@ -66,9 +74,9 @@
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 
-          <a-divider type="vertical" />
+          <a-divider type="vertical"/>
           <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
+            <a class="ant-dropdown-link">更多 <a-icon type="down"/></a>
             <a-menu slot="overlay">
               <a-menu-item>
                 <a @click="handleDetail(record)">详情</a>
@@ -91,127 +99,127 @@
 
 <script>
 
-  import '@/assets/less/TableExpand.less'
-  import { mixinDevice } from '@/utils/mixin'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import DspAdspaceModal from './modules/DspAdspaceModal'
-  import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
+    import '@/assets/less/TableExpand.less'
+    import {mixinDevice} from '@/utils/mixin'
+    import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+    import DspAdspaceModal from './modules/DspAdspaceModal'
+    import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
-  export default {
-    name: 'DspAdspaceList',
-    mixins:[JeecgListMixin, mixinDevice],
-    components: {
-      DspAdspaceModal,
-      JSuperQuery,
-    },
-    data () {
-      return {
-        description: 'dsp_adspace管理页面',
-        // 表头
-        columns: [
-          {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-          },
-          {
-            title:'媒体名称',
-            align:"center",
-            dataIndex: 'name'
-          },
-          {
-            title:'媒体',
-            align:"center",
-            dataIndex: 'mediaName'
-          },
-          {
-            title:'广告形式',
-            align:"center",
-            dataIndex: 'adFormatId'
-          },
-          {
-            title:'广告尺寸',
-            align:"center",
-            dataIndex: 'adRadioId'
-          },
-          {
-            title:'备注',
-            align:"center",
-            dataIndex: 'comment'
-          },
-          {
-            title:'售卖方式',
-            align:"center",
-            dataIndex: 'sellType'
-          },
-          {
-            title:'交互方式',
-            align:"center",
-            dataIndex: 'interaction'
-          },
-          {
-            title:'图片格式',
-            align:"center",
-            dataIndex: 'imageType'
-          },
-          {
-            title: '操作',
-            dataIndex: 'action',
-            align:"center",
-            fixed:"right",
-            width:147,
-            scopedSlots: { customRender: 'action' }
-          }
-        ],
-        url: {
-          list: "/dsp/dspAdspace/list",
-          delete: "/dsp/dspAdspace/delete",
-          deleteBatch: "/dsp/dspAdspace/deleteBatch",
-          exportXlsUrl: "/dsp/dspAdspace/exportXls",
-          importExcelUrl: "dsp/dspAdspace/importExcel",
-          
+    export default {
+        name: 'DspAdspaceList',
+        mixins: [JeecgListMixin, mixinDevice],
+        components: {
+            DspAdspaceModal,
+            JSuperQuery,
         },
-        dictOptions:{},
-        superFieldList:[],
-      }
-    },
-    created() {
-    this.getSuperFieldList();
-    },
-    computed: {
-      importExcelUrl: function(){
-        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-      },
-    },
-    methods: {
-      initDictConfig(){
-      },
-      getSuperFieldList(){
-        let fieldList=[];
-        fieldList.push({type:'string',value:'createBy',text:'创建人'})
-        fieldList.push({type:'date',value:'createTime',text:'创建日期'})
-        fieldList.push({type:'string',value:'updateBy',text:'更新人'})
-        fieldList.push({type:'date',value:'updateTime',text:'更新日期'})
-        fieldList.push({type:'string',value:'sysOrgCode',text:'所属部门'})
-        fieldList.push({type:'int',value:'status',text:'状态 1:有效,-1:删除,'})
-        fieldList.push({type:'string',value:'name',text:'媒体名称'})
-        fieldList.push({type:'string',value:'platformId',text:'平台编号'})
-        fieldList.push({type:'string',value:'mediaId',text:'媒体编号'})
-        fieldList.push({type:'string',value:'adFormatId',text:'广告形式'})
-        fieldList.push({type:'string',value:'adRadioId',text:'广告尺寸'})
-        fieldList.push({type:'string',value:'comment',text:'备注'})
-        fieldList.push({type:'string',value:'sellType',text:'售卖方式'})
-        fieldList.push({type:'string',value:'interaction',text:'交互方式'})
-        fieldList.push({type:'string',value:'imageType',text:'图片格式'})
-        this.superFieldList = fieldList
-      }
+        data() {
+            return {
+                description: 'dsp_adspace管理页面',
+                // 表头
+                columns: [
+                    {
+                        title: '#',
+                        dataIndex: '',
+                        key: 'rowIndex',
+                        width: 60,
+                        align: "center",
+                        customRender: function (t, r, index) {
+                            return parseInt(index) + 1;
+                        }
+                    },
+                    {
+                        title: '媒体名称',
+                        align: "center",
+                        dataIndex: 'name'
+                    },
+                    {
+                        title: '媒体',
+                        align: "center",
+                        dataIndex: 'mediaName'
+                    },
+                    {
+                        title: '广告形式',
+                        align: "center",
+                        dataIndex: 'adFormatName'
+                    },
+                    {
+                        title: '广告尺寸',
+                        align: "center",
+                        dataIndex: 'adRadioName'
+                    },
+                    {
+                        title: '备注',
+                        align: "center",
+                        dataIndex: 'comment'
+                    },
+                    {
+                        title: '售卖方式',
+                        align: "center",
+                        dataIndex: 'sellType'
+                    },
+                    {
+                        title: '底价',
+                        align: "center",
+                        dataIndex: 'basePrice'
+                    },
+                    {
+                        title: '交互方式',
+                        align: "center",
+                        dataIndex: 'interaction'
+                    },
+                    {
+                        title: '图片格式',
+                        align: "center",
+                        dataIndex: 'imageType'
+                    },
+                    {
+                        title: '操作',
+                        dataIndex: 'action',
+                        align: "center",
+                        fixed: "right",
+                        width: 147,
+                        scopedSlots: {customRender: 'action'}
+                    }
+                ],
+                url: {
+                    list: "/dsp/dspAdspace/list",
+                    delete: "/dsp/dspAdspace/delete",
+                    deleteBatch: "/dsp/dspAdspace/deleteBatch",
+                    exportXlsUrl: "/dsp/dspAdspace/exportXls",
+                    importExcelUrl: "dsp/dspAdspace/importExcel",
+
+                },
+                dictOptions: {},
+                superFieldList: [],
+            }
+        },
+        created() {
+            this.getSuperFieldList();
+        },
+        computed: {
+            importExcelUrl: function () {
+                return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
+            },
+        },
+        methods: {
+            initDictConfig() {
+            },
+            getSuperFieldList() {
+                let fieldList = [];
+                fieldList.push({type: 'string', value: 'name', text: '名称'})
+                // fieldList.push({type: 'string', value: 'platformId', text: '平台编号'})
+                // fieldList.push({type: 'string', value: 'mediaId', text: '媒体编号'})
+                // fieldList.push({type: 'string', value: 'adFormatId', text: '广告形式'})
+                // fieldList.push({type: 'string', value: 'adRadioId', text: '广告尺寸'})
+                // fieldList.push({type: 'string', value: 'comment', text: '备注'})
+                // fieldList.push({type: 'string', value: 'sellType', text: '售卖方式'})
+                // fieldList.push({type: 'string', value: 'basePrice', text: '底价'})
+                // fieldList.push({type: 'string', value: 'interaction', text: '交互方式'})
+                // fieldList.push({type: 'string', value: 'imageType', text: '图片格式'})
+                this.superFieldList = fieldList
+            }
+        }
     }
-  }
 </script>
 <style scoped>
   @import '~@assets/less/common.less';
