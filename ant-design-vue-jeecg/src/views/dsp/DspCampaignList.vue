@@ -79,8 +79,9 @@
             <a class="ant-dropdown-link">更多 <a-icon type="down"/></a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a @click="handleDetail(record)">详情</a>
-                <router-link :to="{name:'dsp-DspCampaignDetail',query:{campaignId:1}}">详情1</router-link>
+<!--                <a @click="handleDetail(record)">详情</a>-->
+                <router-link
+                  :to="{name:'dsp-DspCampaignDetail-@campaignId',params:{campaignId:record.id}}">详情</router-link>
               </a-menu-item>
               <a-menu-item>
                 <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
