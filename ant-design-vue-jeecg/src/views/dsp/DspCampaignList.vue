@@ -80,6 +80,7 @@
             <a-menu slot="overlay">
               <a-menu-item>
                 <a @click="handleDetail(record)">详情</a>
+                <router-link :to="{name:'dsp-DspCampaignDetail',query:{campaignId:1}}">详情1</router-link>
               </a-menu-item>
               <a-menu-item>
                 <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
@@ -202,7 +203,7 @@
             },
             getSuperFieldList() {
                 let fieldList = [];
-                fieldList.push({type: 'string', value: 'name', text: '媒体名称'});
+                fieldList.push({type: 'string', value: 'name', text: '名称'});
                 fieldList.push({type: 'string', value: 'advertiserId', text: '广告主编号'});
                 fieldList.push({type: 'string', value: 'advertiserName', text: '广告主'});
                 fieldList.push({type: 'string', value: 'industryId', text: '行业编号'});

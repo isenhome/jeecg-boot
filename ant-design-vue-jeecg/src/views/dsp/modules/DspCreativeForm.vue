@@ -4,36 +4,6 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-item label="创建人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['createBy']" placeholder="请输入创建人"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="创建日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择创建日期" v-decorator="['createTime']" :trigger-change="true" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="更新人" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['updateBy']" placeholder="请输入更新人"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="更新日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-date placeholder="请选择更新日期" v-decorator="['updateTime']" :trigger-change="true" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="所属部门" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['sysOrgCode']" placeholder="请输入所属部门"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="状态 1:有效,-1:删除," :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['status']" placeholder="请输入状态 1:有效,-1:删除," style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
             <a-form-item label="创意名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['name']" placeholder="请输入创意名称"  ></a-input>
             </a-form-item>

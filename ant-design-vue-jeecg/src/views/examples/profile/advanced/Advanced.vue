@@ -24,9 +24,11 @@
       <a-button-group style="margin-right: 4px;">
         <a-button>操作</a-button>
         <a-button>操作</a-button>
-        <a-button><a-icon type="ellipsis"/></a-button>
+        <a-button>
+          <a-icon type="ellipsis"/>
+        </a-button>
       </a-button-group>
-      <a-button type="primary" >主操作</a-button>
+      <a-button type="primary">主操作</a-button>
     </template>
 
     <a-card :bordered="false" title="流程进度">
@@ -53,10 +55,10 @@
       <detail-list title="信息组">
         <detail-list-item term="某某数据">725</detail-list-item>
         <detail-list-item term="该数据更新时间">2018-08-08</detail-list-item>
-        <detail-list-item >&nbsp;</detail-list-item>
+        <detail-list-item>&nbsp;</detail-list-item>
         <detail-list-item term="某某数据">725</detail-list-item>
         <detail-list-item term="该数据更新时间">2018-08-08</detail-list-item>
-        <detail-list-item >&nbsp;</detail-list-item>
+        <detail-list-item>&nbsp;</detail-list-item>
       </detail-list>
       <a-card type="inner" title="多层信息组">
         <detail-list title="组名称" size="small">
@@ -66,11 +68,12 @@
           <detail-list-item term="过期时间">2018-08-08</detail-list-item>
           <detail-list-item term="描述">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
         </detail-list>
-        <a-divider style="margin: 16px 0" />
+        <a-divider style="margin: 16px 0"/>
         <detail-list title="组名称" size="small" :col="1">
-          <detail-list-item term="学名">	Citrullus lanatus (Thunb.) Matsum. et Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..</detail-list-item>
+          <detail-list-item term="学名"> Citrullus lanatus (Thunb.) Matsum. et Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..
+          </detail-list-item>
         </detail-list>
-        <a-divider style="margin: 16px 0" />
+        <a-divider style="margin: 16px 0"/>
         <detail-list title="组名称" size="small" :col="2">
           <detail-list-item term="负责人">付小小</detail-list-item>
           <detail-list-item term="角色码">1234567</detail-list-item>
@@ -80,7 +83,10 @@
     </a-card>
 
     <a-card style="margin-top: 24px" :bordered="false" title="用户近半年来电记录">
-      <div class="no-data"><a-icon type="frown-o"/>暂无数据</div>
+      <div class="no-data">
+        <a-icon type="frown-o"/>
+        暂无数据
+      </div>
     </a-card>
 
     <!-- 操作 -->
@@ -133,171 +139,171 @@
 </template>
 
 <script>
-  import { mixinDevice } from '@/utils/mixin.js'
-  import PageLayout from '@/components/page/PageLayout'
-  import DetailList from '@/components/tools/DetailList'
+    import {mixinDevice} from '@/utils/mixin.js'
+    import PageLayout from '@/components/page/PageLayout'
+    import DetailList from '@/components/tools/DetailList'
 
-  const DetailListItem = DetailList.Item
+    const DetailListItem = DetailList.Item
 
-  export default {
-    name: "Advanced",
-    components: {
-      PageLayout,
-      DetailList,
-      DetailListItem
-    },
-    mixins: [mixinDevice],
-    data () {
-      return {
-        tabList: [
-          {
-            key: '1',
-            tab: '操作日志一'
-          },
-          {
-            key: '2',
-            tab: '操作日志二'
-          },
-          {
-            key: '3',
-            tab: '操作日志三'
-          }
-        ],
-        activeTabKey: '1',
+    export default {
+        name: "Advanced",
+        components: {
+            PageLayout,
+            DetailList,
+            DetailListItem
+        },
+        mixins: [mixinDevice],
+        data() {
+            return {
+                tabList: [
+                    {
+                        key: '1',
+                        tab: '操作日志一'
+                    },
+                    {
+                        key: '2',
+                        tab: '操作日志二'
+                    },
+                    {
+                        key: '3',
+                        tab: '操作日志三'
+                    }
+                ],
+                activeTabKey: '1',
 
-        operationColumns: [
-          {
-            title: '操作类型',
-            dataIndex: 'type',
-            key: 'type'
-          },
-          {
-            title: '操作人',
-            dataIndex: 'name',
-            key: 'name'
-          },
-          {
-            title: '执行结果',
-            dataIndex: 'status',
-            key: 'status',
-            scopedSlots: { customRender: 'status' },
-          },
-          {
-            title: '操作时间',
-            dataIndex: 'updatedAt',
-            key: 'updatedAt'
-          },
-          {
-            title: '备注',
-            dataIndex: 'remark',
-            key: 'remark'
-          }
-        ],
-        operation1: [
-          {
-            key: 'op1',
-            type: '订购关系生效',
-            name: '曲丽丽',
-            status: 'agree',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '-'
-          },
-          {
-            key: 'op2',
-            type: '财务复审',
-            name: '付小小',
-            status: 'reject',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '不通过原因'
-          },
-          {
-            key: 'op3',
-            type: '部门初审',
-            name: '周毛毛',
-            status: 'agree',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '-'
-          },
-          {
-            key: 'op4',
-            type: '提交订单',
-            name: '林东东',
-            status: 'agree',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '很棒'
-          },
-          {
-            key: 'op5',
-            type: '创建订单',
-            name: '汗牙牙',
-            status: 'agree',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '-'
-          }
-        ],
-        operation2: [
-          {
-            key: 'op2',
-            type: '财务复审',
-            name: '付小小',
-            status: 'reject',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '不通过原因'
-          },
-          {
-            key: 'op3',
-            type: '部门初审',
-            name: '周毛毛',
-            status: 'agree',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '-'
-          },
-          {
-            key: 'op4',
-            type: '提交订单',
-            name: '林东东',
-            status: 'agree',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '很棒'
-          }
-        ],
-        operation3: [
-          {
-            key: 'op2',
-            type: '财务复审',
-            name: '付小小',
-            status: 'reject',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '不通过原因'
-          },
-          {
-            key: 'op3',
-            type: '部门初审',
-            name: '周毛毛',
-            status: 'agree',
-            updatedAt: '2017-10-03  19:23:12',
-            remark: '-'
-          }
-        ],
-      }
-    },
-    filters: {
-      statusFilter(status) {
-        const statusMap = {
-          'agree': '成功',
-          'reject': '驳回'
+                operationColumns: [
+                    {
+                        title: '操作类型',
+                        dataIndex: 'type',
+                        key: 'type'
+                    },
+                    {
+                        title: '操作人',
+                        dataIndex: 'name',
+                        key: 'name'
+                    },
+                    {
+                        title: '执行结果',
+                        dataIndex: 'status',
+                        key: 'status',
+                        scopedSlots: {customRender: 'status'},
+                    },
+                    {
+                        title: '操作时间',
+                        dataIndex: 'updatedAt',
+                        key: 'updatedAt'
+                    },
+                    {
+                        title: '备注',
+                        dataIndex: 'remark',
+                        key: 'remark'
+                    }
+                ],
+                operation1: [
+                    {
+                        key: 'op1',
+                        type: '订购关系生效',
+                        name: '曲丽丽',
+                        status: 'agree',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '-'
+                    },
+                    {
+                        key: 'op2',
+                        type: '财务复审',
+                        name: '付小小',
+                        status: 'reject',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '不通过原因'
+                    },
+                    {
+                        key: 'op3',
+                        type: '部门初审',
+                        name: '周毛毛',
+                        status: 'agree',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '-'
+                    },
+                    {
+                        key: 'op4',
+                        type: '提交订单',
+                        name: '林东东',
+                        status: 'agree',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '很棒'
+                    },
+                    {
+                        key: 'op5',
+                        type: '创建订单',
+                        name: '汗牙牙',
+                        status: 'agree',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '-'
+                    }
+                ],
+                operation2: [
+                    {
+                        key: 'op2',
+                        type: '财务复审',
+                        name: '付小小',
+                        status: 'reject',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '不通过原因'
+                    },
+                    {
+                        key: 'op3',
+                        type: '部门初审',
+                        name: '周毛毛',
+                        status: 'agree',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '-'
+                    },
+                    {
+                        key: 'op4',
+                        type: '提交订单',
+                        name: '林东东',
+                        status: 'agree',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '很棒'
+                    }
+                ],
+                operation3: [
+                    {
+                        key: 'op2',
+                        type: '财务复审',
+                        name: '付小小',
+                        status: 'reject',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '不通过原因'
+                    },
+                    {
+                        key: 'op3',
+                        type: '部门初审',
+                        name: '周毛毛',
+                        status: 'agree',
+                        updatedAt: '2017-10-03  19:23:12',
+                        remark: '-'
+                    }
+                ],
+            }
+        },
+        filters: {
+            statusFilter(status) {
+                const statusMap = {
+                    'agree': '成功',
+                    'reject': '驳回'
+                }
+                return statusMap[status]
+            },
+            statusTypeFilter(type) {
+                const statusTypeMap = {
+                    'agree': 'success',
+                    'reject': 'error'
+                }
+                return statusTypeMap[type]
+            }
         }
-        return statusMap[status]
-      },
-      statusTypeFilter(type) {
-        const statusTypeMap = {
-          'agree': 'success',
-          'reject': 'error'
-        }
-        return statusTypeMap[type]
-      }
     }
-  }
 </script>
 
 <style lang="less" scoped>
@@ -305,6 +311,7 @@
   .detail-layout {
     margin-left: 44px;
   }
+
   .text {
     color: rgba(0, 0, 0, .45);
   }
@@ -332,9 +339,11 @@
     .detail-layout {
       margin-left: unset;
     }
+
     .text {
 
     }
+
     .status-list {
       text-align: left;
     }

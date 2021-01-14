@@ -4,7 +4,7 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-item label="媒体名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['name']" placeholder="请输入媒体名称"></a-input>
             </a-form-item>
           </a-col>
