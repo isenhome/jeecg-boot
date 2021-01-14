@@ -61,6 +61,29 @@ public class DspCampaignController extends JeecgController<DspCampaign, IDspCamp
     @Autowired
     private IDspAdvertiserService dspAdvertiserService;
 
+
+    Map<String, String> industries;
+    Map<String, String> advertisers;
+
+    private void fixCampaign(DspCampaign dspCampaign) {
+        if (industries == null) {
+            industries = dspIndustryService.getNameMap(QueryGenerator.initQueryWrapper(new DspIndustry() {{
+                setStatus(1);
+            }}, null));
+        }
+        if (advertisers == null) {
+            advertisers = dspAdvertiserService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdvertiser() {{
+                setStatus(1);
+            }}, null));
+        }
+        if (industries.containsKey(dspCampaign.getIndustryId())) {
+            dspCampaign.setIndustryName(industries.get(dspCampaign.getIndustryId()));
+        }
+        if (advertisers.containsKey(dspCampaign.getAdvertiserId())) {
+            dspCampaign.setAdvertiserName(advertisers.get(dspCampaign.getAdvertiserId()));
+        }
+    }
+
     /**
      * 分页列表查询
      *
@@ -80,16 +103,8 @@ public class DspCampaignController extends JeecgController<DspCampaign, IDspCamp
         QueryWrapper<DspCampaign> queryWrapper = QueryGenerator.initQueryWrapper(dspCampaign, req.getParameterMap());
         Page<DspCampaign> page = new Page<DspCampaign>(pageNo, pageSize);
         IPage<DspCampaign> pageList = dspCampaignService.page(page, queryWrapper);
-        Map<String, String> industries = dspIndustryService.getNameMap(QueryGenerator.initQueryWrapper(new DspIndustry(){{setStatus(1);}},null));
-        Map<String, String> advertisers = dspAdvertiserService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdvertiser(){{setStatus(1);}},null));
-
         for (DspCampaign item : pageList.getRecords()) {
-            if(industries.containsKey(item.getIndustryId())){
-                item.setIndustryName(industries.get(item.getIndustryId()));
-            }
-			if(advertisers.containsKey(item.getAdvertiserId())){
-                item.setAdvertiserName(advertisers.get(item.getAdvertiserId()));
-            }
+            fixCampaign(item);
         }
         return Result.OK(pageList);
     }
@@ -164,6 +179,7 @@ public class DspCampaignController extends JeecgController<DspCampaign, IDspCamp
         if (dspCampaign == null) {
             return Result.error("未找到对应数据");
         }
+        fixCampaign(dspCampaign);
         return Result.OK(dspCampaign);
     }
 

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.io.Serializable;
+
 /**
  * @Description: dsp_campaign
  * @Author: jeecg-boot

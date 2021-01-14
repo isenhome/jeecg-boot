@@ -3,6 +3,7 @@ package org.jeecg.modules.dsp.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jeecg.modules.dsp.entity.DspEntity;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.HashMap;
 import java.util.List;

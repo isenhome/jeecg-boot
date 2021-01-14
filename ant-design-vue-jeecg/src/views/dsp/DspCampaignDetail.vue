@@ -1,13 +1,13 @@
 <template>
-  <page-layout :title="title">
+  <page-layout :title="campaign.name">
     <a-card :bordered="false">
-      <detail-list :title="campaign.name">
+      <detail-list>
         <detail-list-item term="广告主">{{campaign.advertiserName}}</detail-list-item>
         <detail-list-item term="行业">{{campaign.industryName}}</detail-list-item>
-        <detail-list-item term="开始时间">{{campaign}}</detail-list-item>
-        <detail-list-item term="结束时间">3214321432</detail-list-item>
-        <detail-list-item term="预算">3214321432</detail-list-item>
-        <detail-list-item term="备注">3214321432</detail-list-item>
+        <detail-list-item term="开始时间">{{campaign.start}}</detail-list-item>
+        <detail-list-item v-if="campaign.end!=null" term="结束时间">{{campaign.end}}</detail-list-item>
+        <detail-list-item term="预算">{{campaign.limitCost}}</detail-list-item>
+        <detail-list-item v-if="campaign.comment!=null" term="备注">{{campaign.comment}}</detail-list-item>
       </detail-list>
       <a-divider style="margin-bottom: 32px"/>
     </a-card>
@@ -309,11 +309,11 @@
             that.campaign = res.result
           } else {
             that.$message.error(res.message);
-            this.$route.push({name: 'dsp-DspCampaignList'})
+            that.$router.push({name: 'dsp-DspCampaignList'})
           }
         })
       } else {
-        this.$route.push({name: 'exception-404'})
+        this.$router.push({name: 'exception-404'})
       }
     }
   }
