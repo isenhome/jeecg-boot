@@ -9,6 +9,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @Date:   2021-01-07
  * @Version: V1.0
  */
-public interface IDspMaterialService extends IService<DspMaterial> {
+public interface IDspMaterialService extends IDspService<DspMaterial> {
 
 }

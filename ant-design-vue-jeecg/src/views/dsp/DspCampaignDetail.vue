@@ -22,6 +22,7 @@
         v-if="tab.activeTabKey === '1'"
       ></dsp-strategy-list>
       <dsp-creative-list
+        :campaign="campaign"
         v-if="tab.activeTabKey === '2'"
       ></dsp-creative-list>
 
@@ -67,13 +68,6 @@
 
       </s-table>
     </a-card>
-    <a-card
-      style="margin-top: 24px"
-      :bordered="false"
-      :tabList="tab.tabList"
-      :activeTabKey="tab.activeTabKey"
-      @tabChange="(key) => {this.tab.activeTabKey = key}"
-    ></a-card>
   </page-layout>
 </template>
 
