@@ -25,7 +25,7 @@ import lombok.experimental.Accessors;
  * @Version: V1.0
  */
 @Data
-@TableName(value = "dsp_creative", excludeProperty = {"materialNames"})
+@TableName(value = "dsp_creative", excludeProperty = {"materialNames","adFormatName"})
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "dsp_creative对象", description = "dsp_creative")
@@ -50,6 +50,7 @@ public class DspCreative extends DspEntity implements Serializable {
     @Excel(name = "创意形式", width = 15)
     @ApiModelProperty(value = "创意形式")
     private java.lang.String adFormatId;
+    private java.lang.String adFormatName;
     /**
      * 素材
      */

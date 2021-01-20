@@ -62,10 +62,14 @@ public class DspStrategy implements Serializable {
 	@Excel(name = "策略名称", width = 15)
     @ApiModelProperty(value = "策略名称")
     private java.lang.String name;
-	/**广告主编号*/
-	@Excel(name = "广告主编号", width = 15)
+    /**广告主编号*/
+    @Excel(name = "广告主编号", width = 15)
     @ApiModelProperty(value = "广告主编号")
     private java.lang.String advertiserId;
+	/**订单编号*/
+	@Excel(name = "订单编号", width = 15)
+    @ApiModelProperty(value = "订单编号")
+    private java.lang.String campaignId;
 	/**开始时间*/
 	@Excel(name = "开始时间", width = 15, format = "yyyy-MM-dd")
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
@@ -94,20 +98,8 @@ public class DspStrategy implements Serializable {
 	@Excel(name = "最低价格", width = 15)
     @ApiModelProperty(value = "最低价格")
     private java.math.BigDecimal buyMinBidprice;
-	/**消耗日限*/
-	@Excel(name = "消耗日限", width = 15)
-    @ApiModelProperty(value = "消耗日限")
-    private java.math.BigDecimal buyDailyLimit;
-	/**展示日限*/
-	@Excel(name = "展示日限", width = 15)
-    @ApiModelProperty(value = "展示日限")
-    private java.lang.Integer pvLimitDaily;
-	/**点击日限*/
-	@Excel(name = "点击日限", width = 15)
-    @ApiModelProperty(value = "点击日限")
-    private java.lang.Integer clickLimitDaily;
-	/**投放速度*/
-	@Excel(name = "投放速度", width = 15)
-    @ApiModelProperty(value = "投放速度")
-    private java.lang.String excuteType;
+    /**日限*/
+    @Excel(name = "日限", width = 15)
+    @ApiModelProperty(value = "日限")
+    private java.lang.String dailyLimit;
 }

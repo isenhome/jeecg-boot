@@ -58,7 +58,7 @@
                 />
               </a-form-item>
               <a-form-item label="底价" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <a-input v-decorator="['basePrice',validatorRules.basePrice]" placeholder="请输入底价"></a-input>
+                <a-input-number :step="0.1" v-decorator="['basePrice',validatorRules.basePrice]" placeholder="请输入底价"></a-input-number>
               </a-form-item>
             </a-card>
           </a-col>

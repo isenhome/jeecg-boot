@@ -1,65 +1,78 @@
 <template>
-  <a-card :bordered="false">
+  <a-row :gutter="10">
+    <a-col :md="leftColMd" :sm="24">
+      <a-card :bordered="false">
 
-    <!-- 操作按钮区域 -->
-    <div class="table-operator">
-      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
+        <!-- 操作按钮区域 -->
+        <div class="table-operator">
+          <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
 
-      <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
-      </a-dropdown>
-    </div>
+          <a-dropdown v-if="selectedRowKeys.length > 0">
+            <a-menu slot="overlay">
+              <a-menu-item key="1" @click="batchDel">
+                <a-icon type="delete"/>
+                删除
+              </a-menu-item>
+            </a-menu>
+            <a-button style="margin-left: 8px"> 批量操作
+              <a-icon type="down"/>
+            </a-button>
+          </a-dropdown>
+        </div>
 
-    <!-- table区域-begin -->
-    <div>
-      <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
-        <a style="margin-left: 24px" @click="onClearSelected">清空</a>
-      </div>
+        <!-- table区域-begin -->
+        <div>
+          <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
+            <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+            selectedRowKeys.length }}</a>项
+            <a style="margin-left: 24px" @click="onClearSelected">清空</a>
+          </div>
 
-      <a-table
-        ref="table"
-        size="middle"
-        :scroll="{x:true}"
-        bordered
-        rowKey="id"
-        :columns="columns"
-        :dataSource="dataSource"
-        :pagination="ipagination"
-        :loading="loading"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-        class="j-table-force-nowrap"
-        @change="handleTableChange">
+          <a-table
+            ref="table"
+            size="middle"
+            :scroll="{x:true}"
+            bordered
+            rowKey="id"
+            :columns="columns"
+            :dataSource="dataSource"
+            :pagination="ipagination"
+            :loading="loading"
+            :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+            class="j-table-force-nowrap"
+            @change="handleTableChange">
 
-        <template slot="htmlSlot" slot-scope="text">
-          <div v-html="text"></div>
-        </template>
-        <template slot="imgSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px;font-style: italic;">无图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="" style="max-width:80px;font-size: 12px;font-style: italic;"/>
-        </template>
-        <template slot="fileSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
-          <a-button
-            v-else
-            :ghost="true"
-            type="primary"
-            icon="download"
-            size="small"
-            @click="downloadFile(text)">
-            下载
-          </a-button>
-        </template>
+            <template slot="dateRange" slot-scope="text, record">
+              {{record.start}}~{{record.end}}
+            </template>
 
-        <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+            <template slot="price" slot-scope="text, record">
+              <b>{{record.buyType}}</b>（￥）{{record.buyMinBidprice}}~{{record.buyMaxBidprice}}
+            </template>
 
-          <a-divider type="vertical" />
+            <template slot="limit" slot-scope="text, record">
+              <a @click="handleSetting(record,'limit')">设置</a>
+            </template>
+
+            <template slot="resource" slot-scope="text, record">
+              <a @click="handleSetting(record,'resource')">设置</a>
+            </template>
+
+            <template slot="creative" slot-scope="text, record">
+              <a @click="handleSetting(record,'creative')">设置</a>
+            </template>
+
+            <template slot="target" slot-scope="text, record">
+              <a @click="handleSetting(record,'target')">设置</a>
+            </template>
+
+            <span slot="action" slot-scope="text, record">
+            <a @click="handleEdit(record)">编辑</a>
+
+          <a-divider type="vertical"/>
+
           <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
+            <a class="ant-dropdown-link">更多 <a-icon type="down"/></a>
             <a-menu slot="overlay">
               <a-menu-item>
                 <a @click="handleDetail(record)">详情</a>
@@ -73,159 +86,211 @@
           </a-dropdown>
         </span>
 
-      </a-table>
-    </div>
+          </a-table>
+        </div>
 
-    <dsp-strategy-modal ref="modalForm" @ok="modalFormOk"></dsp-strategy-modal>
-  </a-card>
+        <dsp-strategy-modal :campaign="campaign" ref="modalForm" @ok="modalFormOk"></dsp-strategy-modal>
+      </a-card>
+    </a-col>
+    <a-col :md="rightColMd" :sm="24" v-if="this.setting.rightColVal == 1">
+      <a-card :bordered="false">
+        <a-card :bordered="false">
+          <div style="text-align: right;">
+            <a-icon type="close-circle" @click="hideSetting"/>
+          </div>
+        </a-card>
+        <dsp-daily-limit v-if="setting.tab==='limit'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
+        <dsp-resource v-if="setting.tab==='resource'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
+        <dsp-creative v-if="setting.tab==='creative'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
+        <dsp-target v-if="setting.tab==='target'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
+      </a-card>
+    </a-col>
+  </a-row>
 </template>
 
 <script>
 
-  import '@/assets/less/TableExpand.less'
-  import { mixinDevice } from '@/utils/mixin'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import DspStrategyModal from './modules/DspStrategyModal'
-  import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
+    import '@/assets/less/TableExpand.less'
+    import {mixinDevice} from '@/utils/mixin'
+    import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+    import DspStrategyModal from './modules/DspStrategyModal'
+    import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
+    import DspDailyLimit from "./components/DspDailyLimit";
+    import DspResource from "./components/DspResource";
+    import DspCreative from "./components/DspCreative";
+    import DspTarget from "./components/DspTarget";
+    import Template4 from "../jeecg/JVxeDemo/layout-demo/Template4";
+    import DetailList from '@/components/tools/DetailList'
 
-  export default {
-    name: 'DspStrategyList',
-    mixins:[JeecgListMixin, mixinDevice],
-    components: {
-      DspStrategyModal,
-      JSuperQuery,
-    },
-    data () {
-      return {
-        description: 'dsp_strategy管理页面',
-        // 表头
-        columns: [
-          {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-          },
-          {
-            title:'策略名称',
-            align:"center",
-            dataIndex: 'name'
-          },
-          {
-            title:'广告主编号',
-            align:"center",
-            dataIndex: 'advertiserId'
-          },
-          {
-            title:'开始时间',
-            align:"center",
-            dataIndex: 'start',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'结束时间',
-            align:"center",
-            dataIndex: 'end',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
-          },
-          {
-            title:'备注',
-            align:"center",
-            dataIndex: 'comment'
-          },
-          {
-            title:'出价方式',
-            align:"center",
-            dataIndex: 'buyType'
-          },
-          {
-            title:'最高价格',
-            align:"center",
-            dataIndex: 'buyMaxBidprice'
-          },
-          {
-            title:'最低价格',
-            align:"center",
-            dataIndex: 'buyMinBidprice'
-          },
-          {
-            title:'消耗日限',
-            align:"center",
-            dataIndex: 'buyDailyLimit'
-          },
-          {
-            title:'展示日限',
-            align:"center",
-            dataIndex: 'pvLimitDaily'
-          },
-          {
-            title:'点击日限',
-            align:"center",
-            dataIndex: 'clickLimitDaily'
-          },
-          {
-            title:'投放速度',
-            align:"center",
-            dataIndex: 'excuteType'
-          },
-          {
-            title: '操作',
-            dataIndex: 'action',
-            align:"center",
-            fixed:"right",
-            width:147,
-            scopedSlots: { customRender: 'action' }
-          }
-        ],
-        url: {
-          list: "/dsp/dspStrategy/list",
-          delete: "/dsp/dspStrategy/delete",
-          deleteBatch: "/dsp/dspStrategy/deleteBatch",
-          exportXlsUrl: "/dsp/dspStrategy/exportXls",
-          importExcelUrl: "dsp/dspStrategy/importExcel",
-          
+    const DetailListItem = DetailList.Item
+
+    export default {
+        name: 'DspStrategyList',
+        mixins: [JeecgListMixin, mixinDevice],
+        components: {
+            Template4,
+            DspStrategyModal,
+            JSuperQuery,
+            DspDailyLimit,
+            DspResource,
+            DspCreative,
+            DspTarget,
+            DetailList,
+            DetailListItem
         },
-        dictOptions:{},
-        superFieldList:[],
-      }
-    },
-    created() {
-    this.getSuperFieldList();
-    },
-    computed: {
-      importExcelUrl: function(){
-        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-      },
-    },
-    methods: {
-      initDictConfig(){
-      },
-      getSuperFieldList(){
-        let fieldList=[];
-        fieldList.push({type:'string',value:'name',text:'策略名称'})
-        fieldList.push({type:'string',value:'advertiserId',text:'广告主编号'})
-        fieldList.push({type:'date',value:'start',text:'开始时间'})
-        fieldList.push({type:'date',value:'end',text:'结束时间'})
-        fieldList.push({type:'string',value:'comment',text:'备注'})
-        fieldList.push({type:'string',value:'buyType',text:'出价方式'})
-        fieldList.push({type:'number',value:'buyMaxBidprice',text:'最高价格'})
-        fieldList.push({type:'number',value:'buyMinBidprice',text:'最低价格'})
-        fieldList.push({type:'number',value:'buyDailyLimit',text:'消耗日限'})
-        fieldList.push({type:'int',value:'pvLimitDaily',text:'展示日限'})
-        fieldList.push({type:'int',value:'clickLimitDaily',text:'点击日限'})
-        fieldList.push({type:'string',value:'excuteType',text:'投放速度'})
-        this.superFieldList = fieldList
-      }
+        props: {
+            campaign: {
+                type: Object,
+                default: () => {
+                },
+                required: true
+            }
+        },
+        data() {
+            let that = this;
+            return {
+                description: 'dsp_strategy管理页面',
+                // 表头
+                columns: [
+                    {
+                        title: '#',
+                        dataIndex: '',
+                        key: 'rowIndex',
+                        width: 60,
+                        align: "center",
+                        customRender: function (t, r, index) {
+                            return parseInt(index) + 1;
+                        }
+                    },
+                    {
+                        title: '策略名称',
+                        align: "center",
+                        dataIndex: 'name'
+                    },
+                    {
+                        title: '投放周期',
+                        align: "center",
+                        scopedSlots: {customRender: 'dateRange'}
+                    },
+                    {
+                        title: '价格',
+                        align: "center",
+                        scopedSlots: {customRender: 'price'}
+                    },
+                    {
+                        title: '备注',
+                        dataIndex: 'comment',
+                        align: "center"
+                    },
+                    {
+                        title: '日限',
+                        align: "center",
+                        scopedSlots: {customRender: 'limit'}
+                    },
+                    {
+                        title: '资源',
+                        align: "center",
+                        scopedSlots: {customRender: 'resource'}
+                    },
+                    {
+                        title: '创意',
+                        align: "center",
+                        scopedSlots: {customRender: 'creative'}
+                    },
+                    {
+                        title: '定向',
+                        align: "center",
+                        scopedSlots: {customRender: 'target'}
+                    },
+                    {
+                        title: '操作',
+                        align: "center",
+                        fixed: "right",
+                        width: 147,
+                        scopedSlots: {customRender: 'action'}
+                    }
+                ],
+                url: {
+                    list: "/dsp/dspStrategy/list",
+                    delete: "/dsp/dspStrategy/delete",
+                    deleteBatch: "/dsp/dspStrategy/deleteBatch",
+                    exportXlsUrl: "/dsp/dspStrategy/exportXls",
+                    importExcelUrl: "dsp/dspStrategy/importExcel"
+                },
+                filters: {campaignId: this.campaign.id},
+                dictOptions: {},
+                superFieldList: [],
+                settingTab: 1,
+                currentStrategy: {},
+                setting: {
+                    rightColVal: 0,
+                    selectedRowKeys1: [],
+                    currentStrategy: {},
+                    tab: "",
+                    radioBuyType: {
+                        value: "CPM",
+                        options: [
+                            {label: 'CPM', value: 'CPM'},
+                            {label: 'CPC', value: 'CPC'}
+                        ]
+                    },
+                    resource: {
+                        value: "ADX",
+                        options: [
+                            {label: 'ADX', value: 'ADX'},
+                            {label: 'ADN', value: 'ADN'}
+                        ]
+                    },
+                },
+            }
+        },
+        created() {
+            this.getSuperFieldList();
+        },
+        computed: {
+            leftColMd() {
+                if (this.setting.currentStrategy.id) {
+                    return 12
+                } else {
+                    return 24
+                }
+            },
+            rightColMd() {
+                if (this.setting.currentStrategy.id) {
+                    return 12
+                } else {
+                    return 0
+                }
+            },
+            getCurrentStrategy() {
+                return this.setting.currentStrategy
+            },
+            getCampaign() {
+                return this.campaign
+            }
+        },
+        methods: {
+            initDictConfig() {
+            },
+            getSuperFieldList() {
+                let fieldList = [];
+                fieldList.push({type: 'string', value: 'name', text: '策略名称'})
+                this.superFieldList = fieldList
+            },
+            handleSetting(record, tab) {
+                this.setting.rightColVal = 1
+                this.setting.currentStrategy = record
+                this.setting.tab = tab
+            },
+            hideSetting() {
+                this.setting.rightColVal = 0
+                this.setting.currentStrategy = {}
+            },
+            commitDailyLimit() {
+
+            }
+        }
     }
-  }
 </script>
 <style scoped>
   @import '~@assets/less/common.less';

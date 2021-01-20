@@ -11,8 +11,10 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.modules.dsp.entity.DspAdFormat;
 import org.jeecg.modules.dsp.entity.DspCreative;
 import org.jeecg.modules.dsp.entity.DspMaterial;
+import org.jeecg.modules.dsp.service.IDspAdFormatService;
 import org.jeecg.modules.dsp.service.IDspCreativeService;
 import org.jeecg.modules.dsp.service.IDspMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,11 @@ public class DspCreativeController extends JeecgController<DspCreative, IDspCrea
     @Autowired
     private IDspMaterialService dspMaterialService;
 
+    @Autowired
+    private IDspAdFormatService dspAdFormatService;
+
     Map<String, String> material;
+    Map<String, String> format;
 
     private void fixCreative(DspCreative dspCreative) {
         if (material == null) {
@@ -58,6 +64,14 @@ public class DspCreativeController extends JeecgController<DspCreative, IDspCrea
             }
         }
         dspCreative.setMaterialNames(StringUtils.join(names, ","));
+        if (format == null) {
+            format = dspAdFormatService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdFormat() {{
+                setStatus(1);
+            }}, null));
+        }
+        if (format.containsKey(dspCreative.getAdFormatId())) {
+            dspCreative.setAdFormatName(format.get(dspCreative.getAdFormatId()));
+        }
     }
 
     /**

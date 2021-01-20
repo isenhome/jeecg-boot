@@ -14,9 +14,9 @@
       <a-button @click="handleAdd"
                 type="primary" icon="plus">新增
       </a-button>
-      <!-- 高级查询区域 -->
-      <j-super-query :fieldList="superFieldList" ref="superQueryModal"
-                     @handleSuperQuery="handleSuperQuery"></j-super-query>
+      <!--      &lt;!&ndash; 高级查询区域 &ndash;&gt;-->
+      <!--      <j-super-query :fieldList="superFieldList" ref="superQueryModal"-->
+      <!--                     @handleSuperQuery="handleSuperQuery"></j-super-query>-->
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
           <a-menu-item key="1" @click="batchDel">
@@ -145,7 +145,7 @@
                     {
                         title: '创意形式',
                         align: "center",
-                        dataIndex: 'adFormatId'
+                        dataIndex: 'adFormatName'
                     },
                     {
                         title: '交互方式',
@@ -168,14 +168,13 @@
                 },
                 dictOptions: {},
                 superFieldList: [],
+                filters: {campaignId: this.campaign.id}
             }
         },
         created() {
             this.getSuperFieldList();
         },
-        computed: {
-
-        },
+        computed: {},
         methods: {
             initDictConfig() {
             },
