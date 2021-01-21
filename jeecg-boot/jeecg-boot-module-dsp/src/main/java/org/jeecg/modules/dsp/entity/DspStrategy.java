@@ -108,4 +108,9 @@ public class DspStrategy implements Serializable {
     @Excel(name = "资源", width = 15)
     @ApiModelProperty(value = "资源")
     private java.lang.String resource;
+
+    /**定向*/
+    @Excel(name = "定向", width = 15)
+    @ApiModelProperty(value = "定向")
+    private java.lang.String target;
 }

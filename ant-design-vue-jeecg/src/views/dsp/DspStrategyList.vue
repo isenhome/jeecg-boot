@@ -99,7 +99,8 @@
                          @close="closeRight"/>
         <dsp-resource v-if="setting.tab==='resource'" :form-data="getResourceFormData" :strategy="getCurrentStrategy"
                       @close="closeRight"/>
-        <dsp-target v-if="setting.tab==='target'" :strategy="getCurrentStrategy" @close="closeRight"/>
+        <dsp-target v-if="setting.tab==='target'" :form-data="getTargetFormData" :strategy="getCurrentStrategy"
+                    @close="closeRight"/>
       </a-card>
     </a-col>
   </a-row>
@@ -114,7 +115,6 @@
     import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
     import DspDailyLimit from "./components/DspDailyLimit";
     import DspResource from "./components/DspResource";
-    import DspCreative from "./components/DspCreative";
     import DspTarget from "./components/DspTarget";
     import Template4 from "../jeecg/JVxeDemo/layout-demo/Template4";
     import DetailList from '@/components/tools/DetailList'
@@ -130,7 +130,6 @@
             JSuperQuery,
             DspDailyLimit,
             DspResource,
-            DspCreative,
             DspTarget,
             DetailList,
             DetailListItem
@@ -272,7 +271,16 @@
                     formData = JSON.parse(jsonStr)
                 }
                 return formData
+            },
+            getTargetFormData() {
+                let formData = {}
+                let jsonStr = this.setting.currentStrategy.target
+                if (jsonStr) {
+                    formData = JSON.parse(jsonStr)
+                }
+                return formData
             }
+
         },
         methods: {
             initDictConfig() {
