@@ -98,8 +98,14 @@ public class DspStrategy implements Serializable {
 	@Excel(name = "最低价格", width = 15)
     @ApiModelProperty(value = "最低价格")
     private java.math.BigDecimal buyMinBidprice;
+
     /**日限*/
     @Excel(name = "日限", width = 15)
     @ApiModelProperty(value = "日限")
     private java.lang.String dailyLimit;
+
+    /**资源*/
+    @Excel(name = "资源", width = 15)
+    @ApiModelProperty(value = "资源")
+    private java.lang.String resource;
 }

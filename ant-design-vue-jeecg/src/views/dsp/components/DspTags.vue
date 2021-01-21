@@ -1,6 +1,6 @@
 <template>
   <a-select
-    mode="mode"
+    :mode="getType"
     :placeholder="placeholder"
     :value="getNames"
     style="width: 100%"
@@ -45,6 +45,13 @@
             return {};
         },
         computed: {
+            getType() {
+                if (this.mode) {
+                    return this.mode
+                } else {
+                    return "default"
+                }
+            },
             getNames() {
                 let names = []
                 if (this.selectedIds) {
@@ -68,12 +75,12 @@
         methods: {
             handleChange(values, selectedItems) {
                 let ids = []
-                if (selectedItems.key) {
-                    ids.push(selectedItems.key)
-                } else {
+                if (this.mode == 'multiple') {
                     for (let i in selectedItems) {
                         ids.push(selectedItems[i].key)
                     }
+                } else if (this.mode == 'default') {
+                    ids.push(selectedItems.key)
                 }
                 this.$emit("change", ids.join(","))
             }

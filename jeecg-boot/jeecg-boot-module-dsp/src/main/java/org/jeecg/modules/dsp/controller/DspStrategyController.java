@@ -158,4 +158,14 @@ public class DspStrategyController extends JeecgController<DspStrategy, IDspStra
         return Result.OK("设置成功！");
     }
 
+    @RequestMapping(value = "/resource", method = RequestMethod.POST)
+    public Result<?> resource(@RequestBody Map<String, String> model) {
+        String strategyId = model.get("strategyId");
+        String resource = model.get("data");
+        DspStrategy dspStrategy = new DspStrategy();
+        dspStrategy.setId(strategyId);
+        dspStrategy.setResource(resource);
+        dspStrategyService.updateById(dspStrategy);
+        return Result.OK("设置成功！");
+    }
 }

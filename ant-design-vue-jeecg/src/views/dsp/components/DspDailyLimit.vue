@@ -32,7 +32,8 @@
         </a-form-item>
       </a-col>
       <a-col :span="24" style="text-align: center">
-        <a-button @click="submitForm">提 交</a-button>
+        <a-button @click="submitForm" type="primary">提 交</a-button>
+        <a-button @click="closeForm" style="margin-left: 8px;">关 闭</a-button>
       </a-col>
     </a-form>
   </a-card>
@@ -41,6 +42,7 @@
 <script>
     import {validateCheckRule} from '@/utils/util'
     import {httpAction} from '@/api/manage'
+    import pick from 'lodash.pick'
 
     export default {
         name: "DspDailyLimit",
@@ -114,13 +116,12 @@
                         let tmpData = Object.assign(this.model, values)
                         let formData = {
                             strategyId: that.strategy.id,
-                            data:JSON.stringify(tmpData)
+                            data: JSON.stringify(tmpData)
                         };
                         console.log("表单提交数据", formData);
                         httpAction(httpurl, formData, method).then((res) => {
                             if (res.success) {
                                 that.$message.success(res.message);
-                                that.$emit('ok');
                             } else {
                                 that.$message.warning(res.message);
                             }
@@ -130,10 +131,17 @@
                     }
 
                 })
+            },
+            closeForm() {
+                this.$emit('close');
             }
         },
         created() {
-            console.log(this.strategy)
+            this.form.resetFields();
+            this.model = Object.assign({}, this.formData);
+            this.$nextTick(() => {
+                this.form.setFieldsValue(pick(this.model, 'excuteType', 'buyDailyLimit', 'pvLimitDaily', 'clickLimitDaily'))
+            })
         },
         computed: {
             getTitle() {

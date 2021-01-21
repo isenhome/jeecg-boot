@@ -51,19 +51,15 @@
             </template>
 
             <template slot="limit" slot-scope="text, record">
-              <a @click="handleSetting(record,'limit')">设置</a>
+              <a @click="handleSetting(record,'limit')">{{record.dailyLimit?'修改':'未设置'}}</a>
             </template>
 
             <template slot="resource" slot-scope="text, record">
-              <a @click="handleSetting(record,'resource')">设置</a>
-            </template>
-
-            <template slot="creative" slot-scope="text, record">
-              <a @click="handleSetting(record,'creative')">设置</a>
+              <a @click="handleSetting(record,'resource')">{{record.resource?'修改':'未设置'}}</a>
             </template>
 
             <template slot="target" slot-scope="text, record">
-              <a @click="handleSetting(record,'target')">设置</a>
+              <a @click="handleSetting(record,'target')">{{record.target?'修改':'未设置'}}</a>
             </template>
 
             <span slot="action" slot-scope="text, record">
@@ -99,10 +95,11 @@
             <a-icon type="close-circle" @click="hideSetting"/>
           </div>
         </a-card>
-        <dsp-daily-limit v-if="setting.tab==='limit'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
-        <dsp-resource v-if="setting.tab==='resource'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
-        <dsp-creative v-if="setting.tab==='creative'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
-        <dsp-target v-if="setting.tab==='target'" :strategy="getCurrentStrategy" @commit="commitDailyLimit"/>
+        <dsp-daily-limit v-if="setting.tab==='limit'" :form-data="getDailyLimitFormData" :strategy="getCurrentStrategy"
+                         @close="closeRight"/>
+        <dsp-resource v-if="setting.tab==='resource'" :form-data="getResourceFormData" :strategy="getCurrentStrategy"
+                      @close="closeRight"/>
+        <dsp-target v-if="setting.tab==='target'" :strategy="getCurrentStrategy" @close="closeRight"/>
       </a-card>
     </a-col>
   </a-row>
@@ -193,11 +190,6 @@
                         scopedSlots: {customRender: 'resource'}
                     },
                     {
-                        title: '创意',
-                        align: "center",
-                        scopedSlots: {customRender: 'creative'}
-                    },
-                    {
                         title: '定向',
                         align: "center",
                         scopedSlots: {customRender: 'target'}
@@ -265,8 +257,21 @@
             getCurrentStrategy() {
                 return this.setting.currentStrategy
             },
-            getCampaign() {
-                return this.campaign
+            getDailyLimitFormData() {
+                let formData = {}
+                let jsonStr = this.setting.currentStrategy.dailyLimit
+                if (jsonStr) {
+                    formData = JSON.parse(jsonStr)
+                }
+                return formData
+            },
+            getResourceFormData() {
+                let formData = {}
+                let jsonStr = this.setting.currentStrategy.resource
+                if (jsonStr) {
+                    formData = JSON.parse(jsonStr)
+                }
+                return formData
             }
         },
         methods: {
@@ -286,8 +291,9 @@
                 this.setting.rightColVal = 0
                 this.setting.currentStrategy = {}
             },
-            commitDailyLimit() {
-
+            closeRight() {
+                this.setting.rightColVal = 0
+                this.setting.currentStrategy = {}
             }
         }
     }
