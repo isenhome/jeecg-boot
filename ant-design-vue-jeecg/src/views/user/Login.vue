@@ -11,7 +11,7 @@
               size="large"
               v-decorator="['username',validatorRules.username,{ validator: this.handleUsernameOrEmail }]"
               type="text"
-              placeholder="请输入帐户名 / admin">
+              placeholder="请输入帐户名">
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
@@ -22,7 +22,7 @@
               size="large"
               type="password"
               autocomplete="false"
-              placeholder="密码 / 123456">
+              placeholder="密码">
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
@@ -48,15 +48,15 @@
         </a-tab-pane>
       </a-tabs>
 
-      <a-form-item>
-        <a-checkbox v-decorator="['rememberMe', {initialValue: true, valuePropName: 'checked'}]" >自动登录</a-checkbox>
-        <router-link :to="{ name: 'alteration'}" class="forge-password" style="float: right;">
-          忘记密码
-        </router-link>
+<!--      <a-form-item>-->
+<!--        <a-checkbox v-decorator="['rememberMe', {initialValue: true, valuePropName: 'checked'}]" >自动登录</a-checkbox>-->
+<!--        <router-link :to="{ name: 'alteration'}" class="forge-password" style="float: right;">-->
+<!--          忘记密码-->
+<!--        </router-link>-->
 <!--       <router-link :to="{ name: 'register'}" class="forge-password" style="float: right;margin-right: 10px" >-->
 <!--          注册账户-->
 <!--        </router-link>-->
-      </a-form-item>
+<!--      </a-form-item>-->
 
       <a-form-item style="margin-top:24px">
         <a-button
