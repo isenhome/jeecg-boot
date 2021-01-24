@@ -27,24 +27,24 @@
             </a-input>
           </a-form-item>
 
-          <a-row :gutter="0">
-            <a-col :span="16">
-              <a-form-item>
-                <a-input
-                  v-decorator="['inputCode',validatorRules.inputCode]"
-                  size="large"
-                  type="text"
-                  @change="inputCodeChange"
-                  placeholder="请输入验证码">
-                  <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                </a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8" style="text-align: right">
-              <img v-if="requestCodeSuccess" style="margin-top: 2px;" :src="randCodeImage" @click="handleChangeCheckCode"/>
-              <img v-else style="margin-top: 2px;" src="../../assets/checkcode.png" @click="handleChangeCheckCode"/>
-            </a-col>
-          </a-row>
+<!--          <a-row :gutter="0">-->
+<!--            <a-col :span="16">-->
+<!--              <a-form-item>-->
+<!--                <a-input-->
+<!--                  v-decorator="['inputCode',validatorRules.inputCode]"-->
+<!--                  size="large"-->
+<!--                  type="text"-->
+<!--                  @change="inputCodeChange"-->
+<!--                  placeholder="请输入验证码">-->
+<!--                  <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }"/>-->
+<!--                </a-input>-->
+<!--              </a-form-item>-->
+<!--            </a-col>-->
+<!--            <a-col :span="8" style="text-align: right">-->
+<!--              <img v-if="requestCodeSuccess" style="margin-top: 2px;" :src="randCodeImage" @click="handleChangeCheckCode"/>-->
+<!--              <img v-else style="margin-top: 2px;" src="../../assets/checkcode.png" @click="handleChangeCheckCode"/>-->
+<!--            </a-col>-->
+<!--          </a-row>-->
         </a-tab-pane>
       </a-tabs>
 

@@ -1,7 +1,8 @@
 <template>
-  <div :style="{ padding: '0 50px 32px 0' }">
+  <div :style="{ padding: '0 50px 32px 0'}">
     <h4 :style="{ marginBottom: '20px' }">{{ title }}</h4>
-    <v-chart :forceFit="true" :height="height" :data="data" :scale="scale" :padding=" padding" :onClick="handleClick">
+    <v-chart ref="chart" :forceFit="true" judge-width :height="height" :data="data" :scale="scale" :padding="padding"
+             :onClick="handleClick" :onShow="ready">
       <v-tooltip/>
       <v-legend/>
       <v-axis/>
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-  import { ChartEventMixins } from './mixins/ChartMixins'
+  import {ChartEventMixins} from './mixins/ChartMixins'
 
   export default {
     name: 'BarAndLine',
@@ -25,13 +26,13 @@
       dataSource: {
         type: Array,
         default: () => [
-          { type: '10:10', bar: 200, line: 1000 },
-          { type: '10:15', bar: 600, line: 1000},
-          { type: '10:20', bar: 200, line: 1000},
-          { type: '10:25', bar: 900, line: 1000},
-          { type: '10:30', bar: 200, line: 1000},
-          { type: '10:35', bar: 200, line: 1000},
-          { type: '10:40', bar: 100, line: 1000}
+          {type: '10:10', bar: 200, line: 1000},
+          {type: '10:15', bar: 600, line: 1000},
+          {type: '10:20', bar: 200, line: 1000},
+          {type: '10:25', bar: 900, line: 1000},
+          {type: '10:30', bar: 200, line: 1000},
+          {type: '10:35', bar: 200, line: 1000},
+          {type: '10:40', bar: 100, line: 1000}
         ]
       },
       height: {
@@ -41,19 +42,38 @@
     },
     data() {
       return {
-        padding: { top:50, right:50, bottom:100, left:50 },
+        padding: {top: 50, right: 50, bottom: 100, left: 50},
         scale: [{
           dataKey: 'bar',
           min: 0
         }, {
           dataKey: 'line',
           min: 0
-        }]
+        }],
+        chartWidth:""
       }
     },
     computed: {
       data() {
         return this.dataSource
+      }
+    },
+    mounted() {
+      let that = this;
+      setTimeout(()=>{
+        that.chartWidth = that.$refs.chart.offsetWidth + "px"
+      },100)
+    },
+    created() {
+
+    },
+    methods: {
+      ready() {
+        let that = this;
+        this.$nextTick(() => {
+          console.log(that.$refs.chart)
+          // that.$refs.chart.resize();
+        })
       }
     }
   }
