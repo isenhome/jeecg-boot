@@ -38,7 +38,7 @@
         <a-layout-content>
           <a-card :title="menu.currentMenu">
             <a-range-picker name="buildTime" style="float: right" @change="changeRange"/>
-            <bar-and-line :height="chart.height" style="width:100%" :span="16"/>
+            <bar-and-line :height="chart.height" :span="16"/>
             <p style="text-align: center">
               <a-checkbox-group v-model="checkBox.checkedList" :options="checkBox.options" @change="onChange"/>
             </p>

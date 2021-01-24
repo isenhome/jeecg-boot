@@ -1,8 +1,8 @@
 <template>
-  <div :style="{ padding: '0 50px 32px 0'}">
+  <div :style="{ padding: '0 50px 32px 0',width:'90%'}">
     <h4 :style="{ marginBottom: '20px' }">{{ title }}</h4>
     <v-chart ref="chart" :forceFit="true" judge-width :height="height" :data="data" :scale="scale" :padding="padding"
-             :onClick="handleClick" :onShow="ready">
+             :onClick="handleClick" >
       <v-tooltip/>
       <v-legend/>
       <v-axis/>
@@ -50,7 +50,7 @@
           dataKey: 'line',
           min: 0
         }],
-        chartWidth:""
+        chartWidth: ""
       }
     },
     computed: {
@@ -60,21 +60,14 @@
     },
     mounted() {
       let that = this;
-      setTimeout(()=>{
-        that.chartWidth = that.$refs.chart.offsetWidth + "px"
-      },100)
+      setTimeout(() => {
+        console.log('that.$refs.chart', that.$refs.chart)
+        // that.chartWidth = that.$refs.chart.offsetWidth + "px"
+      }, 100)
     },
     created() {
 
     },
-    methods: {
-      ready() {
-        let that = this;
-        this.$nextTick(() => {
-          console.log(that.$refs.chart)
-          // that.$refs.chart.resize();
-        })
-      }
-    }
+    methods: {}
   }
 </script>
