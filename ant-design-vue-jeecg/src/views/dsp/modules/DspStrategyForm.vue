@@ -146,7 +146,9 @@
                     value: "CPM",
                     options: [
                         {label: 'CPM', value: 'CPM'},
-                        {label: 'CPC', value: 'CPC'}
+                        {label: 'CPC', value: 'CPC'},
+                        {label: 'OCPA', value: 'OCPA'},
+                        {label: 'OCPM', value: 'OCPM'}
                     ]
                 },
                 radioExcuteType: {

@@ -37,11 +37,32 @@
       <a-layout :span="16" style="margin-left: 10px">
         <a-layout-content>
           <a-card :title="menu.currentMenu">
-            <a-range-picker name="buildTime" style="float: right" @change="changeRange"/>
+            <a-row>
+              <a-col :span="6">
+                <a-select v-model="selector.bar" :options="selector.options" style="width: 45%"
+                          @change="selectorBarChange"/>
+                <span>  对比  </span>
+                <a-select v-model="selector.line" :options="selector.options" style="width: 45%"
+                          @change="selectorLineChange"/>
+              </a-col>
+              <a-col :span="18">
+                <a-range-picker v-model="filters.dateRange"  style="float: right" @change="changeRange"/>
+              </a-col>
+            </a-row>
             <bar-and-line :height="chart.height" :span="16"/>
-            <p style="text-align: center">
-              <a-checkbox-group v-model="checkBox.checkedList" :options="checkBox.options" @change="onChange"/>
-            </p>
+            <a-table
+              ref="table"
+              size="middle"
+              :scroll="{x:true}"
+              bordered
+              rowKey="id"
+              :columns="columns"
+              :dataSource="dataSource"
+              :pagination="ipagination"
+              :loading="loading"
+              class="j-table-force-nowrap"
+              @change="handleTableChange">
+            </a-table>
           </a-card>
         </a-layout-content>
       </a-layout>
@@ -50,68 +71,150 @@
 </template>
 
 <script>
-  import PageLayout from '@/components/page/PageLayout';
-  import BarAndLine from '@/components/chart/BarAndLine'
+    import PageLayout from '@/components/page/PageLayout';
+    import BarAndLine from '@/components/chart/BarAndLine'
+    import {mixinDevice} from '@/utils/mixin'
+    import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+    import moment from 'dayjs'
 
-
-  export default {
-    name: "DspRptCampaign",
-    components: {
-      BarAndLine,
-      PageLayout,
-    },
-    data() {
-      return {
-        menu:{
-          openKeys: ['common', 'resource'],
-          currentMenu: "日报",
+    export default {
+        name: "DspRptCampaign",
+        mixins: [JeecgListMixin, mixinDevice],
+        components: {
+            BarAndLine,
+            PageLayout,
         },
-        chart:{
-          height: 500,
+        data() {
+            return {
+                menu: {
+                    openKeys: ['common', 'resource'],
+                    currentMenu: "日报",
+                },
+                chart: {
+                    height: 500,
+                },
+                columns: [
+                    {
+                        title: '日报',
+                        align: "center",
+                        dataIndex: 'dim'
+                    },
+                    {
+                        title: '展示数',
+                        align: "center",
+                        dataIndex: 'pv'
+                    },
+                    {
+                        title: '点击数',
+                        align: "center",
+                        dataIndex: 'click'
+                    },
+                    {
+                        title: '点击率',
+                        align: "center",
+                        dataIndex: 'ctr'
+                    },
+                    {
+                        title: 'ECPM',
+                        align: "center",
+                        dataIndex: 'ecpm'
+                    },
+                    {
+                        title: 'ECPC',
+                        align: "center",
+                        dataIndex: 'ecpc'
+                    },
+                    {
+                        title: '消耗',
+                        align: "center",
+                        dataIndex: 'customerCost'
+                    },
+                    {
+                        title: '转化数',
+                        align: "center",
+                        dataIndex: 'cv'
+                    },
+                    {
+                        title: '转化成本',
+                        align: "center",
+                        dataIndex: 'platformCost'
+                    },
+                    {
+                        title: '转化率',
+                        align: "center",
+                        dataIndex: 'cvr'
+                    },
+                    {
+                        title: '深度转化数',
+                        align: "center",
+                        dataIndex: 'deepCv'
+                    },
+                    {
+                        title: '深度转化成本',
+                        align: "center",
+                        dataIndex: 'deepCvPlatformCost'
+                    },
+                    {
+                        title: '深度转化率',
+                        align: "center",
+                        dataIndex: 'deepCvr'
+                    }
+                ],
+                url: {
+                    list: '/dsp/dspRptCommonDaily/report'
+                },
+                filters: {
+                    campaignId: this.$route.params.campaignId,
+                    type: "日报",
+                    range: [moment().subtract(8, 'days').format('YYYY-MM-DD'), moment().subtract(1, 'days').format('YYYY-MM-DD')]
+                },
+                selector: {
+                    bar: 'pv',
+                    line:
+                        'click',
+                    options:
+                        [
+                            {value: 'pv', label: "展示"},
+                            {value: 'click', label: "点击"},
+                            {value: 'cv', label: "转化"},
+                            {value: 'deep_cv', label: "深度转化"},
+                            {value: 'ctr', label: "点击率"},
+                            {value: 'cvr', label: "转化率"},
+                            {value: 'deep_cvr', label: "深度转化率"}
+                        ]
+                }
+            }
         },
-        checkBox: {
-          checkedList: ['pv', 'click'],
-          options: [
-            {value: 'pv', label: "展示"},
-            {value: 'click', label: "点击"},
-            {value: 'cv', label: "转化"},
-            {value: 'deep_cv', label: "深度转化"},
-            {value: 'ctr', label: "点击率"},
-            {value: 'cvr', label: "转化率"},
-            {value: 'deep_cvr', label: "深度转化率"}
-          ],
+        watch: {
+            openKeys(val) {
+                console.log('openKeys', val);
+            },
         },
-      };
-    },
-    watch: {
-      openKeys(val) {
-        console.log('openKeys', val);
-      },
-    },
-    methods: {
-      handleClick(e) {
-        console.log('click', e);
-        this.menu.currentMenu = e.key
-      },
-      titleClick(e) {
-        console.log('titleClick', e);
-      },
-      onChange(checkedList) {
-        if (checkedList) {
-          if (checkedList.length > 2) {
-            this.checkBox.checkedList = checkedList.slice(-2)
-            this.$message.error("只能选择两个");
-          } else {
-            this.checkBox.checkedList = checkedList
-          }
-        }
-      },
-      changeRange(moments,strDate){
+        computed: {},
+        methods: {
+            handleClick(e) {
+                console.log('click', e);
+                this.menu.currentMenu = e.key;
+                this.table.columns[1].title = e.key;
+                this.table.columns[1].dataIndex = e.key;
+                this.selector.bar = 'pv';
+                this.selector.line = 'click';
+            },
+            titleClick(e) {
+                console.log('titleClick', e);
+            },
+            selectorBarChange(value, option) {
 
-      }
-    },
+            },
+            selectorLineChange(value, option) {
 
-  }
+            },
+            changeRange(moments, strDate) {
+
+            }
+        },
+
+    }
 </script>
 
 <style scoped>
