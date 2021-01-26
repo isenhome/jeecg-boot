@@ -3,7 +3,7 @@
     <a-layout>
       <a-layout-sider :span="6" style="background-color: #ffffff">
         <a-menu
-          :default-selected-keys="['日报']"
+          :default-selected-keys="['report_date']"
           :open-keys.sync="menu.openKeys"
           mode="inline"
           @click="handleClick"
@@ -50,6 +50,7 @@
               </a-col>
             </a-row>
             <bar-and-line :height="chart.height" :data-source="chartDataSource" :span="16"/>
+<!--            <v-chart :data="chart.chartData" :settings="chart.chartSettings"></v-chart>-->
             <a-table
               ref="table"
               size="middle"
@@ -94,12 +95,31 @@
                 },
                 chart: {
                     height: 500,
+                    chartSettings: {
+                        showLine: ['下单用户']
+                    },
+                    chartData: {
+                        columns: ['日期', '访问用户', '下单用户', '下单率'],
+                        rows: [
+                            {'日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32},
+                            {'日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26},
+                            {'日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76},
+                            {'日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49},
+                            {'日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323},
+                            {'日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78}
+                        ]
+                    }
                 },
                 columns: [
                     {
-                        title: '日报',
+                        title: '维度编号',
                         align: "center",
                         dataIndex: 'dim'
+                    },
+                    {
+                        title: '日报',
+                        align: "center",
+                        dataIndex: 'name'
                     },
                     {
                         title: '展示数',
@@ -137,9 +157,9 @@
                         dataIndex: 'cv'
                     },
                     {
-                        title: '转化成本',
+                        title: '单次转化成本',
                         align: "center",
-                        dataIndex: 'platformCost'
+                        dataIndex: 'ecv'
                     },
                     {
                         title: '转化率',
@@ -152,9 +172,9 @@
                         dataIndex: 'deepCv'
                     },
                     {
-                        title: '深度转化成本',
+                        title: '单次深度转化成本',
                         align: "center",
-                        dataIndex: 'deepCvPlatformCost'
+                        dataIndex: 'edeepCv'
                     },
                     {
                         title: '深度转化率',
@@ -199,8 +219,15 @@
         },
         watch: {
             dataSource(newVal, oldVal) {
-                console.log('newVal',newVal)
-                console.log('oldVal',oldVal)
+                console.log('newVal', newVal)
+                console.log('oldVal', oldVal)
+                this.chartDataSource = []
+                for (let i in newVal) {
+                    let item = newVal[i]
+                    this.chartDataSource.push({type: item.name, bar: item["pv"], line: item["click"]})
+                }
+                console.log("chartDataSource", this.chartDataSource)
+
             }
         },
         computed: {},
@@ -209,7 +236,7 @@
                 console.log('click', e);
                 let text = e.item.title
                 this.menu.currentMenu = text;
-                this.columns[1].title = text;
+                this.columns[0].title = text;
                 this.selector.bar = 'pv';
                 this.selector.line = 'click';
                 this.filters.dim = e.key;
@@ -218,11 +245,29 @@
             titleClick(e) {
                 console.log('titleClick', e);
             },
-            selectorBarChange(value, option) {
-
+            selectorBarChange(value) {
+                this.selector.bar = value
+                this.chartDataSource = []
+                for (let i in this.dataSource) {
+                    let item = this.dataSource[i]
+                    this.chartDataSource.push({
+                        type: item.name,
+                        bar: item[this.selector.bar],
+                        line: item[this.selector.line]
+                    })
+                }
             },
             selectorLineChange(value, option) {
-
+                this.selector.line = value
+                this.chartDataSource = []
+                for (let i in this.dataSource) {
+                    let item = this.dataSource[i]
+                    this.chartDataSource.push({
+                        type: item.name,
+                        bar: item[this.selector.bar],
+                        line: item[this.selector.line]
+                    })
+                }
             },
             changeRange(moments, strDate) {
                 this.filters.start = strDate[0]

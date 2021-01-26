@@ -1,13 +1,13 @@
 <template>
-  <div :style="{ padding: '0 50px 32px 0',width:'90%'}">
+  <div :style="{ padding: '0 50px 32px 0'}">
     <h4 :style="{ marginBottom: '20px' }">{{ title }}</h4>
     <v-chart ref="chart" :forceFit="true" judge-width :height="height" :data="data" :scale="scale" :padding="padding"
              :onClick="handleClick" >
       <v-tooltip/>
       <v-legend/>
       <v-axis/>
-      <v-bar position="type*bar"/>
-      <v-line position="type*line" color="#2fc25b" :size="3"/>
+      <v-bar position="type*bar" />
+      <v-line position="type*line" color="#2fc25b" :size="3" />
     </v-chart>
   </div>
 </template>
@@ -62,7 +62,6 @@
       let that = this;
       setTimeout(() => {
         console.log('that.$refs.chart', that.$refs.chart)
-        // that.chartWidth = that.$refs.chart.offsetWidth + "px"
       }, 100)
     },
     created() {

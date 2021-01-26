@@ -4,42 +4,42 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-item label="reportDate" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="报告日期" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <j-date placeholder="请选择reportDate" v-decorator="['reportDate']" :trigger-change="true" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="campaignId" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="订单编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['campaignId']" placeholder="请输入campaignId"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="strategyId" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="策略编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['strategyId']" placeholder="请输入strategyId"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="creativeId" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="创意编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['creativeId']" placeholder="请输入creativeId"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="platformId" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="平台编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['platformId']" placeholder="请输入platformId"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="adspaceId" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="广告位编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input v-decorator="['adspaceId']" placeholder="请输入adspaceId"  ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="pv" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="展示" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input-number v-decorator="['pv']" placeholder="请输入pv" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="click" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-form-item label="点击" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input-number v-decorator="['click']" placeholder="请输入click" style="width: 100%" />
             </a-form-item>
           </a-col>
@@ -56,11 +56,6 @@
           <a-col :span="24">
             <a-form-item label="消耗" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-input-number v-decorator="['customerCost']" placeholder="请输入消耗" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="成本" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['platformCost']" placeholder="请输入成本" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">

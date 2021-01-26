@@ -132,27 +132,27 @@
             }
           },
           {
-            title:'订单',
+            title:'订单编号',
             align:"center",
             dataIndex: 'campaignId'
           },
           {
-            title:'策略',
+            title:'策略编号',
             align:"center",
             dataIndex: 'strategyId'
           },
           {
-            title:'创意',
+            title:'创意编号',
             align:"center",
             dataIndex: 'creativeId'
           },
           {
-            title:'平台',
+            title:'平台编号',
             align:"center",
             dataIndex: 'platformId'
           },
           {
-            title:'广告位',
+            title:'广告位编号',
             align:"center",
             dataIndex: 'adspaceId'
           },
@@ -180,11 +180,6 @@
             title:'消耗',
             align:"center",
             dataIndex: 'customerCost'
-          },
-          {
-            title:'成本',
-            align:"center",
-            dataIndex: 'platformCost'
           },
           {
             title: '操作',
@@ -231,7 +226,6 @@
         fieldList.push({type:'int',value:'cv',text:'转化'})
         fieldList.push({type:'int',value:'deepCv',text:'深度转化'})
         fieldList.push({type:'number',value:'customerCost',text:'消耗'})
-        fieldList.push({type:'number',value:'platformCost',text:'成本'})
         this.superFieldList = fieldList
       }
     }

@@ -12,6 +12,7 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspRptCommonDaily;
+import org.jeecg.modules.dsp.entity.DspRptResult;
 import org.jeecg.modules.dsp.service.IDspRptCommonDailyService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -26,6 +27,7 @@ import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.view.JeecgEntityExcelView;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -54,19 +56,26 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
      * 报表查询
      *
      * @param campaignId 编号
-	 * @param dim 维度
-	 * @param range 时间范围
-     * @param req
+     * @param dim        维度
+     * @param start      开始时间
+     * @param end        结束时间
      * @return
      */
     @AutoLog(value = "dsp_rpt_common_daily-报告查询")
     @ApiOperation(value = "dsp_rpt_common_daily-报告查询", notes = "dsp_rpt_common_daily-报告查询")
     @GetMapping(value = "/report")
-    public Result<?> report(String campaignId, String dim, Date[] range, HttpServletRequest req) {
-//        QueryWrapper<DspRptCommonDaily> queryWrapper = QueryGenerator.initQueryWrapper(dspRptCommonDaily, req.getParameterMap());
-//        List<DspRptCommonDaily> list = dspRptCommonDailyService.list(queryWrapper);
-        List<DspRptCommonDaily> list = new ArrayList<>();
-        return Result.OK(list);
+    public Result<?> report(
+            String campaignId,
+            String dim,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end
+    ) {
+        List<DspRptCommonDaily> list = dspRptCommonDailyService.getReport(campaignId, dim, start, end);
+        List<DspRptResult> result = new ArrayList<>();
+        for (DspRptCommonDaily item : list) {
+            result.add(new DspRptResult(item));
+        }
+        return Result.OK(result);
     }
 
     /**
