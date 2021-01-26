@@ -13,19 +13,26 @@
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
       <!-- 高级查询区域 -->
-      <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
+      <j-super-query :fieldList="superFieldList" ref="superQueryModal"
+                     @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
+          <a-menu-item key="1" @click="batchDel">
+            <a-icon type="delete"/>
+            删除
+          </a-menu-item>
         </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
+        <a-button style="margin-left: 8px"> 批量操作
+          <a-icon type="down"/>
+        </a-button>
       </a-dropdown>
     </div>
 
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
+        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -48,7 +55,8 @@
         </template>
         <template slot="imgSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="" style="max-width:80px;font-size: 12px;font-style: italic;"/>
+          <img v-else :src="getImgView(text)" height="25px" alt=""
+               style="max-width:80px;font-size: 12px;font-style: italic;"/>
         </template>
         <template slot="fileSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
@@ -66,9 +74,9 @@
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 
-          <a-divider type="vertical" />
+          <a-divider type="vertical"/>
           <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
+            <a class="ant-dropdown-link">更多 <a-icon type="down"/></a>
             <a-menu slot="overlay">
               <a-menu-item>
                 <a @click="handleDetail(record)">详情</a>
@@ -91,126 +99,122 @@
 
 <script>
 
-  import '@/assets/less/TableExpand.less'
-  import { mixinDevice } from '@/utils/mixin'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import DspAdvertiserModal from './modules/DspAdvertiserModal'
-  import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
+    import '@/assets/less/TableExpand.less'
+    import {mixinDevice} from '@/utils/mixin'
+    import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+    import DspAdvertiserModal from './modules/DspAdvertiserModal'
+    import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
-  export default {
-    name: 'DspAdvertiserList',
-    mixins:[JeecgListMixin, mixinDevice],
-    components: {
-      DspAdvertiserModal,
-      JSuperQuery,
-    },
-    data () {
-      return {
-        description: 'dsp_advertiser管理页面',
-        // 表头
-        columns: [
-          {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-          },
-          {
-            title:'广告主',
-            align:"center",
-            dataIndex: 'name'
-          },
-          {
-            title:'公司名称',
-            align:"center",
-            dataIndex: 'company'
-          },
-          {
-            title:'简介',
-            align:"center",
-            dataIndex: 'intro'
-          },
-          {
-            title:'营业执照',
-            align:"center",
-            dataIndex: 'license'
-          },
-          {
-            title:'ICP',
-            align:"center",
-            dataIndex: 'icp'
-          },
-          {
-            title:'联系人',
-            align:"center",
-            dataIndex: 'contactName'
-          },
-          {
-            title:'手机',
-            align:"center",
-            dataIndex: 'contactPhone'
-          },
-          {
-            title:'邮箱',
-            align:"center",
-            dataIndex: 'contactMail'
-          },
-          {
-            title: '操作',
-            dataIndex: 'action',
-            align:"center",
-            fixed:"right",
-            width:147,
-            scopedSlots: { customRender: 'action' }
-          }
-        ],
-        url: {
-          list: "/dsp/dspAdvertiser/list",
-          delete: "/dsp/dspAdvertiser/delete",
-          deleteBatch: "/dsp/dspAdvertiser/deleteBatch",
-          exportXlsUrl: "/dsp/dspAdvertiser/exportXls",
-          importExcelUrl: "dsp/dspAdvertiser/importExcel",
-
+    export default {
+        name: 'DspAdvertiserList',
+        mixins: [JeecgListMixin, mixinDevice],
+        components: {
+            DspAdvertiserModal,
+            JSuperQuery,
         },
-        dictOptions:{},
-        superFieldList:[],
-      }
-    },
-    created() {
-    this.getSuperFieldList();
-    },
-    computed: {
-      importExcelUrl: function(){
-        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-      },
-    },
-    methods: {
-      initDictConfig(){
-      },
-      getSuperFieldList(){
-        let fieldList=[];
-        // fieldList.push({type:'string',value:'createBy',text:'创建人'})
-        // fieldList.push({type:'date',value:'createTime',text:'创建日期'})
-        // fieldList.push({type:'string',value:'updateBy',text:'更新人'})
-        // fieldList.push({type:'date',value:'updateTime',text:'更新日期'})
-        // fieldList.push({type:'string',value:'sysOrgCode',text:'所属部门'})
-        // fieldList.push({type:'int',value:'status',text:'状态 1:有效,-1:删除,'})
-        fieldList.push({type:'string',value:'name',text:'广告主'})
-        fieldList.push({type:'string',value:'company',text:'公司名称'})
-        fieldList.push({type:'string',value:'intro',text:'简介'})
-        fieldList.push({type:'string',value:'license',text:'营业执照'})
-        fieldList.push({type:'string',value:'icp',text:'ICP'})
-        fieldList.push({type:'string',value:'contactName',text:'联系人'})
-        fieldList.push({type:'string',value:'contactPhone',text:'手机'})
-        fieldList.push({type:'string',value:'contactMail',text:'邮箱'})
-        this.superFieldList = fieldList
-      }
+        data() {
+            return {
+                description: 'dsp_advertiser管理页面',
+                // 表头
+                columns: [
+                    {
+                        title: '编号',
+                        dataIndex: 'id',
+                        key: 'rowIndex',
+                        align: "center"
+                    },
+                    {
+                        title: '广告主',
+                        align: "center",
+                        dataIndex: 'name'
+                    },
+                    {
+                        title: '公司名称',
+                        align: "center",
+                        dataIndex: 'company'
+                    },
+                    {
+                        title: '简介',
+                        align: "center",
+                        dataIndex: 'intro'
+                    },
+                    {
+                        title: '营业执照',
+                        align: "center",
+                        dataIndex: 'license'
+                    },
+                    {
+                        title: 'ICP',
+                        align: "center",
+                        dataIndex: 'icp'
+                    },
+                    {
+                        title: '联系人',
+                        align: "center",
+                        dataIndex: 'contactName'
+                    },
+                    {
+                        title: '手机',
+                        align: "center",
+                        dataIndex: 'contactPhone'
+                    },
+                    {
+                        title: '邮箱',
+                        align: "center",
+                        dataIndex: 'contactMail'
+                    },
+                    {
+                        title: '操作',
+                        dataIndex: 'action',
+                        align: "center",
+                        fixed: "right",
+                        width: 147,
+                        scopedSlots: {customRender: 'action'}
+                    }
+                ],
+                url: {
+                    list: "/dsp/dspAdvertiser/list",
+                    delete: "/dsp/dspAdvertiser/delete",
+                    deleteBatch: "/dsp/dspAdvertiser/deleteBatch",
+                    exportXlsUrl: "/dsp/dspAdvertiser/exportXls",
+                    importExcelUrl: "dsp/dspAdvertiser/importExcel",
+
+                },
+                dictOptions: {},
+                superFieldList: [],
+            }
+        },
+        created() {
+            this.getSuperFieldList();
+        },
+        computed: {
+            importExcelUrl: function () {
+                return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
+            },
+        },
+        methods: {
+            initDictConfig() {
+            },
+            getSuperFieldList() {
+                let fieldList = [];
+                // fieldList.push({type:'string',value:'createBy',text:'创建人'})
+                // fieldList.push({type:'date',value:'createTime',text:'创建日期'})
+                // fieldList.push({type:'string',value:'updateBy',text:'更新人'})
+                // fieldList.push({type:'date',value:'updateTime',text:'更新日期'})
+                // fieldList.push({type:'string',value:'sysOrgCode',text:'所属部门'})
+                // fieldList.push({type:'int',value:'status',text:'状态 1:有效,-1:删除,'})
+                fieldList.push({type: 'string', value: 'name', text: '广告主'})
+                fieldList.push({type: 'string', value: 'company', text: '公司名称'})
+                fieldList.push({type: 'string', value: 'intro', text: '简介'})
+                fieldList.push({type: 'string', value: 'license', text: '营业执照'})
+                fieldList.push({type: 'string', value: 'icp', text: 'ICP'})
+                fieldList.push({type: 'string', value: 'contactName', text: '联系人'})
+                fieldList.push({type: 'string', value: 'contactPhone', text: '手机'})
+                fieldList.push({type: 'string', value: 'contactMail', text: '邮箱'})
+                this.superFieldList = fieldList
+            }
+        }
     }
-  }
 </script>
 <style scoped>
   @import '~@assets/less/common.less';

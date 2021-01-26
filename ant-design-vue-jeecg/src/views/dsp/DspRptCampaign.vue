@@ -10,25 +10,25 @@
         >
           <a-sub-menu key="common" @titleClick="titleClick">
             <span slot="title"><span>基本报告</span></span>
-            <a-menu-item key="日报">
+            <a-menu-item key="report_date" title="日报">
               日报
             </a-menu-item>
-            <a-menu-item key="策略">
+            <a-menu-item key="strategy_id" title="策略">
               策略
             </a-menu-item>
-            <a-menu-item key="创意">
+            <a-menu-item key="creative_id" title="创意">
               创意
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="resource" @titleClick="titleClick">
             <span slot="title"><span>资源报告</span></span>
-            <a-menu-item key="平台">
+            <a-menu-item key="platform_id" title="平台">
               平台
             </a-menu-item>
-            <a-menu-item key="媒体">
+            <a-menu-item key="media_id" title="媒体">
               媒体
             </a-menu-item>
-            <a-menu-item key="广告位">
+            <a-menu-item key="adspace_id" title="广告位">
               广告位
             </a-menu-item>
           </a-sub-menu>
@@ -46,10 +46,10 @@
                           @change="selectorLineChange"/>
               </a-col>
               <a-col :span="18">
-                <a-range-picker v-model="filters.dateRange"  style="float: right" @change="changeRange"/>
+                <a-range-picker v-model="range" style="float: right" @change="changeRange"/>
               </a-col>
             </a-row>
-            <bar-and-line :height="chart.height" :span="16"/>
+            <bar-and-line :height="chart.height" :data-source="chartDataSource" :span="16"/>
             <a-table
               ref="table"
               size="middle"
@@ -77,6 +77,8 @@
     import {JeecgListMixin} from '@/mixins/JeecgListMixin'
     import moment from 'dayjs'
 
+    const range_start = moment().subtract(8, 'days').format('YYYY-MM-DD')
+    const range_end = moment().subtract(1, 'days').format('YYYY-MM-DD')
     export default {
         name: "DspRptCampaign",
         mixins: [JeecgListMixin, mixinDevice],
@@ -163,15 +165,16 @@
                 url: {
                     list: '/dsp/dspRptCommonDaily/report'
                 },
+                range: [range_start, range_end],
                 filters: {
                     campaignId: this.$route.params.campaignId,
-                    type: "日报",
-                    range: [moment().subtract(8, 'days').format('YYYY-MM-DD'), moment().subtract(1, 'days').format('YYYY-MM-DD')]
+                    dim: "report_date",
+                    start: range_start,
+                    end: range_end
                 },
                 selector: {
                     bar: 'pv',
-                    line:
-                        'click',
+                    line: 'click',
                     options:
                         [
                             {value: 'pv', label: "展示"},
@@ -182,23 +185,35 @@
                             {value: 'cvr', label: "转化率"},
                             {value: 'deep_cvr', label: "深度转化率"}
                         ]
-                }
+                },
+                chartDataSource: [
+                    {type: '10:10', bar: 200, line: 1000},
+                    {type: '10:15', bar: 600, line: 1000},
+                    {type: '10:20', bar: 200, line: 1000},
+                    {type: '10:25', bar: 900, line: 1000},
+                    {type: '10:30', bar: 200, line: 1000},
+                    {type: '10:35', bar: 200, line: 1000},
+                    {type: '10:40', bar: 100, line: 1000}
+                ]
             }
         },
         watch: {
-            openKeys(val) {
-                console.log('openKeys', val);
-            },
+            dataSource(newVal, oldVal) {
+                console.log('newVal',newVal)
+                console.log('oldVal',oldVal)
+            }
         },
         computed: {},
         methods: {
             handleClick(e) {
                 console.log('click', e);
-                this.menu.currentMenu = e.key;
-                this.table.columns[1].title = e.key;
-                this.table.columns[1].dataIndex = e.key;
+                let text = e.item.title
+                this.menu.currentMenu = text;
+                this.columns[1].title = text;
                 this.selector.bar = 'pv';
                 this.selector.line = 'click';
+                this.filters.dim = e.key;
+                this.loadData()
             },
             titleClick(e) {
                 console.log('titleClick', e);
@@ -210,10 +225,14 @@
 
             },
             changeRange(moments, strDate) {
-
+                this.filters.start = strDate[0]
+                this.filters.end = strDate[1]
+                this.loadData()
             }
         },
+        created() {
 
+        }
     }
 </script>
 

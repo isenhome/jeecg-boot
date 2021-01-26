@@ -120,14 +120,10 @@
                 // 表头
                 columns: [
                     {
-                        title: '#',
-                        dataIndex: '',
+                        title: '编号',
+                        dataIndex: 'id',
                         key: 'rowIndex',
-                        width: 60,
-                        align: "center",
-                        customRender: function (t, r, index) {
-                            return parseInt(index) + 1;
-                        }
+                        align: "center"
                     },
                     {
                         title: '媒体名称',

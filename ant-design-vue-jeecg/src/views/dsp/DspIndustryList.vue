@@ -116,6 +116,12 @@
                 // 表头
                 columns: [
                     {
+                        title: '编号',
+                        dataIndex: 'id',
+                        key: 'rowIndex',
+                        align: "center"
+                    },
+                    {
                         title: '名称',
                         align: "left",
                         dataIndex: 'title'
