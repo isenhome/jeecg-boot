@@ -49,8 +49,8 @@
                 <a-range-picker v-model="range" style="float: right" @change="changeRange"/>
               </a-col>
             </a-row>
-            <bar-and-line :height="chart.height" :data-source="chartDataSource" :span="16"/>
-<!--            <v-chart :data="chart.chartData" :settings="chart.chartSettings"></v-chart>-->
+            <!--            <bar-and-line :height="chart.height" :data-source="chartDataSource" :span="16"/>-->
+            <ve-histogram ref="chart" :data="chart.chartData" :settings="chart.chartSettings"></ve-histogram>
             <a-table
               ref="table"
               size="middle"
@@ -72,7 +72,9 @@
 </template>
 
 <script>
-    import PageLayout from '@/components/page/PageLayout';
+    import 'v-charts'
+    import VeHistogram from 'v-charts/lib/histogram.common'
+    import PageLayout from '@/components/page/PageLayout'
     import BarAndLine from '@/components/chart/BarAndLine'
     import {mixinDevice} from '@/utils/mixin'
     import {JeecgListMixin} from '@/mixins/JeecgListMixin'
@@ -86,6 +88,7 @@
         components: {
             BarAndLine,
             PageLayout,
+            VeHistogram
         },
         data() {
             return {
@@ -95,19 +98,37 @@
                 },
                 chart: {
                     height: 500,
+                    extend: {
+                        series: {
+                            label: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    },
                     chartSettings: {
-                        showLine: ['下单用户']
+                        labelMap: {
+                            'dim': '维度编号',
+                            'name': '维度名称',
+                            'pv': '展示数',
+                            'click': '点击数',
+                            'ctr': '展示率',
+                            'ecpm': 'ECPM',
+                            'ecpc': 'ECPC',
+                            'customerCost': '消耗',
+                            'cv': '转化次数',
+                            'cvr': '转化率',
+                            'ecv': '单次转化成本',
+                            'deepCv': '深度转化数',
+                            'edeepCv': '单次深度转化成本',
+                            'deepCvr': '深度转化率'
+                        },
+                        showLine: ['click']
+
                     },
                     chartData: {
                         columns: ['日期', '访问用户', '下单用户', '下单率'],
-                        rows: [
-                            {'日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32},
-                            {'日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26},
-                            {'日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76},
-                            {'日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49},
-                            {'日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323},
-                            {'日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78}
-                        ]
+                        rows: []
                     }
                 },
                 columns: [
@@ -195,26 +216,22 @@
                 selector: {
                     bar: 'pv',
                     line: 'click',
-                    options:
-                        [
-                            {value: 'pv', label: "展示"},
-                            {value: 'click', label: "点击"},
-                            {value: 'cv', label: "转化"},
-                            {value: 'deep_cv', label: "深度转化"},
-                            {value: 'ctr', label: "点击率"},
-                            {value: 'cvr', label: "转化率"},
-                            {value: 'deep_cvr', label: "深度转化率"}
-                        ]
+                    options: [
+                        {value: 'pv', label: '展示数'},
+                        {value: 'click', label: '点击数'},
+                        {value: 'ctr', label: '展示率'},
+                        {value: 'ecpm', label: 'ECPM'},
+                        {value: 'ecpc', label: 'ECPC'},
+                        {value: 'customerCost', label: '消耗'},
+                        {value: 'cv', label: '转化次数'},
+                        {value: 'cvr', label: '转化率'},
+                        {value: 'ecv', label: '单次转化成本'},
+                        {value: 'deepCv', label: '深度转化数'},
+                        {value: 'edeepCv', label: '单次深度转化成本'},
+                        {value: 'deepCvr', label: '深度转化率'}
+                    ]
                 },
-                chartDataSource: [
-                    {type: '10:10', bar: 200, line: 1000},
-                    {type: '10:15', bar: 600, line: 1000},
-                    {type: '10:20', bar: 200, line: 1000},
-                    {type: '10:25', bar: 900, line: 1000},
-                    {type: '10:30', bar: 200, line: 1000},
-                    {type: '10:35', bar: 200, line: 1000},
-                    {type: '10:40', bar: 100, line: 1000}
-                ]
+                chartDataSource: []
             }
         },
         watch: {
@@ -222,12 +239,17 @@
                 console.log('newVal', newVal)
                 console.log('oldVal', oldVal)
                 this.chartDataSource = []
+                this.chart.chartSettings.showLine = ['click']
+                this.chart.chartData.columns = ['name', 'pv', 'click']
+                this.chart.chartData.rows = []
                 for (let i in newVal) {
                     let item = newVal[i]
-                    this.chartDataSource.push({type: item.name, bar: item["pv"], line: item["click"]})
+                    this.chart.chartData.rows.push(item)
+                    // this.chartDataSource.push({type: item.name, bar: item["pv"], line: item["click"]})
                 }
-                console.log("chartDataSource", this.chartDataSource)
-
+                this.$refs.chart.echarts.resize()
+                console.log(this.$refs.chart)
+                // console.log("chartDataSource", this.chartDataSource)
             }
         },
         computed: {},
@@ -247,27 +269,12 @@
             },
             selectorBarChange(value) {
                 this.selector.bar = value
-                this.chartDataSource = []
-                for (let i in this.dataSource) {
-                    let item = this.dataSource[i]
-                    this.chartDataSource.push({
-                        type: item.name,
-                        bar: item[this.selector.bar],
-                        line: item[this.selector.line]
-                    })
-                }
+                this.$set(this.chart.chartData.columns, 1, value)
             },
             selectorLineChange(value, option) {
                 this.selector.line = value
-                this.chartDataSource = []
-                for (let i in this.dataSource) {
-                    let item = this.dataSource[i]
-                    this.chartDataSource.push({
-                        type: item.name,
-                        bar: item[this.selector.bar],
-                        line: item[this.selector.line]
-                    })
-                }
+                this.$set(this.chart.chartData.columns, 2, value)
+                this.$set(this.chart.chartSettings.showLine, 0, value)
             },
             changeRange(moments, strDate) {
                 this.filters.start = strDate[0]
