@@ -40,5 +40,8 @@ public class DspRptCommonDailyServiceImpl extends ServiceImpl<DspRptCommonDailyM
         return new ArrayList<>();
     }
 
-
+    @Override
+    public List<DspRptCommonDaily> getReport(Date start, Date end) {
+        return this.baseMapper.queryAllReportDimByDate(start, end);
+    }
 }

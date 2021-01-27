@@ -269,9 +269,12 @@
         })
       },
       loginSuccess () {
-        this.$router.push({ path: "/dashboard/analysis" }).catch(()=>{
-          console.log('登录跳转首页出错,这个错误从哪里来的')
-        })
+          this.$router.push({ path: "/dsp/DspDashboard" }).catch(()=>{
+              console.log('登录跳转首页出错,这个错误从哪里来的')
+          })
+        // this.$router.push({ path: "/dashboard/analysis" }).catch(()=>{
+        //   console.log('登录跳转首页出错,这个错误从哪里来的')
+        // })
         this.$notification.success({
           message: '欢迎',
           description: `${timeFix()}，欢迎回来`,

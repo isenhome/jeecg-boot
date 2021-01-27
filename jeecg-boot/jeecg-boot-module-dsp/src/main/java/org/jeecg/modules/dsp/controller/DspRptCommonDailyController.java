@@ -51,6 +51,27 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     @Autowired
     private IDspRptCommonDailyService dspRptCommonDailyService;
 
+    /**
+     * 报表查询
+     *
+     * @param start      开始时间
+     * @param end        结束时间
+     * @return
+     */
+    @AutoLog(value = "dsp_rpt_common_daily-报告查询")
+    @ApiOperation(value = "dsp_rpt_common_daily-报告查询", notes = "dsp_rpt_common_daily-报告查询")
+    @GetMapping(value = "/allReport")
+    public Result<?> report(
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end
+    ) {
+        List<DspRptCommonDaily> list = dspRptCommonDailyService.getReport(start, end);
+        List<DspRptResult> result = new ArrayList<>();
+        for (DspRptCommonDaily item : list) {
+            result.add(new DspRptResult(item));
+        }
+        return Result.OK(result);
+    }
 
     /**
      * 报表查询

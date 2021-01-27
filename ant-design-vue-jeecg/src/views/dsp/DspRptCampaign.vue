@@ -82,6 +82,8 @@
 
     const range_start = moment().subtract(8, 'days').format('YYYY-MM-DD')
     const range_end = moment().subtract(1, 'days').format('YYYY-MM-DD')
+    const showLine = ['click']
+    const columns = ['name', 'pv', 'click']
     export default {
         name: "DspRptCampaign",
         mixins: [JeecgListMixin, mixinDevice],
@@ -97,15 +99,6 @@
                     currentMenu: "日报",
                 },
                 chart: {
-                    height: 500,
-                    extend: {
-                        series: {
-                            label: {
-                                show: true,
-                                position: 'top'
-                            }
-                        }
-                    },
                     chartSettings: {
                         labelMap: {
                             'dim': '维度编号',
@@ -123,11 +116,10 @@
                             'edeepCv': '单次深度转化成本',
                             'deepCvr': '深度转化率'
                         },
-                        showLine: ['click']
-
+                        showLine: showLine
                     },
                     chartData: {
-                        columns: ['日期', '访问用户', '下单用户', '下单率'],
+                        columns: columns,
                         rows: []
                     }
                 },
@@ -239,17 +231,13 @@
                 console.log('newVal', newVal)
                 console.log('oldVal', oldVal)
                 this.chartDataSource = []
-                this.chart.chartSettings.showLine = ['click']
-                this.chart.chartData.columns = ['name', 'pv', 'click']
                 this.chart.chartData.rows = []
                 for (let i in newVal) {
                     let item = newVal[i]
                     this.chart.chartData.rows.push(item)
-                    // this.chartDataSource.push({type: item.name, bar: item["pv"], line: item["click"]})
                 }
                 this.$refs.chart.echarts.resize()
                 console.log(this.$refs.chart)
-                // console.log("chartDataSource", this.chartDataSource)
             }
         },
         computed: {},
@@ -259,8 +247,6 @@
                 let text = e.item.title
                 this.menu.currentMenu = text;
                 this.columns[0].title = text;
-                this.selector.bar = 'pv';
-                this.selector.line = 'click';
                 this.filters.dim = e.key;
                 this.loadData()
             },

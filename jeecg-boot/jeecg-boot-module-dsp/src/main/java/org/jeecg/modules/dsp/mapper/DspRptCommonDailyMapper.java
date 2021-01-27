@@ -24,6 +24,22 @@ public interface DspRptCommonDailyMapper extends BaseMapper<DspRptCommonDaily> {
             "       sum(a.deep_cv) AS deep_cv,\n" +
             "       sum(a.customer_cost) AS customer_cost\n" +
             "FROM dsp_rpt_common_daily a\n" +
+            "WHERE a.report_date >= #{start}\n" +
+            "  AND a.report_date <= #{end}\n" +
+            "GROUP BY a.report_date")
+    List<DspRptCommonDaily> queryAllReportDimByDate(
+            @Param("start") Date start,
+            @Param("end") Date end
+    );
+
+    @Select("SELECT a.report_date AS dim,\n" +
+            "       a.report_date AS dim_name,\n" +
+            "       sum(a.pv) AS pv,\n" +
+            "       sum(a.click) AS click,\n" +
+            "       sum(a.cv) AS cv,\n" +
+            "       sum(a.deep_cv) AS deep_cv,\n" +
+            "       sum(a.customer_cost) AS customer_cost\n" +
+            "FROM dsp_rpt_common_daily a\n" +
             "WHERE a.campaign_id = #{campaignId}\n" +
             "  AND a.report_date >= #{start}\n" +
             "  AND a.report_date <= #{end}\n" +

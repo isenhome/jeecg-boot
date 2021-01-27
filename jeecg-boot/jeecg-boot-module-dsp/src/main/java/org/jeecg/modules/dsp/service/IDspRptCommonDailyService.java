@@ -16,4 +16,6 @@ public interface IDspRptCommonDailyService extends IService<DspRptCommonDaily> {
 
     List<DspRptCommonDaily> getReport(String campaignId, String dim, Date start, Date end);
 
+    List<DspRptCommonDaily> getReport(Date start, Date end);
+
 }
