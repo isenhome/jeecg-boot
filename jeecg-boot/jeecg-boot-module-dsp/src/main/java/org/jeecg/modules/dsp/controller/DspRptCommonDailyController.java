@@ -13,6 +13,7 @@ import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspRptCommonDaily;
 import org.jeecg.modules.dsp.entity.DspRptResult;
+import org.jeecg.modules.dsp.service.IDspAdvertiserService;
 import org.jeecg.modules.dsp.service.IDspRptCommonDailyService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -51,11 +52,39 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     @Autowired
     private IDspRptCommonDailyService dspRptCommonDailyService;
 
+    @Autowired
+    private IDspAdvertiserService advertiserService;
+
+    /**
+     * 汇总查询
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return
+     */
+    @AutoLog(value = "dsp_rpt_common_daily-报告查询")
+    @ApiOperation(value = "dsp_rpt_common_daily-报告查询", notes = "dsp_rpt_common_daily-报告查询")
+    @GetMapping(value = "/totalReport")
+    public Result<?> reportTotal(
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end
+    ) {
+        DspRptCommonDaily item = dspRptCommonDailyService.getTotalReport(start, end);
+        DspRptResult result = new DspRptResult(item);
+        int customer = advertiserService.count();
+        Map<String, Object> map = new HashMap<>();
+        map.put("customerCost", result.getCustomerCost());
+        map.put("cv", result.getCv());
+        map.put("ecv", result.getEcv());
+        map.put("customer", customer);
+        return Result.OK(map);
+    }
+
     /**
      * 报表查询
      *
-     * @param start      开始时间
-     * @param end        结束时间
+     * @param start 开始时间
+     * @param end   结束时间
      * @return
      */
     @AutoLog(value = "dsp_rpt_common_daily-报告查询")

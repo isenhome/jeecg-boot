@@ -105,7 +105,7 @@
                             'name': '维度名称',
                             'pv': '展示数',
                             'click': '点击数',
-                            'ctr': '展示率',
+                            'ctr': '点击率',
                             'ecpm': 'ECPM',
                             'ecpc': 'ECPC',
                             'customerCost': '消耗',

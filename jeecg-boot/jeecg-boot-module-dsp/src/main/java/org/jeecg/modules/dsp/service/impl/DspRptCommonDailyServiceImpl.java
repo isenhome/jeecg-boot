@@ -44,4 +44,9 @@ public class DspRptCommonDailyServiceImpl extends ServiceImpl<DspRptCommonDailyM
     public List<DspRptCommonDaily> getReport(Date start, Date end) {
         return this.baseMapper.queryAllReportDimByDate(start, end);
     }
+
+    @Override
+    public DspRptCommonDaily getTotalReport(Date start, Date end) {
+        return this.baseMapper.queryAllReport(start, end);
+    }
 }
