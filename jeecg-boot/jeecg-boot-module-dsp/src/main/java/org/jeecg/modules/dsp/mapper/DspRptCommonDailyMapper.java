@@ -17,6 +17,17 @@ import org.springframework.data.repository.query.Param;
  */
 public interface DspRptCommonDailyMapper extends BaseMapper<DspRptCommonDaily> {
 
+
+    @Select("select count(distinct b.advertiser_id) as n \n" +
+            "from dsp_rpt_common_daily a \n" +
+            "left join dsp_campaign b on a.campaign_id = b.id\n" +
+            "where a.report_date >= #{start} AND a.report_date <= #{end}")
+    int queryAdvertiserCount(
+            @Param("start") Date start,
+            @Param("end") Date end
+    );
+
+
     @Select("SELECT sum(a.pv) AS pv,\n" +
             "       sum(a.click) AS click,\n" +
             "       sum(a.cv) AS cv,\n" +

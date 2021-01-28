@@ -20,7 +20,6 @@ import java.util.List;
 @Service
 public class DspRptCommonDailyServiceImpl extends ServiceImpl<DspRptCommonDailyMapper, DspRptCommonDaily> implements IDspRptCommonDailyService {
 
-
     @Override
     public List<DspRptCommonDaily> getReport(String campaignId, String dim, Date start, Date end) {
         switch (dim) {
@@ -48,5 +47,10 @@ public class DspRptCommonDailyServiceImpl extends ServiceImpl<DspRptCommonDailyM
     @Override
     public DspRptCommonDaily getTotalReport(Date start, Date end) {
         return this.baseMapper.queryAllReport(start, end);
+    }
+
+    @Override
+    public int getAdvertiserCount(Date start, Date end) {
+        return this.baseMapper.queryAdvertiserCount(start, end);
     }
 }

@@ -21,4 +21,6 @@ public interface IDspRptCommonDailyService extends IService<DspRptCommonDaily> {
 
     DspRptCommonDaily getTotalReport(Date start, Date end);
 
+    int getAdvertiserCount(Date start, Date end);
+
 }

@@ -1,56 +1,51 @@
 package org.jeecg.modules.dsp.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
-import org.springframework.format.annotation.NumberFormat;
+import org.jeecg.modules.dsp.utils.NumberFormat2;
+import org.jeecg.modules.dsp.utils.NumberFormat4;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-@JsonSerialize
 public class DspRptResult implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 维度
      */
-    @JSONField
     private String dim;
     /**
      * 展示名称
      */
-    @JSONField
     private String name;
     /**
      * 展示数
      */
-    @JSONField
     private java.lang.Long pv = 0l;
     /**
      * 点击数
      */
-    @JSONField
     private java.lang.Long click = 0l;
     /**
      * 点击率
      */
-    @JSONField(format = "#.0000")
+    @JsonSerialize(using = NumberFormat4.class)
     private Double ctr = 0.0;
     /**
      * ECPM
      */
-    @JSONField(format = "#.00")
+    @JsonSerialize(using = NumberFormat2.class)
     private float ecpm = 0.0f;
     /**
      * ECPC
      */
-    @JSONField(format = "#.00")
+    @JsonSerialize(using = NumberFormat2.class)
     private float ecpc = 0.0f;
     /**
      * 消耗
      */
-    @JSONField(format = "#.00")
+    @JsonSerialize(using = NumberFormat2.class)
     private java.math.BigDecimal customerCost = new BigDecimal(0.0);
     /**
      * 转化次数
@@ -59,12 +54,12 @@ public class DspRptResult implements Serializable {
     /**
      * 转化率
      */
-    @JSONField(format = "#.0000")
+    @JsonSerialize(using = NumberFormat4.class)
     private float cvr = 0.0f;
     /**
      * 单次转化成本
      */
-    @NumberFormat(pattern = "#.00")
+    @JsonSerialize(using = NumberFormat2.class)
     private float ecv = 0.0f;
     /**
      * 深度转化数
@@ -73,12 +68,12 @@ public class DspRptResult implements Serializable {
     /**
      * 单次深度转化成本
      */
-    @NumberFormat(pattern = "#.00")
+    @JsonSerialize(using = NumberFormat2.class)
     private float eDeepCv = 0.0f;
     /**
      * 深度转化率
      */
-    @JSONField(format = "#.0000")
+    @JsonSerialize(using = NumberFormat4.class)
     private float deepCvr = 0.0f;
 
     public DspRptResult(DspRptCommonDaily common) {

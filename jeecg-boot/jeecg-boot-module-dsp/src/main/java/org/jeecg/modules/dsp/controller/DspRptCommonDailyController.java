@@ -1,5 +1,6 @@
 package org.jeecg.modules.dsp.controller;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.io.IOException;
@@ -52,9 +53,6 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     @Autowired
     private IDspRptCommonDailyService dspRptCommonDailyService;
 
-    @Autowired
-    private IDspAdvertiserService advertiserService;
-
     /**
      * 汇总查询
      *
@@ -71,11 +69,11 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     ) {
         DspRptCommonDaily item = dspRptCommonDailyService.getTotalReport(start, end);
         DspRptResult result = new DspRptResult(item);
-        int customer = advertiserService.count();
+        int customer = dspRptCommonDailyService.getAdvertiserCount(start, end);
         Map<String, Object> map = new HashMap<>();
         map.put("customerCost", result.getCustomerCost());
         map.put("cv", result.getCv());
-        map.put("ecv", result.getEcv());
+        map.put("ecv", new DecimalFormat("0.00").format(result.getEcv()));
         map.put("customer", customer);
         return Result.OK(map);
     }
