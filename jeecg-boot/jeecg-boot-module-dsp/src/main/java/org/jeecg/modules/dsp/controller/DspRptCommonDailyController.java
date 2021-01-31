@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.util.JeecgDataAutorUtils;
+import org.jeecg.common.system.vo.SysPermissionDataRuleModel;
+import org.jeecg.common.system.vo.SysUserCacheInfo;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspRptCommonDaily;
 import org.jeecg.modules.dsp.entity.DspRptResult;
@@ -63,14 +67,20 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     @AutoLog(value = "dsp_rpt_common_daily-报告查询")
     @ApiOperation(value = "dsp_rpt_common_daily-报告查询", notes = "dsp_rpt_common_daily-报告查询")
     @GetMapping(value = "/totalReport")
+    @PermissionData(pageComponent = "dashboard/analysis")
     public Result<?> reportTotal(
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
             HttpServletRequest req
     ) {
-        DspRptCommonDaily item = dspRptCommonDailyService.getTotalReport(start, end);
+        SysUserCacheInfo sysUserCacheInfo = JeecgDataAutorUtils.loadUserInfo();
+        String sysOrgCode = null;
+        if (sysUserCacheInfo != null) {
+            sysOrgCode = sysUserCacheInfo.getSysOrgCode();
+        }
+        DspRptCommonDaily item = dspRptCommonDailyService.getTotalReport(start, end, sysOrgCode);
         DspRptResult result = new DspRptResult(item);
-        int customer = dspRptCommonDailyService.getAdvertiserCount(start, end);
+        int customer = dspRptCommonDailyService.getAdvertiserCount(start, end, sysOrgCode);
         Map<String, Object> map = new HashMap<>();
         map.put("customerCost", result.getCustomerCost());
         map.put("cv", result.getCv());
@@ -89,12 +99,18 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     @AutoLog(value = "dsp_rpt_common_daily-报告查询")
     @ApiOperation(value = "dsp_rpt_common_daily-报告查询", notes = "dsp_rpt_common_daily-报告查询")
     @GetMapping(value = "/allReport")
+    @PermissionData(pageComponent = "dashboard/analysis")
     public Result<?> report(
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
             HttpServletRequest req
     ) {
-        List<DspRptCommonDaily> list = dspRptCommonDailyService.getReport(start, end);
+        SysUserCacheInfo sysUserCacheInfo = JeecgDataAutorUtils.loadUserInfo();
+        String sysOrgCode = null;
+        if (sysUserCacheInfo != null) {
+            sysOrgCode = sysUserCacheInfo.getSysOrgCode();
+        }
+        List<DspRptCommonDaily> list = dspRptCommonDailyService.getReport(start, end, sysOrgCode);
         List<DspRptResult> result = new ArrayList<>();
         for (DspRptCommonDaily item : list) {
             result.add(new DspRptResult(item));

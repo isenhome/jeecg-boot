@@ -21,10 +21,14 @@ public interface DspRptCommonDailyMapper extends BaseMapper<DspRptCommonDaily> {
     @Select("select count(distinct b.advertiser_id) as n \n" +
             "from dsp_rpt_common_daily a \n" +
             "left join dsp_campaign b on a.campaign_id = b.id\n" +
-            "where a.report_date >= #{start} AND a.report_date <= #{end}")
+            "where a.report_date >= #{start} " +
+            "AND a.report_date <= #{end}\n" +
+            "AND a.sys_org_code like concat(#{sysOrgCode},'%')\n" +
+            "")
     int queryAdvertiserCount(
             @Param("start") Date start,
-            @Param("end") Date end
+            @Param("end") Date end,
+            @Param("sysOrgCode") String sysOrgCode
     );
 
 
@@ -35,10 +39,12 @@ public interface DspRptCommonDailyMapper extends BaseMapper<DspRptCommonDaily> {
             "       sum(a.customer_cost) AS customer_cost\n" +
             "FROM dsp_rpt_common_daily a\n" +
             "WHERE a.report_date >= #{start}\n" +
+            "  AND a.sys_org_code like concat(#{sysOrgCode},'%')\n" +
             "  AND a.report_date <= #{end}")
     DspRptCommonDaily queryAllReport(
             @Param("start") Date start,
-            @Param("end") Date end
+            @Param("end") Date end,
+            @Param("sysOrgCode") String sysOrgCode
     );
 
     @Select("SELECT a.report_date AS dim,\n" +
@@ -51,10 +57,12 @@ public interface DspRptCommonDailyMapper extends BaseMapper<DspRptCommonDaily> {
             "FROM dsp_rpt_common_daily a\n" +
             "WHERE a.report_date >= #{start}\n" +
             "  AND a.report_date <= #{end}\n" +
+            "  AND a.sys_org_code like concat(#{sysOrgCode},'%')\n" +
             "GROUP BY a.report_date")
     List<DspRptCommonDaily> queryAllReportDimByDate(
             @Param("start") Date start,
-            @Param("end") Date end
+            @Param("end") Date end,
+            @Param("sysOrgCode") String sysOrgCode
     );
 
     @Select("SELECT a.report_date AS dim,\n" +

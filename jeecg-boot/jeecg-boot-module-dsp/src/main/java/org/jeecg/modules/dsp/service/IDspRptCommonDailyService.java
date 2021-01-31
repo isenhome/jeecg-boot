@@ -17,10 +17,10 @@ public interface IDspRptCommonDailyService extends IService<DspRptCommonDaily> {
 
     List<DspRptCommonDaily> getReport(String campaignId, String dim, Date start, Date end);
 
-    List<DspRptCommonDaily> getReport(Date start, Date end);
+    List<DspRptCommonDaily> getReport(Date start, Date end, String sysOrgCode);
 
-    DspRptCommonDaily getTotalReport(Date start, Date end);
+    DspRptCommonDaily getTotalReport(Date start, Date end, String sysOrgCode);
 
-    int getAdvertiserCount(Date start, Date end);
+    int getAdvertiserCount(Date start, Date end, String sysOrgCode);
 
 }

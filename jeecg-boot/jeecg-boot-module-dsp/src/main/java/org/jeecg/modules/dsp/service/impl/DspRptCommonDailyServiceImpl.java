@@ -40,17 +40,17 @@ public class DspRptCommonDailyServiceImpl extends ServiceImpl<DspRptCommonDailyM
     }
 
     @Override
-    public List<DspRptCommonDaily> getReport(Date start, Date end) {
-        return this.baseMapper.queryAllReportDimByDate(start, end);
+    public List<DspRptCommonDaily> getReport(Date start, Date end, String sysOrgCode) {
+        return this.baseMapper.queryAllReportDimByDate(start, end, sysOrgCode);
     }
 
     @Override
-    public DspRptCommonDaily getTotalReport(Date start, Date end) {
-        return this.baseMapper.queryAllReport(start, end);
+    public DspRptCommonDaily getTotalReport(Date start, Date end, String sysOrgCode) {
+        return this.baseMapper.queryAllReport(start, end, sysOrgCode);
     }
 
     @Override
-    public int getAdvertiserCount(Date start, Date end) {
-        return this.baseMapper.queryAdvertiserCount(start, end);
+    public int getAdvertiserCount(Date start, Date end, String sysOrgCode) {
+        return this.baseMapper.queryAdvertiserCount(start, end, sysOrgCode);
     }
 }
