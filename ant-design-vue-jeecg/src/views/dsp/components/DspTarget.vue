@@ -82,7 +82,7 @@
         </a-form-item>
       </a-col>
       <a-col :span="24" style="text-align: center">
-        <a-button @click="submitForm" type="primary">提 交</a-button>
+        <a-button v-has="'strategy:edit'" @click="submitForm" type="primary">提 交</a-button>
         <a-button @click="closeForm" style="margin-left: 8px;">关 闭</a-button>
       </a-col>
     </a-form>

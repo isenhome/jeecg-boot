@@ -27,6 +27,7 @@ export default {
 
       this.breadList = []
       this.breadList.push({ name: 'dashboard-analysis', path: '/dashboard/analysis', meta: { title: '首页' } })
+      // this.breadList.push({ name: 'dsp-DspDashboard', path: '/dsp/DspDashboard', meta: { title: '首页' } })
 
       this.name = this.$route.name
       this.$route.matched.forEach((item) => {

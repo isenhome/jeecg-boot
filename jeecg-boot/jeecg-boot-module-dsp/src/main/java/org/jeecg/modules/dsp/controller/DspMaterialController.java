@@ -10,6 +10,7 @@ import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspAdvertiser;
@@ -67,6 +68,7 @@ public class DspMaterialController extends JeecgController<DspMaterial, IDspMate
 	@AutoLog(value = "dsp_material-分页列表查询")
 	@ApiOperation(value="dsp_material-分页列表查询", notes="dsp_material-分页列表查询")
 	@GetMapping(value = "/list")
+	@PermissionData(pageComponent="dsp/DspMaterialList")
 	public Result<?> queryPageList(DspMaterial dspMaterial,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,

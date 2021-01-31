@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspAdvertiser;
@@ -96,6 +97,7 @@ public class DspCampaignController extends JeecgController<DspCampaign, IDspCamp
     @AutoLog(value = "dsp_campaign-分页列表查询")
     @ApiOperation(value = "dsp_campaign-分页列表查询", notes = "dsp_campaign-分页列表查询")
     @GetMapping(value = "/list")
+    @PermissionData(pageComponent="dsp/DspCampaignList")
     public Result<?> queryPageList(DspCampaign dspCampaign,
                                    @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,

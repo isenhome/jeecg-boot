@@ -5,9 +5,9 @@
 
         <!-- 操作按钮区域 -->
         <div class="table-operator">
-          <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
+          <a-button v-has="'strategy:add'" @click="handleAdd" type="primary" icon="plus">新增</a-button>
 
-          <a-dropdown v-if="selectedRowKeys.length > 0">
+          <a-dropdown v-has="'strategy:delete'" v-if="selectedRowKeys.length > 0">
             <a-menu slot="overlay">
               <a-menu-item key="1" @click="batchDel">
                 <a-icon type="delete"/>
@@ -63,7 +63,7 @@
             </template>
 
             <span slot="action" slot-scope="text, record">
-            <a @click="handleEdit(record)">编辑</a>
+            <a v-has="'strategy:edit'" @click="handleEdit(record)">编辑</a>
 
           <a-divider type="vertical"/>
 
@@ -73,7 +73,7 @@
               <a-menu-item>
                 <a @click="handleDetail(record)">详情</a>
               </a-menu-item>
-              <a-menu-item>
+              <a-menu-item v-has="'strategy:delete'">
                 <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
                   <a>删除</a>
                 </a-popconfirm>

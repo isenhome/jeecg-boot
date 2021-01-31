@@ -65,7 +65,8 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     @GetMapping(value = "/totalReport")
     public Result<?> reportTotal(
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
-            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
+            HttpServletRequest req
     ) {
         DspRptCommonDaily item = dspRptCommonDailyService.getTotalReport(start, end);
         DspRptResult result = new DspRptResult(item);
@@ -90,7 +91,8 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
     @GetMapping(value = "/allReport")
     public Result<?> report(
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
-            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
+            HttpServletRequest req
     ) {
         List<DspRptCommonDaily> list = dspRptCommonDailyService.getReport(start, end);
         List<DspRptResult> result = new ArrayList<>();
@@ -116,7 +118,8 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
             String campaignId,
             String dim,
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
-            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
+            HttpServletRequest req
     ) {
         List<DspRptCommonDaily> list = dspRptCommonDailyService.getReport(campaignId, dim, start, end);
         List<DspRptResult> result = new ArrayList<>();

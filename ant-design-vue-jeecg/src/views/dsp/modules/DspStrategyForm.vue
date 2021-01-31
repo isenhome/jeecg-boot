@@ -192,7 +192,7 @@
                 this.model = Object.assign({}, record);
                 this.visible = true;
                 this.$nextTick(() => {
-                    this.form.setFieldsValue(pick(this.model, 'name', 'advertiserId', 'start', 'end', 'comment'))
+                    this.form.setFieldsValue(pick(this.model, 'name', 'advertiserId', 'start', 'end', 'comment','buyType','buyMinBidprice','buyMaxBidprice'))
                 })
             },
             //渲染流程表单数据
@@ -240,7 +240,7 @@
                 })
             },
             popupCallback(row) {
-                this.form.setFieldsValue(pick(row, 'name', 'advertiserId', 'start', 'end', 'comment'))
+                this.form.setFieldsValue(pick(row, 'name', 'advertiserId', 'start', 'end', 'comment','buyType','buyMinBidprice','buyMaxBidprice'))
             },
         }
     }

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.dsp.entity.DspRptCommonDaily;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Description: dsp_rpt_common_daily
