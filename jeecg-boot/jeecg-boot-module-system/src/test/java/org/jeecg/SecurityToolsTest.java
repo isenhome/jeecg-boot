@@ -5,9 +5,39 @@ import org.jeecg.common.util.security.SecurityTools;
 import org.jeecg.common.util.security.entity.*;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SecurityToolsTest {
+
     @Test
-    public void Test(){
+    public void Test1() {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            list.add(i);
+        }
+        List<Integer> list1 = list.stream().filter(this::a).collect(Collectors.toList());
+        list1 = list1.stream().filter(this::b).collect(Collectors.toList());
+        System.out.printf("");
+    }
+
+    private boolean a(int i) {
+        if (i == 10 || i == 11) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean b(int i) {
+        if (i == 10) {
+            return true;
+        }
+        return false;
+    }
+
+    @Test
+    public void Test() {
         MyKeyPair mkeyPair = SecurityTools.generateKeyPair();
 
         JSONObject msg = new JSONObject();
