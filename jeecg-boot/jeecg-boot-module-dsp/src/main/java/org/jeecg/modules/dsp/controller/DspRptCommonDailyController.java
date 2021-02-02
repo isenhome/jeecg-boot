@@ -74,7 +74,7 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
             HttpServletRequest req
     ) {
         SysUserCacheInfo sysUserCacheInfo = JeecgDataAutorUtils.loadUserInfo();
-        String sysOrgCode = null;
+        String sysOrgCode = "";
         if (sysUserCacheInfo != null) {
             sysOrgCode = sysUserCacheInfo.getSysOrgCode();
         }
@@ -106,7 +106,7 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
             HttpServletRequest req
     ) {
         SysUserCacheInfo sysUserCacheInfo = JeecgDataAutorUtils.loadUserInfo();
-        String sysOrgCode = null;
+        String sysOrgCode = "";
         if (sysUserCacheInfo != null) {
             sysOrgCode = sysUserCacheInfo.getSysOrgCode();
         }
