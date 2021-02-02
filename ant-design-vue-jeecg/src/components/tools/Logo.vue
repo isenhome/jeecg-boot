@@ -21,7 +21,7 @@
     props: {
       title: {
         type: String,
-        default: '易新',
+        default: 'DSP',
         required: false
       },
       showTitle: {
