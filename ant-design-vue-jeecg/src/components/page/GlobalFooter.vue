@@ -11,7 +11,7 @@
     <div class="copyright">
       Copyright
       <a-icon type="copyright"/>
-      2020 <span>广告平台</span>
+      2020 <span>ZoneShow DSP</span>
     </div>
   </div>
 </template>

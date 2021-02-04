@@ -10,13 +10,20 @@
           </a-col>
           <a-col :span="24">
             <a-form-item label="创意形式" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <dsp-tags
-                @change="changeAdFormat"
-                :datasource="adFormatDatasource"
-                :selected-ids="getModelAdFormat"
-                :placeholder="'请选择创意形式'"
+              <j-dict-select-tag
+                placeholder="请选择创意形式"
+                dictCode="dsp_ad_format,name,id"
                 v-decorator="['adFormatId',validatorRules.adFormatId]"
-              ></dsp-tags>
+                triggerChange
+                @change="changeAdFormat"
+              />
+<!--              <dsp-tags-->
+<!--                @change="changeAdFormat"-->
+<!--                :datasource="adFormatDatasource"-->
+<!--                :selected-ids="getModelAdFormat"-->
+<!--                :placeholder="'请选择创意形式'"-->
+<!--                v-decorator="['adFormatId',validatorRules.adFormatId]"-->
+<!--              ></dsp-tags>-->
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -86,6 +93,7 @@
     import {load} from "../utils/api";
     import DspTags from "../components/DspTags";
     import DspSelector from "../components/DspSelector";
+    import JDictSelectTag from "../../../components/dict/JDictSelectTag";
 
     export default {
         name: 'DspCreativeForm',

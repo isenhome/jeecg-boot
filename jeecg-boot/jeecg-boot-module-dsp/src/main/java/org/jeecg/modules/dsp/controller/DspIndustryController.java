@@ -1,40 +1,20 @@
 package org.jeecg.modules.dsp.controller;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.constant.CommonConstant;
-import org.jeecg.common.system.query.QueryGenerator;
-import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.dsp.entity.DspIndustry;
-import org.jeecg.modules.dsp.entity.DspIndustryTree;
+import org.jeecg.modules.dsp.entity.DspTree;
 import org.jeecg.modules.dsp.service.IDspIndustryService;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
-import org.jeecg.modules.online.cgform.model.TreeModel;
-import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.def.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.ExportParams;
-import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.view.JeecgEntityExcelView;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -67,7 +47,7 @@ public class DspIndustryController extends JeecgController<DspIndustry, IDspIndu
         LambdaQueryWrapper<DspIndustry> query = new LambdaQueryWrapper<DspIndustry>();
         query.eq(DspIndustry::getStatus, CommonConstant.ACT_SYNC_1);
         List<DspIndustry> list = dspIndustryService.list(query);
-        Map<String, DspIndustryTree> map = getTreeModelList(list);
+        Map<String, DspTree> map = getTreeModelList(list);
         return Result.OK(map.values());
     }
 
@@ -162,7 +142,7 @@ public class DspIndustryController extends JeecgController<DspIndustry, IDspIndu
             for (DspIndustry industry : list) {
                 ids.add(industry.getId());
             }
-            Map<String, DspIndustryTree> map = getTreeModelList(list);
+            Map<String, DspTree> map = getTreeModelList(list);
 
             Map<String, Object> resMap = new HashMap<String, Object>();
             resMap.put("treeList", map.values()); // 全部树节点数据
@@ -175,10 +155,10 @@ public class DspIndustryController extends JeecgController<DspIndustry, IDspIndu
         return result;
     }
 
-    private Map<String, DspIndustryTree> getTreeModelList(List<DspIndustry> metaList) {
-        Map<String, DspIndustryTree> map = new HashMap<>();
+    private Map<String, DspTree> getTreeModelList(List<DspIndustry> metaList) {
+        Map<String, DspTree> map = new HashMap<>();
         for (DspIndustry industry : metaList) {
-            map.put(industry.getId(), new DspIndustryTree(industry));
+            map.put(industry.getId(), new DspTree(industry));
         }
 
         for (DspIndustry industry : metaList) {

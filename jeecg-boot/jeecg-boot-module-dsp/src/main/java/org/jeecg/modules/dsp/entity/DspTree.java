@@ -3,25 +3,24 @@ package org.jeecg.modules.dsp.entity;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class DspIndustryTree implements Serializable {
+public class DspTree implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private Object id;
     private String name;
-    private String key;
-    private String parentId;
+    private Object key;
+    private Object parentId;
     private boolean isLeaf;
     private String title;
     private String slotTitle;
-    private List<DspIndustryTree> children;
-    private String value;
+    private List<DspTree> children;
+    private Object value;
 
-    public DspIndustryTree(DspIndustry dspIndustry){
+    public DspTree(DspIndustry dspIndustry){
         this.key = dspIndustry.getId();
         this.id =  dspIndustry.getId();
         this.parentId = dspIndustry.getParentId();
@@ -30,6 +29,17 @@ public class DspIndustryTree implements Serializable {
         this.slotTitle = dspIndustry.getName();
         this.isLeaf = true;
         this.value = dspIndustry.getId();
+    }
+
+    public DspTree(DspInterest dspInterest){
+        this.key = dspInterest.getId();
+        this.id =  dspInterest.getId();
+        this.parentId = dspInterest.getParentId();
+        this.title = dspInterest.getName();
+        this.name =  dspInterest.getName();
+        this.slotTitle = dspInterest.getName();
+        this.isLeaf = true;
+        this.value = dspInterest.getId();
     }
 
 }

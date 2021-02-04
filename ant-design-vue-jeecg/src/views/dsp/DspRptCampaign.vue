@@ -155,7 +155,7 @@
             dataIndex: 'click'
           },
           {
-            title: '点击率',
+            title: '点击率(%)',
             align: "center",
             dataIndex: 'ctr'
           },
@@ -185,7 +185,7 @@
             dataIndex: 'ecv'
           },
           {
-            title: '转化率',
+            title: '转化率(%)',
             align: "center",
             dataIndex: 'cvr'
           },
@@ -200,7 +200,7 @@
             dataIndex: 'edeepCv'
           },
           {
-            title: '深度转化率',
+            title: '深度转化率(%)',
             align: "center",
             dataIndex: 'deepCvr'
           }

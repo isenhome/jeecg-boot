@@ -54,7 +54,7 @@ public class DspRptResult implements Serializable {
     /**
      * 转化率
      */
-    @JsonSerialize(using = NumberFormat4.class)
+    @JsonSerialize(using = NumberFormat2.class)
     private float cvr = 0.0f;
     /**
      * 单次转化成本
@@ -73,7 +73,7 @@ public class DspRptResult implements Serializable {
     /**
      * 深度转化率
      */
-    @JsonSerialize(using = NumberFormat4.class)
+    @JsonSerialize(using = NumberFormat2.class)
     private float deepCvr = 0.0f;
 
     public DspRptResult(DspRptCommonDaily common) {
@@ -82,16 +82,16 @@ public class DspRptResult implements Serializable {
             this.name = common.getDimName();
             this.pv = common.getPv();
             this.click = common.getClick();
-            this.ctr = common.getPv() > 0 ? common.getClick() * 1.0d / common.getPv() : 0.0f;
+            this.ctr = common.getPv() > 0 ? common.getClick() * 100.0d / common.getPv() : 0.0f;
             this.ecpm = common.getPv() > 0 ? common.getCustomerCost().floatValue() * 1000f / common.getPv() : 0.0f;
             this.ecpc = common.getClick() > 0 ? common.getCustomerCost().floatValue() / common.getClick() : 0.0f;
             this.customerCost = common.getCustomerCost();
             this.cv = common.getCv();
             this.ecv = common.getCv() > 0 ? common.getCustomerCost().floatValue() / common.getCv() : 0.0f;
-            this.cvr = common.getClick() > 0 ? common.getCv() * 1.0f / common.getClick() : 0.0f;
+            this.cvr = common.getClick() > 0 ? common.getCv() * 100.0f / common.getClick() : 0.0f;
             this.deepCv = common.getDeepCv();
             this.eDeepCv = common.getDeepCv() > 0 ? common.getCustomerCost().floatValue() * 1.0f / common.getDeepCv() : 0.0f;
-            this.deepCvr = common.getCv() > 0 ? common.getDeepCv() * 1.0f / common.getCv() : 0.0f;
+            this.deepCvr = common.getCv() > 0 ? common.getDeepCv() * 100.0f / common.getCv() : 0.0f;
         }
     }
 }

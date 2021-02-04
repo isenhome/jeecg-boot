@@ -4,8 +4,8 @@
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">广告平台</span>
+            <img src="~@/assets/logo.png" class="logo" alt="logo">
+            <span class="title">ZoneShow DSP</span>
           </a>
         </div>
         <div class="desc">
@@ -17,7 +17,7 @@
 
       <div class="footer">
         <div class="copyright">
-          Copyright &copy; 广告平台
+          Copyright &copy; ZoneShow DSP
         </div>
       </div>
     </div>

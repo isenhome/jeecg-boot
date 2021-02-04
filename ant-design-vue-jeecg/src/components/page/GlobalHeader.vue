@@ -17,7 +17,7 @@
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click="toggle"/>
 
-      <span v-if="device === 'desktop'">欢迎进入广告平台</span>
+      <span v-if="device === 'desktop'">欢迎进入 ZoneShow DSP</span>
       <span v-else>Jeecg-Boot</span>
 
       <user-menu :theme="theme"/>

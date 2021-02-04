@@ -119,7 +119,7 @@
                         title: '编号',
                         dataIndex: 'id',
                         key: 'rowIndex',
-                        align: "center"
+                        align: "left"
                     },
                     {
                         title: '名称',

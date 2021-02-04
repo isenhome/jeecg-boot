@@ -206,7 +206,9 @@
             this.form.resetFields();
             if (this.formData) {
                 this.model = Object.assign({}, this.formData);
-                this.resourceType.value = this.model.resourceType
+                if (this.model.resourceType) {
+                    this.resourceType.value = this.model.resourceType
+                }
             }
             this.$nextTick(() => {
                 this.form.setFieldsValue(pick(this.model, 'resourceType', 'platformIds', 'adFormatIds', 'adspaceIds', 'creativeIds'))
