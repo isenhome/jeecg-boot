@@ -84,6 +84,10 @@
                 }
                 this.$emit("change", ids.join(","))
             }
+        },
+        model: {
+            prop: 'selectedIds',
+            event: 'change'
         }
     }
 </script>

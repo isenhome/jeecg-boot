@@ -68,14 +68,10 @@ public class DspCampaignController extends JeecgController<DspCampaign, IDspCamp
 
     private void fixCampaign(DspCampaign dspCampaign) {
         if (industries == null) {
-            industries = dspIndustryService.getNameMap(QueryGenerator.initQueryWrapper(new DspIndustry() {{
-                setStatus(1);
-            }}, null));
+            industries = dspIndustryService.getNameMap();
         }
         if (advertisers == null) {
-            advertisers = dspAdvertiserService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdvertiser() {{
-                setStatus(1);
-            }}, null));
+            advertisers = dspAdvertiserService.getNameMap();
         }
         if (industries.containsKey(dspCampaign.getIndustryId())) {
             dspCampaign.setIndustryName(industries.get(dspCampaign.getIndustryId()));

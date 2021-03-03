@@ -76,7 +76,7 @@ public class DspMaterialController extends JeecgController<DspMaterial, IDspMate
 		QueryWrapper<DspMaterial> queryWrapper = QueryGenerator.initQueryWrapper(dspMaterial, req.getParameterMap());
 		Page<DspMaterial> page = new Page<DspMaterial>(pageNo, pageSize);
 		IPage<DspMaterial> pageList = dspMaterialService.page(page, queryWrapper);
-		Map<String, String> advertisers = dspAdvertiserService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdvertiser(){{setStatus(1);}},null));
+		Map<String, String> advertisers = dspAdvertiserService.getNameMap();
 		for (DspMaterial item : pageList.getRecords()) {
 			if(advertisers.containsKey(item.getAdvertiserId())){
 				item.setAdvertiserName(advertisers.get(item.getAdvertiserId()));

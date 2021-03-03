@@ -96,11 +96,11 @@
           </div>
         </a-card>
         <dsp-daily-limit v-if="setting.tab==='limit'" :form-data="getDailyLimitFormData" :strategy="getCurrentStrategy"
-                         @close="closeRight"/>
+                         @close="closeRight" @change="changeSetting"/>
         <dsp-resource v-if="setting.tab==='resource'" :form-data="getResourceFormData" :strategy="getCurrentStrategy"
-                      @close="closeRight"/>
+                      @close="closeRight"  @change="changeSetting"/>
         <dsp-target v-if="setting.tab==='target'" :form-data="getTargetFormData" :strategy="getCurrentStrategy"
-                    @close="closeRight"/>
+                    @close="closeRight"  @change="changeSetting"/>
       </a-card>
     </a-col>
   </a-row>
@@ -298,6 +298,9 @@
             closeRight() {
                 this.setting.rightColVal = 0
                 this.setting.currentStrategy = {}
+            },
+            changeSetting(){
+                this.loadData(1)
             }
         }
     }

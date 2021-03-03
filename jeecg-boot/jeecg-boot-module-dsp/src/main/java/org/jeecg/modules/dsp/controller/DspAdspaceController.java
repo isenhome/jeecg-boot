@@ -83,15 +83,9 @@ public class DspAdspaceController extends JeecgController<DspAdspace, IDspAdspac
         QueryWrapper<DspAdspace> queryWrapper = QueryGenerator.initQueryWrapper(dspAdspace, req.getParameterMap());
         Page<DspAdspace> page = new Page<DspAdspace>(pageNo, pageSize);
         IPage<DspAdspace> pageList = dspAdspaceService.page(page, queryWrapper);
-        Map<String, String> mediaMap = dspMediaService.getNameMap(QueryGenerator.initQueryWrapper(new DspMedia() {{
-            setStatus(1);
-        }}, null));
-        Map<String, String> adFormatMap = dspAdFormatService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdFormat() {{
-            setStatus(1);
-        }}, null));
-        Map<String, String> adRadioMap = dspAdRadioService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdRadio() {{
-            setStatus(1);
-        }}, null));
+        Map<String, String> mediaMap = dspMediaService.getNameMap();
+        Map<String, String> adFormatMap = dspAdFormatService.getNameMap();
+        Map<String, String> adRadioMap = dspAdRadioService.getNameMap();
 
         for (DspAdspace item : pageList.getRecords()) {
             if (mediaMap.containsKey(item.getMediaId())) {

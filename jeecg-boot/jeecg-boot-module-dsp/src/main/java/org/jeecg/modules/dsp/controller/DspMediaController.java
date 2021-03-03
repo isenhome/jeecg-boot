@@ -76,7 +76,7 @@ public class DspMediaController extends JeecgController<DspMedia, IDspMediaServi
 		QueryWrapper<DspMedia> queryWrapper = QueryGenerator.initQueryWrapper(dspMedia, req.getParameterMap());
 		Page<DspMedia> page = new Page<DspMedia>(pageNo, pageSize);
 		IPage<DspMedia> pageList = dspMediaService.page(page, queryWrapper);
-		Map<String, String> platforms = dspPlatformService.getNameMap(QueryGenerator.initQueryWrapper(new DspPlatform(){{setStatus(1);}},null));
+		Map<String, String> platforms = dspPlatformService.getNameMap();
 
 		for (DspMedia item : pageList.getRecords()) {
 			if(platforms.containsKey(item.getPlatformId())){

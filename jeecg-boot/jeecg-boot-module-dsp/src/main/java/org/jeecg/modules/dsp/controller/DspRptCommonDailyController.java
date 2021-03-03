@@ -259,6 +259,7 @@ public class DspRptCommonDailyController extends JeecgController<DspRptCommonDai
      * @return
      */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
+//    @PermissionData(pageComponent="dsp/DspRptCommonDailyList")
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
         return super.importExcel(request, response, DspRptCommonDaily.class);
     }

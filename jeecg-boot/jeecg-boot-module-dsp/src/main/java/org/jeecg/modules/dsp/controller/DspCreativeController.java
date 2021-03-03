@@ -53,9 +53,7 @@ public class DspCreativeController extends JeecgController<DspCreative, IDspCrea
 
     private void fixCreative(DspCreative dspCreative) {
         if (material == null) {
-            material = dspMaterialService.getNameMap(QueryGenerator.initQueryWrapper(new DspMaterial() {{
-                setStatus(1);
-            }}, null));
+            material = dspMaterialService.getNameMap();
         }
         List<String> names = new ArrayList<>();
         for (String item : dspCreative.getMaterialIds().split(",")) {
@@ -65,9 +63,7 @@ public class DspCreativeController extends JeecgController<DspCreative, IDspCrea
         }
         dspCreative.setMaterialNames(StringUtils.join(names, ","));
         if (format == null) {
-            format = dspAdFormatService.getNameMap(QueryGenerator.initQueryWrapper(new DspAdFormat() {{
-                setStatus(1);
-            }}, null));
+            format = dspAdFormatService.getNameMap();
         }
         if (format.containsKey(dspCreative.getAdFormatId())) {
             dspCreative.setAdFormatName(format.get(dspCreative.getAdFormatId()));
